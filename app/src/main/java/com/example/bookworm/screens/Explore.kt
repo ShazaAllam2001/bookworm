@@ -1,5 +1,6 @@
 package com.example.bookworm.screens
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,25 +12,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.example.bookworm.ui.theme.AppTheme
 
 
 @Composable
 fun Explore() {
     Box(
         modifier = Modifier.fillMaxSize()
-            .background(Color.Gray),
+            .background(AppTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = "Explore",
             fontSize = 60.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = AppTheme.colorScheme.primary
         )
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
 fun ExplorePreview() {
     Explore()
