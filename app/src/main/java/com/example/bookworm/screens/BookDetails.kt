@@ -2,28 +2,29 @@ package com.example.bookworm.screens
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.bookworm.components.Book
+import com.example.bookworm.data.BookInfo
 import com.example.bookworm.data.bookList
 import com.example.bookworm.ui.theme.AppTheme
 
 
 @Composable
-fun ForYou(modifier: Modifier = Modifier) {
+fun BookDetails(
+    bookInfo: BookInfo
+) {
     Column(
         modifier = Modifier.fillMaxSize()
             .background(AppTheme.colorScheme.background)
@@ -38,36 +39,18 @@ fun ForYou(modifier: Modifier = Modifier) {
             Text(
                 modifier = Modifier.fillMaxWidth()
                     .padding(10.dp),
-                text = "For You",
+                text = bookInfo.title,
                 color = AppTheme.colorScheme.primary,
                 style = AppTheme.typography.titleLarge
             )
         }
-        BookGrid()
+        Image(
+            painter = painterResource(bookInfo.image),
+            contentDescription = bookInfo.title
+        )
+        Text("By ${bookInfo.author}")
+        Text(stringResource(bookInfo.desc))
     }
-}
-
-@Composable
-fun BookGrid(modifier: Modifier = Modifier) {
-    val list = bookList
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(
-            top = 12.dp,
-            bottom = 12.dp,
-            start = 16.dp,
-            end = 16.dp
-        ),
-        content = {
-            items(list.size) { index ->
-                Book(
-                    modifier = Modifier.aspectRatio(0.7f),
-                    bookInfo = list[index],
-                )
-            }
-        }
-    )
 }
 
 @Preview(
@@ -75,6 +58,8 @@ fun BookGrid(modifier: Modifier = Modifier) {
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Composable
-fun ForYouPreview() {
-    ForYou()
+fun BookDetailsPreview() {
+    BookDetails(
+        bookInfo = bookList[0]
+    )
 }

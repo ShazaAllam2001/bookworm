@@ -1,9 +1,7 @@
 package com.example.bookworm.ui.theme
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
@@ -28,7 +26,7 @@ private val lightColorScheme = AppColorScheme(
     background = Color(0xFFFFFBFE),
     onBackground = Color(0xFF484648),
     primary = Color(0xFF000000),
-    onPrimary = Color(0xFFFFFFFF),
+    onPrimary = Color(0xFF9D9D9D),
     secondary = Color(0xFF3F51B5),
     onSecondary = Color(0xFFFFFFFF)
 )
@@ -37,7 +35,7 @@ private val typography = AppTypography(
     titleLarge = TextStyle(
         fontFamily = FontFamily(Font(R.font.merienda)),
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+        fontSize = 60.sp
     ),
     titleNormal = TextStyle(
         fontFamily = FontFamily(Font(R.font.merienda)),
@@ -64,7 +62,7 @@ private val typography = AppTypography(
 )
 
 private val shape = AppShape(
-    container = RoundedCornerShape(12.dp),
+    container = RoundedCornerShape(50),
     button = RoundedCornerShape(50)
 )
 
