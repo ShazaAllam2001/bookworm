@@ -22,6 +22,11 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
+    titleSmall = TextStyle(
+        fontFamily = Merienda,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
     bodyMedium = TextStyle(
         fontFamily = Merienda,
         fontSize = 16.sp
@@ -33,7 +38,7 @@ val Typography = Typography(
     ),
     labelMedium = TextStyle(
         fontFamily = Merienda,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp
     ),
     labelSmall = TextStyle(

@@ -1,6 +1,7 @@
 package com.example.bookworm.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,16 +39,24 @@ fun Book(
                 painter = painterResource(bookList[bookId].image),
                 contentDescription = bookList[bookId].title
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                bookList[bookId].title,
-                style = MaterialTheme.typography.labelMedium
-            )
-            Text(
-                "by ${bookList[bookId].author}",
-                style = MaterialTheme.typography.labelSmall
-            )
-            Spacer(modifier = Modifier.height(4.dp))
+            Column(
+                modifier = Modifier.padding(
+                    top = 4.dp,
+                    bottom = 4.dp,
+                    start = 0.dp,
+                    end = 0.dp
+                ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    bookList[bookId].title,
+                    style = MaterialTheme.typography.labelMedium
+                )
+                Text(
+                    "by ${bookList[bookId].author}",
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
         }
     }
 }
