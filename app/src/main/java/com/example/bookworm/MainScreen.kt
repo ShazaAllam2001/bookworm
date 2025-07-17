@@ -1,10 +1,8 @@
 package com.example.bookworm
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -52,10 +50,18 @@ fun BottomBar(navController: NavHostController) {
                     Text(text = screen.title)
                 },
                 icon = {
-                    Icon(
-                        imageVector = screen.icon,
-                        contentDescription = "Navigation Icon"
-                    )
+                    if (currentDestination?.hierarchy?.any { it.route == screen.route } == true) {
+                        Icon(
+                            imageVector = screen.selectedIcon,
+                            contentDescription = "Selected Navigation Icon"
+                        )
+                    }
+                    else {
+                        Icon(
+                            imageVector = screen.unselectedIcon,
+                            contentDescription = "Unselected Navigation Icon"
+                        )
+                    }
                 },
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 onClick = {

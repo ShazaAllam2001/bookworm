@@ -1,6 +1,5 @@
 package com.example.bookworm.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,28 +8,26 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
+
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    background = Color(0xFF212121),
+    onBackground = Color(0xFFFFFBFE),
+    primary = Color(0xFFCDCDD0),
+    onPrimary = Color(0xFF646262),
+    secondary = Color(0xFF050CB0),
+    onSecondary = Color(0xFF646262)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
     background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    onBackground = Color(0xFF484648),
+    primary = Color(0xFF000000),
+    onPrimary = Color(0xFF9D9D9D),
+    secondary = Color(0xFF3F51B5),
+    onSecondary = Color(0xFFFFFFFF)
 )
 
 @Composable

@@ -5,53 +5,123 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.bookworm.data.BookInfo
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.bookworm.R
 import com.example.bookworm.data.bookList
-import com.example.bookworm.ui.theme.AppTheme
 
 
 @Composable
 fun BookDetails(
-    bookInfo: BookInfo
+    navController: NavHostController = rememberNavController(),
+    bookId: Int
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
-            .background(AppTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Surface(
-            modifier = Modifier.padding(5.dp),
-            color = AppTheme.colorScheme.onPrimary,
-            shape = AppTheme.shape.container,
-            border = BorderStroke(1.dp, AppTheme.colorScheme.primary),
-            shadowElevation = 1.dp
+        BookTopBar(
+            navController = navController,
+            bookId = bookId
+        )
+        BookInfo(bookId = bookId)
+    }
+}
+
+@Composable
+fun BookTopBar(
+    navController: NavHostController,
+    bookId: Int
+) {
+    Surface(
+        modifier = Modifier.padding(5.dp),
+        color = MaterialTheme.colorScheme.onPrimary,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+        shadowElevation = 1.dp
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            IconButton(
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.arrow_back_64dp),
+                    contentDescription = "Back to books list"
+                )
+            }
             Text(
                 modifier = Modifier.fillMaxWidth()
                     .padding(10.dp),
-                text = bookInfo.title,
-                color = AppTheme.colorScheme.primary,
-                style = AppTheme.typography.titleLarge
+                text = bookList[bookId].title,
+                style = MaterialTheme.typography.titleLarge
             )
         }
-        Image(
-            painter = painterResource(bookInfo.image),
-            contentDescription = bookInfo.title
-        )
-        Text("By ${bookInfo.author}")
-        Text(stringResource(bookInfo.desc))
     }
 }
+
+@Composable
+fun BookInfo(
+    bookId: Int
+) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.onPrimary)
+            .padding(10.dp)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(bookList[bookId].image),
+            contentDescription = bookList[bookId].title
+        )
+        Text(
+            "By ${bookList[bookId].author}",
+            style = MaterialTheme.typography.labelLarge
+        )
+        Text(
+            stringResource(bookList[bookId].desc),
+            style = MaterialTheme.typography.bodyMedium
+        )
+        TextButton(
+            colors = ButtonColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
+                disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
+                disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.5f),
+            ),
+            onClick = {
+
+            }
+        ) {
+            Text(stringResource(R.string.add_to_shelf))
+        }
+    }
+}
+
 
 @Preview(
     showBackground = true,
@@ -59,7 +129,5 @@ fun BookDetails(
 )
 @Composable
 fun BookDetailsPreview() {
-    BookDetails(
-        bookInfo = bookList[0]
-    )
+    BookDetails(bookId = 0)
 }

@@ -2,8 +2,11 @@ package com.example.bookworm
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.example.bookworm.screens.BookDetails
 import com.example.bookworm.screens.Explore
 import com.example.bookworm.screens.ForYou
 import com.example.bookworm.screens.MyLibrary
@@ -16,7 +19,7 @@ fun BottomNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.ForYou.route
     ) {
         composable(route = BottomBarScreen.ForYou.route) {
-            ForYou()
+            ForYou(navController = navController)
         }
         composable(route = BottomBarScreen.Explore.route) {
             Explore()
@@ -26,6 +29,18 @@ fun BottomNavGraph(navController: NavHostController) {
         }
         composable(route = BottomBarScreen.Settings.route) {
             Settings()
+        }
+        composable(
+            route = "books/{bookId}",
+            arguments = listOf(navArgument("bookId"){
+                type = NavType.IntType
+            })
+        ) {
+            val bookId = it.arguments?.getInt("bookId")?:0
+            BookDetails(
+                navController = navController,
+                bookId = bookId
+            )
         }
     }
 }
