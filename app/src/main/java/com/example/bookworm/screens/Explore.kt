@@ -2,35 +2,93 @@ package com.example.bookworm.screens
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.graphics.Color
 import com.example.bookworm.R
+import com.example.bookworm.components.BookGrid
 
 
 @Composable
-fun Explore() {
-    Box(
+fun Explore(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
+) {
+    var searchText by rememberSaveable { mutableStateOf("") }
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentAlignment = Alignment.Center
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        Text(
-            text = stringResource(R.string.explore),
-            fontSize = 60.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+        Surface(
+            modifier = Modifier.padding(15.dp),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.explore),
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
+        SearchField(
+            searchText = searchText,
+            onChangeText = { searchText = it }
         )
+        BookGrid(navController = navController)
     }
+}
+
+@Composable
+fun SearchField(
+    searchText: String,
+    onChangeText: (String) -> Unit
+) {
+    TextField(
+        modifier = Modifier.fillMaxWidth()
+            .padding(15.dp),
+        value = searchText,
+        onValueChange = onChangeText,
+        placeholder = {
+            Text(
+                stringResource(R.string.search_for_books),
+                style = MaterialTheme.typography.titleSmall
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = "Search Icon"
+            )
+        },
+        colors = TextFieldDefaults.colors(
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(15.dp)
+    )
 }
 
 @Preview(

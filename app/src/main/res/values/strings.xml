@@ -18,4 +18,7 @@
     <string name="to_buy">To Buy</string>
     <string name="borrowed">Borrowed</string>
     <string name="wishlist">Wishlist</string>
+    <string name="search_for_books">Search for books</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="email">Email</string>
 </resources>

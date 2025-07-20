@@ -12,8 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -88,36 +88,47 @@ fun Books(
         "${librarysList[libraryId].numberOfBooks} books",
         style = MaterialTheme.typography.titleMedium
     )
-    Spacer(modifier = Modifier.height(10.dp))
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.padding(15.dp),
+    ) {
         items(librarysList[libraryId].numberOfBooks) { index ->
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                  .fillMaxHeight(0.25f),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Column {
-                    Text(
-                        bookList[index].genre,
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                    Text(
-                        bookList[index].title,
-                        color = MaterialTheme.colorScheme.secondary,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    Text(
-                        bookList[index].author,
-                        style = MaterialTheme.typography.titleSmall
-                    )
-                }
-                Image(
-                    modifier = Modifier.size(150.dp),
-                    painter = painterResource(bookList[index].image),
-                    contentDescription = bookList[index].title
-                )
-            }
-            Spacer(modifier = Modifier.height(15.dp))
+            BookRowCard(bookId = index)
         }
     }
+}
+
+@Composable
+fun BookRowCard(
+    bookId: Int
+) {
+    Card {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .fillMaxHeight(0.25f),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    bookList[bookId].genre,
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Text(
+                    bookList[bookId].title,
+                    color = MaterialTheme.colorScheme.secondary,
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Text(
+                    bookList[bookId].author,
+                    style = MaterialTheme.typography.titleSmall
+                )
+            }
+            Image(
+                modifier = Modifier.size(150.dp),
+                painter = painterResource(bookList[bookId].image),
+                contentDescription = bookList[bookId].title
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(15.dp))
 }

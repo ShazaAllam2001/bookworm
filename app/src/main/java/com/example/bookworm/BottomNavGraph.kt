@@ -23,7 +23,7 @@ fun BottomNavGraph(navController: NavHostController) {
             ForYou(navController = navController)
         }
         composable(route = BottomBarScreen.Explore.route) {
-            Explore()
+            Explore(navController = navController)
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
             MyLibrary(navController = navController)
