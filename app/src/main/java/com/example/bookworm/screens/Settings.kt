@@ -36,7 +36,7 @@ fun Settings() {
                 style = MaterialTheme.typography.titleLarge
             )
         }
-        //Profile()
+        Profile()
     }
 }
 

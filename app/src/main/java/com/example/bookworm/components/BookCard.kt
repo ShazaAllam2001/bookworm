@@ -47,11 +47,13 @@ fun Book(
             ) {
                 Text(
                     bookList[bookId].title,
-                    style = MaterialTheme.typography.labelMedium
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
                     "by ${bookList[bookId].author}",
-                    style = MaterialTheme.typography.labelSmall
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.secondary
                 )
             }
         }

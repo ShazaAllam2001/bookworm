@@ -9,16 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SecureTextField
 import androidx.compose.material3.TextField
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -33,6 +30,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
@@ -40,10 +39,12 @@ import com.example.bookworm.R
 
 @Composable
 fun Profile() {
-    /*var name by rememberSaveable { mutableStateOf("Alexander Hipp") }
+    var name by rememberSaveable { mutableStateOf("Alexander Hipp") }
+    var editName by rememberSaveable { mutableStateOf(false) }
     var email by rememberSaveable { mutableStateOf("alexandar@mail.com") }
-    var password = TextFieldState("1234")
-    var preferences by rememberSaveable { mutableStateOf(listOf<String>()) }
+    var password by rememberSaveable { mutableStateOf("1234") }
+    var showPassword by rememberSaveable { mutableStateOf(false) }
+    //var preferences by rememberSaveable { mutableStateListOf<String>(listOf<String>()) }
     var notify by rememberSaveable { mutableStateOf(false) }
 
     Column(
@@ -66,9 +67,10 @@ fun Profile() {
             trailingIcon = {
                 Icon(
                     modifier = Modifier.clickable{
+                        editName = !editName
                         // edit name in the database
                     },
-                    imageVector = Icons.Filled.Edit,
+                    imageVector = if (editName) Icons.Filled.Done else Icons.Filled.Edit,
                     contentDescription = "Edit name"
                 )
             },
@@ -86,17 +88,41 @@ fun Profile() {
             onValueChange = { email = it },
             label = { Text(stringResource(R.string.email)) },
             readOnly = true,
-            singleLine = true
-        )
-        SecureTextField(
-            state = password,
-            label = { Text("Password") },
+            singleLine = true,
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.secondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
+                focusedContainerColor = MaterialTheme.colorScheme.onSecondary
+            )
         )
         OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text(stringResource(R.string.password)) },
+            singleLine = true,
+            visualTransformation = if(showPassword) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                Icon(
+                    modifier = Modifier.clickable{
+                        showPassword = !showPassword
+                    },
+                    painter = painterResource(R.drawable.visibility_32dp),
+                    contentDescription = "Password Visibility"
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.secondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
+                focusedContainerColor = MaterialTheme.colorScheme.onSecondary
+            )
+        )
+        /*OutlinedTextField(
             value = email,
             onValueChange = {},
             label = { Text("Email") },
-        )
+        )*/
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -109,19 +135,7 @@ fun Profile() {
                 onCheckedChange = { notify = it }
             )
         }
-
-        ElevatedButton(
-            onClick = {
-
-            }
-        ) {
-            Text("Save")
-            Icon(
-                imageVector = Icons.Filled.Done,
-                contentDescription = "Search Icon"
-            )
-        }
-    }*/
+    }
 }
 
 @Preview(
