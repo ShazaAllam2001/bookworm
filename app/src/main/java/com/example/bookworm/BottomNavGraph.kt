@@ -14,21 +14,28 @@ import com.example.bookworm.screens.MyLibrary
 import com.example.bookworm.screens.Settings
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    onChangeBottomBarState: (Boolean) -> Unit
+) {
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.ForYou.route
     ) {
         composable(route = BottomBarScreen.ForYou.route) {
+            onChangeBottomBarState(true)
             ForYou(navController = navController)
         }
         composable(route = BottomBarScreen.Explore.route) {
+            onChangeBottomBarState(true)
             Explore(navController = navController)
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
+            onChangeBottomBarState(true)
             MyLibrary(navController = navController)
         }
         composable(route = BottomBarScreen.Settings.route) {
+            onChangeBottomBarState(true)
             Settings()
         }
         composable(
@@ -37,6 +44,7 @@ fun BottomNavGraph(navController: NavHostController) {
                 type = NavType.IntType
             })
         ) {
+            onChangeBottomBarState(false)
             val bookId = it.arguments?.getInt("bookId")?:0
             BookDetails(
                 navController = navController,
@@ -49,6 +57,7 @@ fun BottomNavGraph(navController: NavHostController) {
                 type = NavType.IntType
             })
         ) {
+            onChangeBottomBarState(true)
             val libraryId = it.arguments?.getInt("libraryId")?:0
             BookList(
                 navController = navController,

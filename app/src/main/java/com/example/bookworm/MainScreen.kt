@@ -1,5 +1,8 @@
 package com.example.bookworm
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -9,6 +12,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -19,20 +25,30 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    var bottomBarVisibility by remember { mutableStateOf(true) }
 
     Scaffold(
         bottomBar = {
-            BottomBar(navController = navController)
+            BottomBar(
+                navController = navController,
+                bottomBarState = bottomBarVisibility
+            )
         }
     ) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            BottomNavGraph(navController = navController)
+            BottomNavGraph(
+                navController = navController,
+                onChangeBottomBarState = { bottomBarVisibility = it }
+            )
         }
     }
 }
 
 @Composable
-fun BottomBar(navController: NavHostController) {
+fun BottomBar(
+    navController: NavHostController,
+    bottomBarState: Boolean
+) {
     val screens = listOf(
         BottomBarScreen.ForYou,
         BottomBarScreen.Explore,
@@ -43,34 +59,40 @@ fun BottomBar(navController: NavHostController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    NavigationBar {
-        screens.forEach { screen ->
-            NavigationBarItem(
-                label = {
-                    Text(text = screen.title)
-                },
-                icon = {
-                    if (currentDestination?.hierarchy?.any { it.route == screen.route } == true) {
-                        Icon(
-                            imageVector = screen.selectedIcon,
-                            contentDescription = "Selected Navigation Icon"
-                        )
+    AnimatedVisibility(
+        visible = bottomBarState,
+        enter = slideInVertically(initialOffsetY = { it }),
+        exit = slideOutVertically(targetOffsetY = { it })
+    ) {
+        NavigationBar {
+            screens.forEach { screen ->
+                NavigationBarItem(
+                    label = {
+                        Text(text = screen.title)
+                    },
+                    icon = {
+                        if (currentDestination?.hierarchy?.any { it.route == screen.route } == true) {
+                            Icon(
+                                imageVector = screen.selectedIcon,
+                                contentDescription = "Selected Navigation Icon"
+                            )
+                        }
+                        else {
+                            Icon(
+                                imageVector = screen.unselectedIcon,
+                                contentDescription = "Unselected Navigation Icon"
+                            )
+                        }
+                    },
+                    selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                    onClick = {
+                        navController.navigate(screen.route) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
+                        }
                     }
-                    else {
-                        Icon(
-                            imageVector = screen.unselectedIcon,
-                            contentDescription = "Unselected Navigation Icon"
-                        )
-                    }
-                },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id)
-                        launchSingleTop = true
-                    }
-                }
-            )
+                )
+            }
         }
     }
 }
