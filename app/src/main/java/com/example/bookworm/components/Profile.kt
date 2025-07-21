@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,11 +50,12 @@ fun Profile() {
     var email by rememberSaveable { mutableStateOf("alexandar@mail.com") }
     var password by rememberSaveable { mutableStateOf("1234") }
     var showPassword by rememberSaveable { mutableStateOf(false) }
-    //var preferences by rememberSaveable { mutableStateListOf<String>(listOf<String>()) }
+    var preference by rememberSaveable { mutableStateOf("") }
+    val preferences = remember { mutableStateListOf("Fiction", "Thriller") }
     var notify by rememberSaveable { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -107,7 +114,7 @@ fun Profile() {
                     modifier = Modifier.clickable{
                         showPassword = !showPassword
                     },
-                    painter = painterResource(R.drawable.visibility_32dp),
+                    painter = if (showPassword) painterResource(R.drawable.visibility_28dp) else painterResource(R.drawable.visibility_off_28dp),
                     contentDescription = "Password Visibility"
                 )
             },
@@ -118,11 +125,38 @@ fun Profile() {
                 focusedContainerColor = MaterialTheme.colorScheme.onSecondary
             )
         )
-        /*OutlinedTextField(
-            value = email,
-            onValueChange = {},
-            label = { Text("Email") },
-        )*/
+        OutlinedTextField(
+            value = preference,
+            onValueChange = { preference = it },
+            label = { Text(stringResource(R.string.preference)) },
+            trailingIcon = {
+                Icon(
+                    modifier = Modifier.clickable{
+                        preferences.add(preference)
+                        // add preference in the database
+                    },
+                    imageVector = Icons.Filled.Done,
+                    contentDescription = "Add preference "
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
+                focusedIndicatorColor = MaterialTheme.colorScheme.secondary,
+                unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
+                focusedContainerColor = MaterialTheme.colorScheme.onSecondary
+            )
+        )
+        LazyColumn(
+            modifier = Modifier.padding(top = 15.dp)
+        ) {
+            items(preferences.size) { index ->
+                Text(
+                    preferences[index],
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {

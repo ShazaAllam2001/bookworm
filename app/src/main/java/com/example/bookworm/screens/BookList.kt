@@ -45,7 +45,10 @@ fun BookList(
             navController = navController,
             libraryId = libraryId
         )
-        Books(libraryId = libraryId)
+        Books(
+            navController = navController,
+            libraryId = libraryId
+        )
     }
 }
 
@@ -82,6 +85,7 @@ fun BookListTopBar(
 
 @Composable
 fun Books(
+    navController: NavHostController,
     libraryId: Int
 ) {
     Text(
@@ -92,16 +96,24 @@ fun Books(
         modifier = Modifier.padding(15.dp),
     ) {
         items(librarysList[libraryId].numberOfBooks) { index ->
-            BookRowCard(bookId = index)
+            BookRowCard(
+                navController = navController,
+                bookId = index
+            )
         }
     }
 }
 
 @Composable
 fun BookRowCard(
+    navController: NavHostController,
     bookId: Int
 ) {
-    Card {
+    Card(
+        onClick = {
+            navController.navigate("books/$bookId")
+        }
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth()
                 .fillMaxHeight(0.25f),

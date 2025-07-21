@@ -1,7 +1,6 @@
 package com.example.bookworm.screens
 
 import android.content.res.Configuration
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -56,9 +55,7 @@ fun BookTopBar(
 ) {
     Surface(
         modifier = Modifier.padding(5.dp),
-        color = MaterialTheme.colorScheme.onPrimary,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
-        shadowElevation = 1.dp
+        color = MaterialTheme.colorScheme.onPrimary
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
