@@ -1,4 +1,4 @@
-package com.example.bookworm.components
+package com.example.bookworm.modules.bookGrid.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.bookworm.data.bookList
+import com.example.bookworm.modules.bookGrid.data.bookList
 
 @Composable
 fun Book(

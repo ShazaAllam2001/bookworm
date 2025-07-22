@@ -1,4 +1,4 @@
-package com.example.bookworm.screens
+package com.example.bookworm.modules.bookGrid.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.data.bookList
+import com.example.bookworm.modules.bookGrid.data.bookList
 
 
 @Composable
@@ -100,7 +100,7 @@ fun BookInfo(
             style = MaterialTheme.typography.labelLarge
         )
         Text(
-            stringResource(bookList[bookId].desc),
+            bookList[bookId].desc,
             style = MaterialTheme.typography.bodyMedium
         )
         TextButton(

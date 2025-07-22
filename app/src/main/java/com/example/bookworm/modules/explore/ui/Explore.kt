@@ -1,4 +1,4 @@
-package com.example.bookworm.screens
+package com.example.bookworm.modules.explore.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.graphics.Color
 import com.example.bookworm.R
-import com.example.bookworm.components.BookGrid
+import com.example.bookworm.modules.bookGrid.ui.BookGrid
 
 
 @Composable

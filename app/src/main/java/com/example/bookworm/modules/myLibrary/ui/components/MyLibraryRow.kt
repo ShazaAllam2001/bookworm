@@ -1,4 +1,4 @@
-package com.example.bookworm.components
+package com.example.bookworm.modules.myLibrary.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

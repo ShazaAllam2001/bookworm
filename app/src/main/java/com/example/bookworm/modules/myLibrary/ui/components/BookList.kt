@@ -1,4 +1,4 @@
-package com.example.bookworm.screens
+package com.example.bookworm.modules.myLibrary.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.data.bookList
-import com.example.bookworm.data.librarysList
+import com.example.bookworm.modules.bookGrid.data.bookList
+import com.example.bookworm.modules.myLibrary.data.librarysList
 
 @Composable
 fun BookList(

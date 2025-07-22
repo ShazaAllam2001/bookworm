@@ -16,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -68,7 +69,7 @@ fun BottomBar(
             screens.forEach { screen ->
                 NavigationBarItem(
                     label = {
-                        Text(text = screen.title)
+                        Text(stringResource(screen.title))
                     },
                     icon = {
                         if (currentDestination?.hierarchy?.any { it.route == screen.route } == true) {

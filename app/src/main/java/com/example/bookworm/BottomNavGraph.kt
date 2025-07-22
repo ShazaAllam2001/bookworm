@@ -6,12 +6,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookworm.screens.BookDetails
-import com.example.bookworm.screens.BookList
-import com.example.bookworm.screens.Explore
-import com.example.bookworm.screens.ForYou
-import com.example.bookworm.screens.MyLibrary
-import com.example.bookworm.screens.Settings
+import com.example.bookworm.modules.bookGrid.ui.components.BookDetails
+import com.example.bookworm.modules.myLibrary.ui.components.BookList
+import com.example.bookworm.modules.explore.ui.Explore
+import com.example.bookworm.modules.foryou.ui.ForYou
+import com.example.bookworm.modules.myLibrary.ui.MyLibrary
+import com.example.bookworm.modules.settings.ui.Settings
 
 @Composable
 fun BottomNavGraph(

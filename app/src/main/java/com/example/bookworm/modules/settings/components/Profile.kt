@@ -1,4 +1,4 @@
-package com.example.bookworm.components
+package com.example.bookworm.modules.settings.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
