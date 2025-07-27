@@ -1,45 +1,31 @@
 package com.example.bookworm
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.BookmarkBorder
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class BottomBarScreen(
+enum class BottomBarScreen(
     @StringRes val title: Int,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector,
+    @DrawableRes val icon: Int,
     val route: String
 ) {
-    data object ForYou : BottomBarScreen(
+    ForYou(
         title = R.string.for_you,
-        selectedIcon = Icons.Filled.Home,
-        unselectedIcon = Icons.Outlined.Home,
+        icon = R.drawable.baseline_home_24,
         route = "forYou"
-    )
-    data object Explore : BottomBarScreen(
+    ),
+    Explore(
         title = R.string.explore,
-        selectedIcon = Icons.Filled.Search,
-        unselectedIcon = Icons.Outlined.Search,
+        icon = R.drawable.baseline_search_24,
         route = "explore"
-    )
-    data object MyLibrary : BottomBarScreen(
+    ),
+    MyLibrary(
         title = R.string.my_library,
-        selectedIcon = Icons.Filled.Bookmark,
-        unselectedIcon = Icons.Outlined.BookmarkBorder,
+        icon = R.drawable.baseline_bookmark_24,
         route = "myLibrary"
-    )
-    data object Settings : BottomBarScreen(
+    ),
+    Settings(
         title = R.string.settings,
-        selectedIcon = Icons.Filled.Settings,
-        unselectedIcon = Icons.Outlined.Settings,
+        icon = R.drawable.baseline_settings_24,
         route = "settings"
     )
 }

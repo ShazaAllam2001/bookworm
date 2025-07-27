@@ -1,7 +1,6 @@
 package com.example.bookworm.modules.myLibrary.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -22,14 +20,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
+import com.example.bookworm.modules.bookGrid.data.BookInfo
 import com.example.bookworm.modules.bookGrid.data.bookList
+import com.example.bookworm.modules.bookGrid.data.bookListAR
 import com.example.bookworm.modules.myLibrary.data.librarysList
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun BookList(
@@ -88,8 +92,12 @@ fun Books(
     navController: NavHostController,
     libraryId: Int
 ) {
+    var bookList = bookList
+    if (LocalConfiguration.current.locales[0].language == "ar")
+        bookList = bookListAR
+
     Text(
-        "${librarysList[libraryId].numberOfBooks} books",
+        stringResource(R.string.books, librarysList[libraryId].numberOfBooks),
         style = MaterialTheme.typography.titleMedium
     )
     LazyColumn(
@@ -98,7 +106,7 @@ fun Books(
         items(librarysList[libraryId].numberOfBooks) { index ->
             BookRowCard(
                 navController = navController,
-                bookId = index
+                book = bookList[index]
             )
         }
     }
@@ -107,11 +115,11 @@ fun Books(
 @Composable
 fun BookRowCard(
     navController: NavHostController,
-    bookId: Int
+    book: BookInfo
 ) {
     Card(
         onClick = {
-            navController.navigate("books/$bookId")
+            navController.navigate("books/${book.id}")
         }
     ) {
         Row(
@@ -122,23 +130,28 @@ fun BookRowCard(
         ) {
             Column {
                 Text(
-                    bookList[bookId].genre,
+                    book.genre,
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    bookList[bookId].title,
+                    book.title,
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    bookList[bookId].author,
+                    book.author,
                     style = MaterialTheme.typography.titleSmall
                 )
             }
-            Image(
-                modifier = Modifier.size(150.dp),
-                painter = painterResource(bookList[bookId].image),
-                contentDescription = bookList[bookId].title
+            CoilImage(
+                modifier = Modifier.fillMaxWidth()
+                    .weight(1f),
+                imageModel = { book.image.toInt() }, // loading a network image or local resource using an URL.
+                previewPlaceholder = book.image.toInt(),
+                imageOptions = ImageOptions(
+                    contentScale = ContentScale.Fit,
+                    alignment = Alignment.Center
+                )
             )
         }
     }

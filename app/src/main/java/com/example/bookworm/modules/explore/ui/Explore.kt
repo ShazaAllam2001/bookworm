@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -27,6 +26,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.ui.BookGrid
 
@@ -43,16 +43,14 @@ fun Explore(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Surface(
-            modifier = Modifier.padding(15.dp),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.explore),
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
+        Text(
+            modifier = Modifier.fillMaxWidth()
+                .padding(15.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            text = stringResource(R.string.explore),
+            style = MaterialTheme.typography.titleLarge
+        )
         SearchField(
             searchText = searchText,
             onChangeText = { searchText = it }

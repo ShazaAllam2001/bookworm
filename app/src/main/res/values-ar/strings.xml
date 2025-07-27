@@ -18,4 +18,6 @@
     <string name="email">البريد الإلكتروني</string>
     <string name="password">الرقم السري</string>
     <string name="preference">تفضيلاتي</string>
+    <string name="by">تأليف %1$s</string>
+    <string name="books">%1$s كتب</string>
 </resources>
