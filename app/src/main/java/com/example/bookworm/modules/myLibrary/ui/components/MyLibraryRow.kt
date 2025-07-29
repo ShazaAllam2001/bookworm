@@ -18,7 +18,6 @@ import com.example.bookworm.R
 
 @Composable
 fun MyLibraryRow(
-    modifier: Modifier = Modifier,
     icon: Int,
     name: Int,
     numberOfBooks: Int

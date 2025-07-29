@@ -12,16 +12,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,37 +31,56 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.data.BookInfo
-import com.example.bookworm.modules.bookGrid.data.bookList
-import com.example.bookworm.modules.bookGrid.data.bookListAR
-import com.example.bookworm.modules.myLibrary.data.librarysList
+import com.example.bookworm.modules.myLibrary.data.LibraryInfo
+import com.example.bookworm.modules.viewModel.BookModel
+import com.example.bookworm.modules.viewModel.LibraryModel
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun BookList(
-    navController: NavHostController = rememberNavController(),
-    libraryId: Int
+    bookViewModel: BookModel = BookModel(),
+    libraryViewModel: LibraryModel = LibraryModel(),
+    libraryId: Int,
+    navController: NavHostController = rememberNavController()
 ) {
+    val books by bookViewModel.books.collectAsState()
+    val isBooksLoading by bookViewModel.isLoading.collectAsState()
+    val libraries by libraryViewModel.libraries.collectAsState()
+    val isLibrariesLoading by libraryViewModel.isLoading.collectAsState()
+
     Column(
         modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BookListTopBar(
-            navController = navController,
-            libraryId = libraryId
-        )
-        Books(
-            navController = navController,
-            libraryId = libraryId
-        )
+        if (isBooksLoading || isLibrariesLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        else {
+            BookListTopBar(
+                navController = navController,
+                libraryTitle = stringResource(libraries[libraryId].name)
+            )
+            Books(
+                library = libraries[libraryId],
+                books = books,
+                navController = navController
+            )
+        }
     }
 }
 
 @Composable
 fun BookListTopBar(
     navController: NavHostController,
-    libraryId: Int
+    libraryTitle: String
 ) {
     Surface(
         modifier = Modifier.padding(15.dp),
@@ -80,7 +101,7 @@ fun BookListTopBar(
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(librarysList[libraryId].name),
+                text = libraryTitle,
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -89,24 +110,21 @@ fun BookListTopBar(
 
 @Composable
 fun Books(
-    navController: NavHostController,
-    libraryId: Int
+    library: LibraryInfo,
+    books: List<BookInfo>,
+    navController: NavHostController
 ) {
-    var bookList = bookList
-    if (LocalConfiguration.current.locales[0].language == "ar")
-        bookList = bookListAR
-
     Text(
-        stringResource(R.string.books, librarysList[libraryId].numberOfBooks),
+        stringResource(R.string.books, library.numberOfBooks),
         style = MaterialTheme.typography.titleMedium
     )
     LazyColumn(
         modifier = Modifier.padding(15.dp),
     ) {
-        items(librarysList[libraryId].numberOfBooks) { index ->
+        items(library.numberOfBooks) { index ->
             BookRowCard(
                 navController = navController,
-                book = bookList[index]
+                book = books[index]
             )
         }
     }

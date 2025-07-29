@@ -10,19 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.bookworm.modules.bookGrid.data.BookInfo
 import com.example.bookworm.modules.bookGrid.ui.components.Book
 import com.example.bookworm.modules.bookGrid.data.bookList
 import com.example.bookworm.modules.bookGrid.data.bookListAR
 
 @Composable
 fun BookGrid(
-    modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    bookList: List<BookInfo>
 ) {
-    var bookList = bookList
-    if (LocalConfiguration.current.locales[0].language == "ar")
-        bookList = bookListAR
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(

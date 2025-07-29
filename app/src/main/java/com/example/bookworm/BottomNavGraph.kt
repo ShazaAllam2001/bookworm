@@ -1,5 +1,6 @@
 package com.example.bookworm
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.navigation.NavHostController
@@ -7,30 +8,45 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookworm.modules.bookGrid.data.bookList
-import com.example.bookworm.modules.bookGrid.data.bookListAR
 import com.example.bookworm.modules.bookGrid.ui.components.BookDetails
 import com.example.bookworm.modules.myLibrary.ui.components.BookList
 import com.example.bookworm.modules.explore.ui.Explore
 import com.example.bookworm.modules.foryou.ui.ForYou
 import com.example.bookworm.modules.myLibrary.ui.MyLibrary
 import com.example.bookworm.modules.settings.ui.Settings
+import com.example.bookworm.modules.viewModel.BookModel
+import com.example.bookworm.modules.viewModel.LibraryModel
+import com.example.bookworm.modules.viewModel.RecommendBookModel
 
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = BottomBarScreen.ForYou.route
     ) {
+
         composable(route = BottomBarScreen.ForYou.route) {
-            ForYou(navController = navController)
+            val viewModel = RecommendBookModel(appLocale = LocalConfiguration.current.locales[0])
+            ForYou(
+                viewModel = viewModel,
+                navController = navController
+            )
         }
         composable(route = BottomBarScreen.Explore.route) {
-            Explore(navController = navController)
+            val viewModel = BookModel(appLocale = LocalConfiguration.current.locales[0])
+            Explore(
+                viewModel = viewModel,
+                navController = navController
+            )
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
-            MyLibrary(navController = navController)
+            val viewModel = LibraryModel(appLocale = LocalConfiguration.current.locales[0])
+            MyLibrary(
+                viewModel = viewModel,
+                navController = navController
+            )
         }
         composable(route = BottomBarScreen.Settings.route) {
             Settings()
@@ -42,12 +58,12 @@ fun BottomNavGraph(navController: NavHostController) {
             })
         ) {
             val bookId = it.arguments?.getInt("bookId")?:0
-            var book = bookList[bookId]
-            if (LocalConfiguration.current.locales[0].language == "ar")
-                book = bookListAR[bookId]
+            val viewModel = BookModel(appLocale = LocalConfiguration.current.locales[0])
+
             BookDetails(
-                navController = navController,
-                book = book
+                bookViewModel = viewModel,
+                bookId = bookId,
+                navController = navController
             )
         }
         composable(
@@ -57,9 +73,14 @@ fun BottomNavGraph(navController: NavHostController) {
             })
         ) {
             val libraryId = it.arguments?.getInt("libraryId")?:0
+            val bookViewModel = BookModel(appLocale = LocalConfiguration.current.locales[0])
+            val libraryViewModel = LibraryModel(appLocale = LocalConfiguration.current.locales[0])
+
             BookList(
-                navController = navController,
-                libraryId  = libraryId
+                bookViewModel = bookViewModel,
+                libraryViewModel = libraryViewModel,
+                libraryId = libraryId,
+                navController = navController
             )
         }
     }

@@ -2,13 +2,19 @@ package com.example.bookworm.modules.foryou.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -18,13 +24,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.ui.BookGrid
+import com.example.bookworm.modules.viewModel.RecommendBookModel
 
 
 @Composable
 fun ForYou(
-    modifier: Modifier = Modifier,
+    viewModel: RecommendBookModel = RecommendBookModel(),
     navController: NavHostController = rememberNavController()
 ) {
+    val books by viewModel.books.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +48,21 @@ fun ForYou(
             text = stringResource(R.string.for_you),
             style = MaterialTheme.typography.titleLarge
         )
-        BookGrid(navController = navController)
+        if (isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        else {
+            BookGrid(
+                navController = navController,
+                bookList = books
+            )
+        }
     }
 }
 

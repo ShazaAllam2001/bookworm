@@ -2,6 +2,8 @@ package com.example.bookworm.modules.explore.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,20 +25,26 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.ui.BookGrid
+import com.example.bookworm.modules.viewModel.BookModel
 
 
 @Composable
 fun Explore(
-    modifier: Modifier = Modifier,
+    viewModel: BookModel = BookModel(),
     navController: NavHostController = rememberNavController()
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
+    val books by viewModel.books.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     Column(
         modifier = Modifier
@@ -55,7 +63,21 @@ fun Explore(
             searchText = searchText,
             onChangeText = { searchText = it }
         )
-        BookGrid(navController = navController)
+        if (isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        else {
+            BookGrid(
+                navController = navController,
+                bookList = books
+            )
+        }
     }
 }
 

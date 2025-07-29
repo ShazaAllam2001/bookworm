@@ -2,6 +2,7 @@ package com.example.bookworm.modules.bookGrid.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +19,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -28,29 +32,42 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.data.BookInfo
-import com.example.bookworm.modules.bookGrid.data.bookList
-import com.example.bookworm.modules.bookGrid.data.bookListAR
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
-import androidx.compose.ui.platform.LocalConfiguration
+import com.example.bookworm.modules.viewModel.BookModel
 
 
 @Composable
 fun BookDetails(
-    navController: NavHostController = rememberNavController(),
-    book: BookInfo
+    bookViewModel: BookModel = BookModel(),
+    bookId: Int,
+    navController: NavHostController = rememberNavController()
 ) {
+    val books by bookViewModel.books.collectAsState()
+    val isLoading by bookViewModel.isLoading.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BookTopBar(
-            navController = navController,
-            bookTitle = book.title
-        )
-        BookInfo(book = book)
+        if (isLoading) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        else {
+            BookTopBar(
+                navController = navController,
+                bookTitle = books[bookId].title
+            )
+            BookInfo(book = books[bookId])
+        }
     }
 }
 
@@ -139,8 +156,5 @@ fun BookInfo(book: BookInfo) {
 )
 @Composable
 fun BookDetailsPreview() {
-    if (LocalConfiguration.current.locales[0].language == "ar")
-        BookDetails(book = bookListAR[0])
-    else
-        BookDetails(book = bookList[0])
+    BookDetails(bookId = 0)
 }
