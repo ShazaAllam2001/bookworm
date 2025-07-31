@@ -16,7 +16,6 @@ import com.example.bookworm.modules.myLibrary.ui.MyLibrary
 import com.example.bookworm.modules.settings.ui.Settings
 import com.example.bookworm.modules.viewModel.BookModel
 import com.example.bookworm.modules.viewModel.LibraryModel
-import com.example.bookworm.modules.viewModel.RecommendBookModel
 
 
 @SuppressLint("ViewModelConstructorInComposable")
@@ -28,7 +27,7 @@ fun BottomNavGraph(navController: NavHostController) {
     ) {
 
         composable(route = BottomBarScreen.ForYou.route) {
-            val viewModel = RecommendBookModel(appLocale = LocalConfiguration.current.locales[0])
+            val viewModel = BookModel(appLocale = LocalConfiguration.current.locales[0])
             ForYou(
                 viewModel = viewModel,
                 navController = navController

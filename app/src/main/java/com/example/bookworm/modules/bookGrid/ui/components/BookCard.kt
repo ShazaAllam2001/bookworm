@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
-import com.example.bookworm.modules.bookGrid.data.BookInfo
+import com.example.bookworm.modules.viewModel.BookItem
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -23,7 +23,7 @@ import com.skydoves.landscapist.coil.CoilImage
 fun Book(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    book: BookInfo
+    book: BookItem
 ) {
     Card(
         modifier = modifier.padding(5.dp),
@@ -37,8 +37,7 @@ fun Book(
             CoilImage(
                 modifier = Modifier.fillMaxWidth()
                     .weight(1f),
-                imageModel = { book.image.toInt() }, // loading a network image or local resource using an URL.
-                previewPlaceholder = book.image.toInt(),
+                imageModel = { book.volumeInfo.imageLinks?.smallThumbnail },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.Center
@@ -49,14 +48,16 @@ fun Book(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    book.title,
+                    book.volumeInfo.title,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    stringResource(R.string.by, book.author),
+                    stringResource(R.string.by,
+                        if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
+                    ),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.labelSmall,

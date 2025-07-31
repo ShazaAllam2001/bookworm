@@ -30,10 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.modules.bookGrid.data.BookInfo
 import com.example.bookworm.modules.myLibrary.data.LibraryInfo
+import com.example.bookworm.modules.viewModel.BookItem
 import com.example.bookworm.modules.viewModel.BookModel
+import com.example.bookworm.modules.viewModel.BooksUiState
 import com.example.bookworm.modules.viewModel.LibraryModel
+import com.example.bookworm.modules.viewModel.LoadingIndicator
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -44,8 +46,6 @@ fun BookList(
     libraryId: Int,
     navController: NavHostController = rememberNavController()
 ) {
-    val books by bookViewModel.books.collectAsState()
-    val isBooksLoading by bookViewModel.isLoading.collectAsState()
     val libraries by libraryViewModel.libraries.collectAsState()
     val isLibrariesLoading by libraryViewModel.isLoading.collectAsState()
 
@@ -54,7 +54,7 @@ fun BookList(
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isBooksLoading || isLibrariesLoading) {
+        if (isLibrariesLoading) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -68,11 +68,20 @@ fun BookList(
                 navController = navController,
                 libraryTitle = stringResource(libraries[libraryId].name)
             )
-            Books(
-                library = libraries[libraryId],
-                books = books,
-                navController = navController
-            )
+            when (bookViewModel.booksUiState) {
+                is BooksUiState.Loading ->
+                    LoadingIndicator()
+                is BooksUiState.Success -> {
+                    val books = (bookViewModel.booksUiState as BooksUiState.Success).msg
+                    Books(
+                        library = libraries[libraryId],
+                        books = books,
+                        navController = navController
+                    )
+                }
+                is BooksUiState.Error ->
+                    Text((bookViewModel.booksUiState as BooksUiState.Error).msg ?: "")
+            }
         }
     }
 }
@@ -111,7 +120,7 @@ fun BookListTopBar(
 @Composable
 fun Books(
     library: LibraryInfo,
-    books: List<BookInfo>,
+    books: List<BookItem>,
     navController: NavHostController
 ) {
     Text(
@@ -133,7 +142,7 @@ fun Books(
 @Composable
 fun BookRowCard(
     navController: NavHostController,
-    book: BookInfo
+    book: BookItem
 ) {
     Card(
         onClick = {
@@ -148,24 +157,25 @@ fun BookRowCard(
         ) {
             Column {
                 Text(
-                    book.genre,
+                    if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],
                     style = MaterialTheme.typography.titleSmall
                 )
                 Text(
-                    book.title,
+                    book.volumeInfo.title,
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    book.author,
+                    stringResource(R.string.by,
+                        if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
+                    ),
                     style = MaterialTheme.typography.titleSmall
                 )
             }
             CoilImage(
                 modifier = Modifier.fillMaxWidth()
                     .weight(1f),
-                imageModel = { book.image.toInt() }, // loading a network image or local resource using an URL.
-                previewPlaceholder = book.image.toInt(),
+                imageModel = { book.volumeInfo.imageLinks?.smallThumbnail },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.Center

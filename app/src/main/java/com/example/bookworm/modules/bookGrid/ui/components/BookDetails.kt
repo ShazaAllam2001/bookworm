@@ -2,7 +2,6 @@ package com.example.bookworm.modules.bookGrid.ui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -19,8 +17,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -31,10 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.modules.bookGrid.data.BookInfo
+import com.example.bookworm.modules.viewModel.BookItem
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.example.bookworm.modules.viewModel.BookModel
+import com.example.bookworm.modules.viewModel.BooksUiState
+import com.example.bookworm.modules.viewModel.LoadingIndicator
 
 
 @Composable
@@ -43,30 +41,25 @@ fun BookDetails(
     bookId: Int,
     navController: NavHostController = rememberNavController()
 ) {
-    val books by bookViewModel.books.collectAsState()
-    val isLoading by bookViewModel.isLoading.collectAsState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isLoading) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator()
+        when (bookViewModel.booksUiState) {
+            is BooksUiState.Loading ->
+                LoadingIndicator()
+            is BooksUiState.Success -> {
+                val books = (bookViewModel.booksUiState as BooksUiState.Success).msg
+                BookTopBar(
+                    navController = navController,
+                    bookTitle = books[bookId].volumeInfo.title
+                )
+                BookInfo(book = books[bookId])
             }
-        }
-        else {
-            BookTopBar(
-                navController = navController,
-                bookTitle = books[bookId].title
-            )
-            BookInfo(book = books[bookId])
+            is BooksUiState.Error ->
+                Text((bookViewModel.booksUiState as BooksUiState.Error).msg ?: "")
         }
     }
 }
@@ -105,7 +98,7 @@ fun BookTopBar(
 }
 
 @Composable
-fun BookInfo(book: BookInfo) {
+fun BookInfo(book: BookItem) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -117,19 +110,20 @@ fun BookInfo(book: BookInfo) {
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            imageModel = { book.image.toInt() }, // loading a network image or local resource using an URL.
-            previewPlaceholder = book.image.toInt(),
+            imageModel = { book.volumeInfo.imageLinks?.thumbnail },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Fit,
                 alignment = Alignment.Center
             )
         )
         Text(
-            stringResource(R.string.by, book.author),
+            stringResource(R.string.by,
+                if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
+            ),
             style = MaterialTheme.typography.labelLarge
         )
         Text(
-            book.desc,
+            book.volumeInfo.description?: "",
             style = MaterialTheme.typography.bodyMedium
         )
         TextButton(

@@ -2,8 +2,6 @@ package com.example.bookworm.modules.explore.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,16 +23,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.ui.BookGrid
 import com.example.bookworm.modules.viewModel.BookModel
+import com.example.bookworm.modules.viewModel.BooksUiState
+import com.example.bookworm.modules.viewModel.LoadingIndicator
 
 
 @Composable
@@ -43,8 +40,6 @@ fun Explore(
     navController: NavHostController = rememberNavController()
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
-    val books by viewModel.books.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
 
     Column(
         modifier = Modifier
@@ -63,20 +58,16 @@ fun Explore(
             searchText = searchText,
             onChangeText = { searchText = it }
         )
-        if (isLoading) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-        else {
-            BookGrid(
-                navController = navController,
-                bookList = books
-            )
+        when (viewModel.booksUiState) {
+            is BooksUiState.Loading ->
+                LoadingIndicator()
+            is BooksUiState.Success ->
+                BookGrid(
+                    navController = navController,
+                    bookList = (viewModel.booksUiState as BooksUiState.Success).msg
+                )
+            is BooksUiState.Error ->
+                Text((viewModel.booksUiState as BooksUiState.Error).msg ?: "")
         }
     }
 }

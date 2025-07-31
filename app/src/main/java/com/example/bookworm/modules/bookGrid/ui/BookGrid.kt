@@ -7,18 +7,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.bookworm.modules.bookGrid.data.BookInfo
 import com.example.bookworm.modules.bookGrid.ui.components.Book
-import com.example.bookworm.modules.bookGrid.data.bookList
-import com.example.bookworm.modules.bookGrid.data.bookListAR
+import com.example.bookworm.modules.viewModel.BookItem
 
 @Composable
 fun BookGrid(
     navController: NavHostController,
-    bookList: List<BookInfo>
+    bookList: List<BookItem>
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),

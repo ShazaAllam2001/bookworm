@@ -1,6 +1,7 @@
 package com.example.bookworm.modules.bookGrid.data
 
 import com.example.bookworm.R
+import com.example.bookworm.modules.viewModel.BookInfo
 
 var bookList = listOf(
     BookInfo(

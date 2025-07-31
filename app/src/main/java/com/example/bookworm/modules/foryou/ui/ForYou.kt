@@ -24,17 +24,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.ui.BookGrid
-import com.example.bookworm.modules.viewModel.RecommendBookModel
+import com.example.bookworm.modules.viewModel.BookModel
+import com.example.bookworm.modules.viewModel.BooksUiState
+import com.example.bookworm.modules.viewModel.LoadingIndicator
 
 
 @Composable
 fun ForYou(
-    viewModel: RecommendBookModel = RecommendBookModel(),
+    viewModel: BookModel = BookModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    val books by viewModel.books.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -48,20 +47,16 @@ fun ForYou(
             text = stringResource(R.string.for_you),
             style = MaterialTheme.typography.titleLarge
         )
-        if (isLoading) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-        else {
-            BookGrid(
-                navController = navController,
-                bookList = books
-            )
+        when (viewModel.booksUiState) {
+            is BooksUiState.Loading ->
+                LoadingIndicator()
+            is BooksUiState.Success ->
+                BookGrid(
+                    navController = navController,
+                    bookList = (viewModel.booksUiState as BooksUiState.Success).msg
+                )
+            is BooksUiState.Error ->
+                Text((viewModel.booksUiState as BooksUiState.Error).msg ?: "")
         }
     }
 }
