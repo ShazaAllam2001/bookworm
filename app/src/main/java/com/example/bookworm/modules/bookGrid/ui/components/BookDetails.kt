@@ -1,6 +1,5 @@
 package com.example.bookworm.modules.bookGrid.ui.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -31,14 +29,13 @@ import com.example.bookworm.modules.viewModel.BookItem
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.example.bookworm.modules.viewModel.BookModel
-import com.example.bookworm.modules.viewModel.BooksUiState
-import com.example.bookworm.modules.viewModel.LoadingIndicator
+import com.example.bookworm.modules.network.LoadingIndicator
+import com.example.bookworm.modules.viewModel.BookIdUiState
 
 
 @Composable
 fun BookDetails(
     bookViewModel: BookModel = BookModel(),
-    bookId: Int,
     navController: NavHostController = rememberNavController()
 ) {
     Column(
@@ -47,19 +44,19 @@ fun BookDetails(
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when (bookViewModel.booksUiState) {
-            is BooksUiState.Loading ->
+        when (bookViewModel.bookIdUiState) {
+            is BookIdUiState.Loading ->
                 LoadingIndicator()
-            is BooksUiState.Success -> {
-                val books = (bookViewModel.booksUiState as BooksUiState.Success).msg
+            is BookIdUiState.Success -> {
+                val book = (bookViewModel.bookIdUiState as BookIdUiState.Success).msg
                 BookTopBar(
                     navController = navController,
-                    bookTitle = books[bookId].volumeInfo.title
+                    bookTitle = book.volumeInfo.title
                 )
-                BookInfo(book = books[bookId])
+                BookInfo(book = book)
             }
-            is BooksUiState.Error ->
-                Text((bookViewModel.booksUiState as BooksUiState.Error).msg ?: "")
+            is BookIdUiState.Error ->
+                Text((bookViewModel.bookIdUiState as BookIdUiState.Error).msg ?: "")
         }
     }
 }
@@ -107,9 +104,7 @@ fun BookInfo(book: BookItem) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CoilImage(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+            modifier = Modifier.weight(1f),
             imageModel = { book.volumeInfo.imageLinks?.thumbnail },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Fit,
@@ -140,15 +135,4 @@ fun BookInfo(book: BookItem) {
             Text(stringResource(R.string.add_to_shelf))
         }
     }
-}
-
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    locale = "ar"
-)
-@Composable
-fun BookDetailsPreview() {
-    BookDetails(bookId = 0)
 }

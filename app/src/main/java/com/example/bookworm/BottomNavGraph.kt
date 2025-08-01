@@ -53,15 +53,15 @@ fun BottomNavGraph(navController: NavHostController) {
         composable(
             route = "books/{bookId}",
             arguments = listOf(navArgument("bookId"){
-                type = NavType.IntType
+                type = NavType.StringType
             })
         ) {
-            val bookId = it.arguments?.getInt("bookId")?:0
+            val bookId = it.arguments?.getString("bookId")?:""
             val viewModel = BookModel(appLocale = LocalConfiguration.current.locales[0])
+            viewModel.searchBookById(bookId)
 
             BookDetails(
                 bookViewModel = viewModel,
-                bookId = bookId,
                 navController = navController
             )
         }

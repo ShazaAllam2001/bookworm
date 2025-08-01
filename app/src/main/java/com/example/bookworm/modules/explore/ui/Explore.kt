@@ -3,6 +3,7 @@ package com.example.bookworm.modules.explore.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,17 +22,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
 import com.example.bookworm.modules.bookGrid.ui.BookGrid
 import com.example.bookworm.modules.viewModel.BookModel
 import com.example.bookworm.modules.viewModel.BooksUiState
-import com.example.bookworm.modules.viewModel.LoadingIndicator
+import com.example.bookworm.modules.network.LoadingIndicator
+import com.example.bookworm.modules.viewModel.BookIdUiState
 
 
 @Composable
@@ -47,7 +50,8 @@ fun Explore(
             .background(MaterialTheme.colorScheme.background)
     ) {
         Text(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(15.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -55,6 +59,7 @@ fun Explore(
             style = MaterialTheme.typography.titleLarge
         )
         SearchField(
+            viewModel = viewModel,
             searchText = searchText,
             onChangeText = { searchText = it }
         )
@@ -74,32 +79,39 @@ fun Explore(
 
 @Composable
 fun SearchField(
+    viewModel: BookModel = BookModel(),
     searchText: String,
     onChangeText: (String) -> Unit
 ) {
-    TextField(
-        modifier = Modifier.fillMaxWidth()
-            .padding(15.dp),
-        value = searchText,
-        onValueChange = onChangeText,
-        placeholder = {
-            Text(
-                stringResource(R.string.search_for_books),
-                style = MaterialTheme.typography.titleSmall
-            )
-        },
-        leadingIcon = {
+    Row(
+        modifier = Modifier.padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextField(
+            modifier = Modifier.weight(1f),
+            value = searchText,
+            onValueChange = onChangeText,
+            placeholder = {
+                Text(
+                    stringResource(R.string.search_for_books),
+                    style = MaterialTheme.typography.titleSmall
+                )
+            },
+            colors = TextFieldDefaults.colors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(15.dp)
+        )
+        IconButton(
+            onClick = { viewModel.searchBooks(searchText) }
+        ) {
             Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = "Search Icon"
+                painter = painterResource(R.drawable.baseline_search_24),
+                contentDescription = "Search Button"
             )
-        },
-        colors = TextFieldDefaults.colors(
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent
-        ),
-        shape = RoundedCornerShape(15.dp)
-    )
+        }
+    }
 }
 
 @Preview(

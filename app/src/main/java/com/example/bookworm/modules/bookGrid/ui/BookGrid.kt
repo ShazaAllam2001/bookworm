@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.bookworm.modules.bookGrid.ui.components.Book
+import com.example.bookworm.modules.bookGrid.ui.components.BookCard
 import com.example.bookworm.modules.viewModel.BookItem
 
 @Composable
@@ -25,7 +25,7 @@ fun BookGrid(
         ),
         content = {
             items(bookList, key = { book -> book.id }) { item ->
-                Book(
+                BookCard(
                     modifier = Modifier.aspectRatio(0.65f),
                     navController = navController,
                     book = item

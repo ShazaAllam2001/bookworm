@@ -1,5 +1,6 @@
 package com.example.bookworm.modules.bookGrid.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,11 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
 import com.example.bookworm.modules.viewModel.BookItem
+import com.example.bookworm.modules.network.LoadingIndicator
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
-fun Book(
+fun BookCard(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     book: BookItem
@@ -38,6 +40,8 @@ fun Book(
                 modifier = Modifier.fillMaxWidth()
                     .weight(1f),
                 imageModel = { book.volumeInfo.imageLinks?.smallThumbnail },
+                loading = { LoadingIndicator() },
+                failure = { Text("Failed to load image") },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Fit,
                     alignment = Alignment.Center

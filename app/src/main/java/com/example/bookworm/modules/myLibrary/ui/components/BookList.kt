@@ -4,14 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,7 +19,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,9 +30,8 @@ import com.example.bookworm.modules.viewModel.BookItem
 import com.example.bookworm.modules.viewModel.BookModel
 import com.example.bookworm.modules.viewModel.BooksUiState
 import com.example.bookworm.modules.viewModel.LibraryModel
-import com.example.bookworm.modules.viewModel.LoadingIndicator
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil.CoilImage
+import com.example.bookworm.modules.network.LoadingIndicator
+
 
 @Composable
 fun BookList(
@@ -131,7 +125,7 @@ fun Books(
         modifier = Modifier.padding(15.dp),
     ) {
         items(library.numberOfBooks) { index ->
-            BookRowCard(
+            BookListRow(
                 navController = navController,
                 book = books[index]
             )
@@ -139,49 +133,3 @@ fun Books(
     }
 }
 
-@Composable
-fun BookRowCard(
-    navController: NavHostController,
-    book: BookItem
-) {
-    Card(
-        onClick = {
-            navController.navigate("books/${book.id}")
-        }
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .fillMaxHeight(0.25f),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column {
-                Text(
-                    if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],
-                    style = MaterialTheme.typography.titleSmall
-                )
-                Text(
-                    book.volumeInfo.title,
-                    color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(
-                    stringResource(R.string.by,
-                        if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
-                    ),
-                    style = MaterialTheme.typography.titleSmall
-                )
-            }
-            CoilImage(
-                modifier = Modifier.fillMaxWidth()
-                    .weight(1f),
-                imageModel = { book.volumeInfo.imageLinks?.smallThumbnail },
-                imageOptions = ImageOptions(
-                    contentScale = ContentScale.Fit,
-                    alignment = Alignment.Center
-                )
-            )
-        }
-    }
-    Spacer(modifier = Modifier.height(15.dp))
-}

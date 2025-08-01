@@ -1,4 +1,4 @@
-package com.example.bookworm.modules.viewModel
+package com.example.bookworm.modules.network
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
