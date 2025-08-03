@@ -29,3 +29,11 @@ enum class BottomBarScreen(
         route = "settings"
     )
 }
+
+
+enum class Screens(
+    val route: String
+) {
+    Login(route = "login"),
+    Signup(route = "signup")
+}

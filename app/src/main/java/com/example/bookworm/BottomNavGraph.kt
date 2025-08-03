@@ -8,6 +8,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.bookworm.modules.account.ui.LogIn
+import com.example.bookworm.modules.account.ui.SignUp
 import com.example.bookworm.modules.bookGrid.ui.components.BookDetails
 import com.example.bookworm.modules.myLibrary.ui.components.BookList
 import com.example.bookworm.modules.explore.ui.Explore
@@ -23,9 +25,14 @@ import com.example.bookworm.modules.viewModel.LibraryModel
 fun BottomNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.ForYou.route
+        startDestination = Screens.Login.route
     ) {
-
+        composable(route = Screens.Login.route) {
+            LogIn(navController = navController)
+        }
+        composable(route = Screens.Signup.route) {
+            SignUp(navController = navController)
+        }
         composable(route = BottomBarScreen.ForYou.route) {
             val viewModel = BookModel(appLocale = LocalConfiguration.current.locales[0])
             ForYou(

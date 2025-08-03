@@ -19,4 +19,13 @@
     <string name="preference">Preferences</string>
     <string name="by">By %1$s</string>
     <string name="books">%1$s books</string>
+    <string name="username">Username</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in">Log In</string>
+    <string name="have_an_account">Have an Account?</string>
+    <string name="don_t_have_an_account">Don\'t have an Account?</string>
+    <string name="login_successful">Login Successful!</string>
+    <string name="login_failed">Login Failed!</string>
+    <string name="sign_up_successful_please_login">Sign Up Successful! Please Login.</string>
+    <string name="sign_up_failed">Sign Up Failed!</string>
 </resources>

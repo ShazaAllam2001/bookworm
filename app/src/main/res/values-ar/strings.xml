@@ -20,4 +20,13 @@
     <string name="preference">تفضيلاتي</string>
     <string name="by">تأليف %1$s</string>
     <string name="books">%1$s كتب</string>
+    <string name="username">كلمة المستخدم</string>
+    <string name="sign_up">إنشاء حساب</string>
+    <string name="log_in">تسجيل دخول</string>
+    <string name="have_an_account">هل تملك حساب؟</string>
+    <string name="don_t_have_an_account">ليس لديك حساب؟</string>
+    <string name="login_successful">تم تسجيل الدخول بنجاح!</string>
+    <string name="login_failed">فشل تسجسل الدخول!</string>
+    <string name="sign_up_successful_please_login">تم تسجيل الحساب بنجاح! برجاء قم بتسجيل الدخول.</string>
+    <string name="sign_up_failed">فشل إنشاء الحساب!</string>
 </resources>
