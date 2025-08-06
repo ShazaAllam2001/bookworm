@@ -12,6 +12,11 @@ val Merienda = FontFamily(Font(R.font.merienda))
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+    headlineLarge = TextStyle(
+        fontFamily = Merienda,
+        fontWeight = FontWeight.Bold,
+        fontSize = 36.sp
+    ),
     titleLarge = TextStyle(
         fontFamily = Merienda,
         fontWeight = FontWeight.Bold,
