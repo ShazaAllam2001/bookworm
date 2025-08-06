@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.explore.ui
+package com.example.bookworm.activities.main.modules.ui.explore
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -30,10 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
-import com.example.bookworm.activities.main.modules.bookGrid.ui.BookGrid
+import com.example.bookworm.activities.main.modules.ui.bookGrid.BookGrid
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
-import com.example.bookworm.activities.main.modules.network.LoadingIndicator
+import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 
 
 @Composable

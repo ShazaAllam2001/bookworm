@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.login.modules.data
 
-import android.util.Log
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
@@ -8,10 +7,7 @@ import androidx.navigation.NavHostController
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.ui.Screens
 import com.example.bookworm.activities.main.MainActivity
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
 
@@ -58,12 +54,7 @@ class UserRepo(private val context: Context) {
 
     suspend fun getFirebaseToken(): String? {
         val user = Firebase.auth.currentUser
-        return try {
-            user?.getIdToken(true)?.await()?.token
-        }
-        catch (e: Exception) {
-            null
-        }
+        return user?.getIdToken(true)?.await()?.token
     }
 
 }

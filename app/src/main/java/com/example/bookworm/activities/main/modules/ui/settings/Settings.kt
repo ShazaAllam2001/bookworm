@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.settings.ui
+package com.example.bookworm.activities.main.modules.ui.settings
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
-import com.example.bookworm.activities.main.modules.settings.components.Profile
+import com.example.bookworm.activities.main.modules.ui.settings.components.Profile
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 

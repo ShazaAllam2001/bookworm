@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.bookworm.activities.main.modules.ui.main.MainScreen
 import com.example.bookworm.ui.theme.BookWormTheme
 import com.google.firebase.FirebaseApp
 

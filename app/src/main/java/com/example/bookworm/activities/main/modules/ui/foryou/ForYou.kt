@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.foryou.ui
+package com.example.bookworm.activities.main.modules.ui.foryou
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.activities.main.modules.bookGrid.ui.BookGrid
+import com.example.bookworm.activities.main.modules.ui.bookGrid.BookGrid
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
-import com.example.bookworm.activities.main.modules.network.LoadingIndicator
+import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 
 
 @Composable

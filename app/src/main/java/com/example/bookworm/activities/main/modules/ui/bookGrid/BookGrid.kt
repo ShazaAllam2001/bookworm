@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.bookGrid.ui
+package com.example.bookworm.activities.main.modules.ui.bookGrid
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.bookworm.activities.main.modules.bookGrid.ui.components.BookCard
+import com.example.bookworm.activities.main.modules.ui.bookGrid.components.BookCard
 import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
 
 @Composable

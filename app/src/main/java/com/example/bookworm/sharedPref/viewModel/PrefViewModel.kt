@@ -1,8 +1,8 @@
-package com.example.bookworm.activities.login.modules.viewModel
+package com.example.bookworm.sharedPref.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bookworm.activities.login.modules.data.PrefRepo
+import com.example.bookworm.sharedPref.data.PrefRepo
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn

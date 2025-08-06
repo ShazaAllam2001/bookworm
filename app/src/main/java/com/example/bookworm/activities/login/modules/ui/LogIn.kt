@@ -18,8 +18,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -31,8 +33,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import com.example.bookworm.R
-import com.example.bookworm.activities.login.modules.viewModel.PrefViewModel
+import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 
 
@@ -45,10 +48,10 @@ fun LogIn(
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var showPassword by rememberSaveable { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .padding(10.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -100,20 +103,16 @@ fun LogIn(
             )
         )
         Spacer(modifier = Modifier.height(20.dp))
-
         ElevatedButton(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
             onClick = {
                 if (email != "" && password != "") {
                     userViewModel.login(email, password)
-                    val token = userViewModel.getToken()
-                    /*if(token != null)
-                        viewModel.saveToken(token)*/
-                    if (token != null) {
-                        Log.d("token", token)
-                    }
-                    else {
-                        Log.d("token", "null token")
+                    scope.launch{
+                        val token = userViewModel.getToken()
+                        if (token != null) {
+                            prefViewModel.saveToken(token)
+                        }
                     }
                 }
             }

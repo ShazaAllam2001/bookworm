@@ -17,11 +17,12 @@ class UserViewModel(private val userRepo: UserRepo): ViewModel() {
         userRepo.login(email, password)
     }
 
-    fun getToken(): String? {
+    suspend fun getToken(): String? {
         var token: String? = null
-        viewModelScope.launch{
+        val job = viewModelScope.launch{
             token = userRepo.getFirebaseToken()
         }
+        job.join()
         return token
     }
 }

@@ -1,8 +1,11 @@
-package com.example.bookworm.activities.main
+package com.example.bookworm.activities.main.modules.ui.main
 
+import android.util.Log
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -10,14 +13,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookworm.activities.main.modules.bookGrid.ui.components.BookDetails
-import com.example.bookworm.activities.main.modules.myLibrary.ui.components.BookList
-import com.example.bookworm.activities.main.modules.explore.ui.Explore
-import com.example.bookworm.activities.main.modules.foryou.ui.ForYou
-import com.example.bookworm.activities.main.modules.myLibrary.ui.MyLibrary
-import com.example.bookworm.activities.main.modules.settings.ui.Settings
+import com.example.bookworm.activities.main.modules.ui.bookGrid.components.BookDetails
+import com.example.bookworm.activities.main.modules.ui.myLibrary.components.BookList
+import com.example.bookworm.activities.main.modules.ui.explore.Explore
+import com.example.bookworm.activities.main.modules.ui.foryou.ForYou
+import com.example.bookworm.activities.main.modules.ui.myLibrary.MyLibrary
+import com.example.bookworm.activities.main.modules.ui.settings.Settings
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
+import com.example.bookworm.sharedPref.data.PrefRepo
+import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 
 
 @SuppressLint("ViewModelConstructorInComposable")
@@ -42,20 +47,16 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
-            val sharedPref = LocalContext.current.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
-            val libraryViewModel = sharedPref.getString("user_token", "")?.let {
-                LibraryModel(
-                    appLocale = LocalConfiguration.current.locales[0],
-                    token = it
-                )
-            }
-
-            if (libraryViewModel != null) {
-                MyLibrary(
-                    viewModel = libraryViewModel,
-                    navController = navController
-                )
-            }
+            val prefViewModel = PrefViewModel(PrefRepo(LocalContext.current))
+            val token by prefViewModel.token.collectAsState()
+            val libraryViewModel = LibraryModel(
+                appLocale = LocalConfiguration.current.locales[0],
+                token = token
+            )
+            MyLibrary(
+                viewModel = libraryViewModel,
+                navController = navController
+            )
         }
         composable(route = BottomBarScreen.Settings.route) {
             Settings()

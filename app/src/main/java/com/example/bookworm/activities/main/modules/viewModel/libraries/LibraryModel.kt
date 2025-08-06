@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.bookworm.BuildConfig
 import com.example.bookworm.activities.main.modules.network.BooksApi
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.Locale

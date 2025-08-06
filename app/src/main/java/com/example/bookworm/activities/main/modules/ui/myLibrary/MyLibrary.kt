@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.myLibrary.ui
+package com.example.bookworm.activities.main.modules.ui.myLibrary
 
 import android.content.res.Configuration
 import androidx.compose.foundation.background
@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.activities.main.modules.myLibrary.ui.components.MyLibraryRow
-import com.example.bookworm.activities.main.modules.network.LoadingIndicator
+import com.example.bookworm.activities.main.modules.ui.myLibrary.components.MyLibraryRow
+import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
 import com.example.bookworm.activities.main.modules.viewModel.libraries.Shelf

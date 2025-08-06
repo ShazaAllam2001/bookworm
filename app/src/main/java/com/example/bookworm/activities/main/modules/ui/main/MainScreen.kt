@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main
+package com.example.bookworm.activities.main.modules.ui.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically

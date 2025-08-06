@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.bookGrid.ui.components
+package com.example.bookworm.activities.main.modules.ui.bookGrid.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
 import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
-import com.example.bookworm.activities.main.modules.network.LoadingIndicator
+import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 

@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.login.modules.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -24,22 +23,22 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.activities.login.modules.data.UserRepo
-import com.example.bookworm.ui.theme.BookWormTheme
+import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 
 
 @Composable
-fun SignUp(navController: NavHostController = rememberNavController()) {
+fun SignUp(
+    navController: NavHostController = rememberNavController(),
+    userViewModel: UserViewModel
+) {
     var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -114,14 +113,11 @@ fun SignUp(navController: NavHostController = rememberNavController()) {
             )
         )
         Spacer(modifier = Modifier.height(20.dp))
-
-        val context = LocalContext.current
         ElevatedButton(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
             onClick = {
                 if (name != "" && email != "" && password != "") {
-                    val userRepo = UserRepo(context)
-                    userRepo.signup(email, password, navController)
+                    userViewModel.signup(email, password, navController)
                 }
             }
         ) {
@@ -146,16 +142,5 @@ fun SignUp(navController: NavHostController = rememberNavController()) {
                 style = MaterialTheme.typography.labelSmall
             )
         }
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun SignUpPreview() {
-    BookWormTheme {
-        SignUp()
     }
 }

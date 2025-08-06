@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main
+package com.example.bookworm.activities.main.modules.ui.main
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

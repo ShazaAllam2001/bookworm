@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.network
+package com.example.bookworm.activities.main.modules.ui.loading
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
