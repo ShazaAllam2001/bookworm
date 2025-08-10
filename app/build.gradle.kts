@@ -15,6 +15,7 @@ if (localPropertiesFile.exists()) {
 }
 
 val apiKey: String = localProperties.getProperty("BOOKS_API_KEY")?:""
+val firebaseClientId: String = localProperties.getProperty("FIREBASE_CLIENT_ID")?:""
 
 android {
     namespace = "com.example.bookworm"
@@ -30,6 +31,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "FIREBASE_CLIENT_ID", "\"$firebaseClientId\"")
     }
 
     buildTypes {
@@ -66,10 +68,11 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.espresso.core)
     implementation(libs.firebase.auth)
-    implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.googleid)
+    implementation(libs.androidx.credentials)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

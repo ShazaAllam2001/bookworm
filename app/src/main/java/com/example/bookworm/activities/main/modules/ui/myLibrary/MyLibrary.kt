@@ -47,10 +47,10 @@ fun MyLibrary(
             text = stringResource(R.string.my_library),
             style = MaterialTheme.typography.titleLarge
         )
-        LibrariesList(
+        /*LibrariesList(
             viewModel = viewModel,
             navController = navController
-        )
+        )*/
     }
 }
 

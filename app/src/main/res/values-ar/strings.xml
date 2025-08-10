@@ -30,4 +30,6 @@
     <string name="sign_up_successful_please_login">تم تسجيل الحساب بنجاح! برجاء قم بتسجيل الدخول.</string>
     <string name="sign_up_failed">فشل إنشاء الحساب!</string>
     <string name="sign_out">تسجيل خروج</string>
+    <string name="login_with_google">تسجيل دخول بواسطة جوجل</string>
+    <string name="sign_up_with_google">إنشاء حساب بواسطة جوجل</string>
 </resources>

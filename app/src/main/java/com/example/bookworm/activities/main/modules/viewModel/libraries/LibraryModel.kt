@@ -27,7 +27,7 @@ class LibraryModel(
     val booksUiState: BooksUiState get() = _booksUiState
 
     init {
-        fetchLibraries()
+        //fetchLibraries()
     }
 
     private fun fetchLibraries() {

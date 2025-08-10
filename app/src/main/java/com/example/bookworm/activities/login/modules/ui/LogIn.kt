@@ -11,14 +11,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
@@ -48,10 +50,12 @@ fun LogIn(
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var showPassword by rememberSaveable { mutableStateOf(false) }
+
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(10.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -108,35 +112,73 @@ fun LogIn(
             onClick = {
                 if (email != "" && password != "") {
                     userViewModel.login(email, password)
-                    scope.launch{
+                }
+            }
+        ) {
+            Text(
+                stringResource(R.string.log_in),
+                style = MaterialTheme.typography.labelLarge
+            )
+        }
+        HorizontalDivider(
+            modifier = Modifier.padding(20.dp),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Button(
+            onClick = {
+                scope.launch{
+                    val logged = userViewModel.loginWithGoogle()
+                    if (logged) {
                         val token = userViewModel.getToken()
-                        if (token != null) {
+                        Log.d("token, google", token?:"null")
+                        /*if (token != null) {
                             prefViewModel.saveToken(token)
-                        }
+                        }*/
                     }
                 }
             }
         ) {
-            Text(stringResource(R.string.log_in))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.padding(end = 5.dp),
+                    painter = painterResource(R.drawable.icons8_google),
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.login_with_google),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                stringResource(R.string.don_t_have_an_account),
-                style = MaterialTheme.typography.labelSmall
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                modifier = Modifier.clickable {
-                    navController.navigate(Screens.Signup.route)
-                },
-                text = stringResource(R.string.sign_up),
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.labelSmall
-            )
-        }
+        Spacer(modifier = Modifier.height(20.dp))
+        GoToSignUp(navController = navController)
+    }
+}
+
+@Composable
+fun GoToSignUp(navController: NavHostController) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.don_t_have_an_account),
+            style = MaterialTheme.typography.labelSmall
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            modifier = Modifier.clickable {
+                navController.navigate(Screens.Signup.route) {
+                    popUpTo(Screens.Signup.route)
+                    launchSingleTop = true
+                }
+            },
+            text = stringResource(R.string.sign_up),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.labelSmall
+        )
     }
 }

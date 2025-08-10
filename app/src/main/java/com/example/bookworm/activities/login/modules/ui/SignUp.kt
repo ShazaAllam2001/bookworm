@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -19,6 +21,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +35,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -44,8 +48,11 @@ fun SignUp(
     var password by rememberSaveable { mutableStateOf("") }
     var showPassword by rememberSaveable { mutableStateOf(false) }
 
+    val scope = rememberCoroutineScope()
+
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(10.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -123,24 +130,58 @@ fun SignUp(
         ) {
             Text(stringResource(R.string.sign_up))
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+        HorizontalDivider(
+            modifier = Modifier.padding(20.dp),
+            thickness = 2.dp,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Button(
+            onClick = {
+                scope.launch{
+                    userViewModel.loginWithGoogle()
+                }
+            }
         ) {
-            Text(
-                stringResource(R.string.have_an_account),
-                style = MaterialTheme.typography.labelSmall
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                modifier = Modifier.clickable {
-                    navController.navigate(Screens.Login.route)
-                },
-                text = stringResource(R.string.log_in),
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.labelSmall
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.padding(end = 5.dp),
+                    painter = painterResource(R.drawable.icons8_google),
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.sign_up_with_google),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
         }
+        Spacer(modifier = Modifier.height(20.dp))
+        GoToLogin(navController = navController)
+    }
+}
+
+@Composable
+fun GoToLogin(navController: NavHostController) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            stringResource(R.string.have_an_account),
+            style = MaterialTheme.typography.labelSmall
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            modifier = Modifier.clickable {
+                navController.navigate(Screens.Login.route) {
+                    popUpTo(Screens.Login.route)
+                    launchSingleTop = true
+                }
+            },
+            text = stringResource(R.string.log_in),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.labelSmall
+        )
     }
 }

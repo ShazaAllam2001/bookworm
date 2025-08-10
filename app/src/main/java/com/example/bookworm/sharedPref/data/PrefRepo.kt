@@ -10,14 +10,13 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+private val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
 
 class PrefRepo(private val context: Context) {
-    private val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
 
     companion object {
         val USER_TOKEN = stringPreferencesKey("user_token")
     }
-
 
     val tokenFlow: Flow<String> = context.datastore.data
         .map { preferences ->

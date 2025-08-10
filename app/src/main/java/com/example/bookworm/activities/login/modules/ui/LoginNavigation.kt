@@ -15,6 +15,8 @@ import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun LoginNavGraph(navController: NavHostController) {
+    val context = LocalContext.current
+
     NavHost(
         navController = navController,
         startDestination = Screens.SplashScreen.route
@@ -25,14 +27,14 @@ fun LoginNavGraph(navController: NavHostController) {
         composable(route = Screens.Login.route) {
             LogIn(
                 navController = navController,
-                userViewModel = UserViewModel(UserRepo(LocalContext.current)),
-                prefViewModel = PrefViewModel(PrefRepo(LocalContext.current))
+                userViewModel = UserViewModel(UserRepo(context)),
+                prefViewModel = PrefViewModel(PrefRepo(context))
             )
         }
         composable(route = Screens.Signup.route) {
             SignUp(
                 navController = navController,
-                userViewModel = UserViewModel(UserRepo(LocalContext.current))
+                userViewModel = UserViewModel(UserRepo(context))
             )
         }
     }

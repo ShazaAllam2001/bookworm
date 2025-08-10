@@ -29,4 +29,6 @@
     <string name="sign_up_successful_please_login">Sign Up Successful! Please Login.</string>
     <string name="sign_up_failed">Sign Up Failed!</string>
     <string name="sign_out">Sign Out</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="sign_up_with_google">Sign Up with Google</string>
 </resources>
