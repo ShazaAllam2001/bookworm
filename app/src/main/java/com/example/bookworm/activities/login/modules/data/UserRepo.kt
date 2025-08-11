@@ -90,16 +90,16 @@ class UserRepo(private val context: Context) {
         return false
     }
 
-    suspend fun getIdToken(): String? {
-        val user = Firebase.auth.currentUser
-        return user?.getIdToken(true)?.await()?.token
-    }
-
     suspend fun signOutWithGoogle() {
         credentialsManager.clearCredentialState(
             ClearCredentialStateRequest()
         )
         firebaseAuth.signOut()
+    }
+
+    suspend fun getIdToken(): String? {
+        val user = Firebase.auth.currentUser
+        return user?.getIdToken(true)?.await()?.token
     }
 
     private suspend fun getGoogleCredential(): GetCredentialResponse {

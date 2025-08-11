@@ -1,6 +1,8 @@
 package com.example.bookworm.activities.login.modules.ui
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,6 +43,7 @@ import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LogIn(
     navController: NavHostController = rememberNavController(),
@@ -130,9 +133,10 @@ fun LogIn(
                 scope.launch{
                     val logged = userViewModel.loginWithGoogle()
                     if (logged) {
-                        val token = userViewModel.getToken()
+                        userViewModel.launchBrowser()
+                        /*val token = userViewModel.getToken()
                         Log.d("token, google", token?:"null")
-                        /*if (token != null) {
+                        if (token != null) {
                             prefViewModel.saveToken(token)
                         }*/
                     }

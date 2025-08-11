@@ -16,6 +16,8 @@ if (localPropertiesFile.exists()) {
 
 val apiKey: String = localProperties.getProperty("BOOKS_API_KEY")?:""
 val firebaseClientId: String = localProperties.getProperty("FIREBASE_CLIENT_ID")?:""
+val firebaseClientSecret: String = localProperties.getProperty("FIREBASE_CLIENT_SECRET")?:""
+val firebaseClientUriRedirect: String = localProperties.getProperty("FIREBASE_CLIENT_URI_REDIRECT")?:""
 
 android {
     namespace = "com.example.bookworm"
@@ -32,6 +34,8 @@ android {
 
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
         buildConfigField("String", "FIREBASE_CLIENT_ID", "\"$firebaseClientId\"")
+        buildConfigField("String", "FIREBASE_CLIENT_SECRET", "\"$firebaseClientSecret\"")
+        buildConfigField("String", "FIREBASE_CLIENT_URI_REDIRECT", "\"$firebaseClientUriRedirect\"")
     }
 
     buildTypes {
