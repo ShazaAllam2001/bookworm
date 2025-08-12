@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">دودة كتب</string>
+    <string name="add_to_shelf">أضف إلي الرف</string>
+    <string name="for_you">مقترح لك</string>
+    <string name="explore">استكشف</string>
+    <string name="my_library">مكتبتي</string>
+    <string name="settings">الإعدادات</string>
+    <string name="want_to_read">أريد قراءته</string>
+    <string name="currently_reading">يقرأ حالياً</string>
+    <string name="read">مقروء</string>
+    <string name="favourites">مقضلاتي</string>
+    <string name="to_buy">أريد شراءه</string>
+    <string name="borrowed">مستعار</string>
+    <string name="wishlist">قائمة الرغبات</string>
+    <string name="search_for_books">بحث عن الكتب</string>
+    <string name="enable_notifications">تفعيل الإشعارات</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">الرقم السري</string>
+    <string name="preference">تفضيلاتي</string>
+    <string name="by">تأليف %1$s</string>
+    <string name="books">%1$s كتب</string>
+</resources>

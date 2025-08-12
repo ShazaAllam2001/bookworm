@@ -1,35 +1,31 @@
 package com.example.bookworm
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
-sealed class BottomBarScreen(
-    val title: String,
-    val icon: ImageVector,
+enum class BottomBarScreen(
+    @StringRes val title: Int,
+    @DrawableRes val icon: Int,
     val route: String
 ) {
-    data object ForYou : BottomBarScreen(
-        title = "For You",
-        icon = Icons.Filled.Home,
+    ForYou(
+        title = R.string.for_you,
+        icon = R.drawable.baseline_home_24,
         route = "forYou"
-    )
-    data object Explore : BottomBarScreen(
-        title = "Explore",
-        icon = Icons.Filled.Search,
+    ),
+    Explore(
+        title = R.string.explore,
+        icon = R.drawable.baseline_search_24,
         route = "explore"
-    )
-    data object MyLibrary : BottomBarScreen(
-        title = "My Library",
-        icon = Icons.Filled.Favorite,
-        route = "forYou"
-    )
-    data object Settings : BottomBarScreen(
-        title = "Settings",
-        icon = Icons.Filled.Settings,
+    ),
+    MyLibrary(
+        title = R.string.my_library,
+        icon = R.drawable.baseline_bookmark_24,
+        route = "myLibrary"
+    ),
+    Settings(
+        title = R.string.settings,
+        icon = R.drawable.baseline_settings_24,
         route = "settings"
     )
 }

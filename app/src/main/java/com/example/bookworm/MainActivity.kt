@@ -1,5 +1,6 @@
 package com.example.bookworm
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,7 +22,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
 @Composable
 fun MainScreenPreview() {
     BookWormTheme {
