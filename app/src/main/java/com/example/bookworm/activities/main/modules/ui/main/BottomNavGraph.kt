@@ -53,12 +53,12 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
-            val prefViewModel = PrefViewModel(PrefRepo(context))
-            val token by prefViewModel.token.collectAsState()
-            Log.d("token nav view", token)
+            //val prefViewModel = PrefViewModel(PrefRepo(context))
+            //val token by prefViewModel.token.collectAsState()
+            //Log.d("token nav view", token)
             val libraryViewModel = LibraryModel(
                 appLocale = currentLocale,
-                token = token
+                //token = token
             )
             MyLibrary(
                 viewModel = libraryViewModel,

@@ -31,8 +31,7 @@ fun LoginNavGraph(navController: NavHostController) {
                 userViewModel = UserViewModel(
                     userRepo = UserRepo(context),
                     oAuthRepo = OAuthRepo(context)
-                ),
-                prefViewModel = PrefViewModel(PrefRepo(context))
+                )
             )
         }
         composable(route = Screens.Signup.route) {

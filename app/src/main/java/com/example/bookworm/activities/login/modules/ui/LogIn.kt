@@ -1,8 +1,5 @@
 package com.example.bookworm.activities.login.modules.ui
 
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,21 +31,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import com.example.bookworm.R
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LogIn(
     navController: NavHostController = rememberNavController(),
-    userViewModel: UserViewModel,
-    prefViewModel: PrefViewModel
+    userViewModel: UserViewModel
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
@@ -130,16 +123,11 @@ fun LogIn(
         )
         Button(
             onClick = {
-                scope.launch{
+                scope.launch {
                     val logged = userViewModel.loginWithGoogle()
-                    if (logged) {
+                    /*if (logged) {
                         userViewModel.launchBrowser()
-                        /*val token = userViewModel.getToken()
-                        Log.d("token, google", token?:"null")
-                        if (token != null) {
-                            prefViewModel.saveToken(token)
-                        }*/
-                    }
+                    }*/
                 }
             }
         ) {

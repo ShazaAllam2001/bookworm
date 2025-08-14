@@ -1,54 +1,55 @@
 package com.example.bookworm.activities.login.modules.data
 
 import android.content.Context
-import android.content.Intent
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
-import java.util.Base64
-import java.security.SecureRandom
+import android.util.Log
 import androidx.core.net.toUri
-import com.example.bookworm.activities.login.modules.network.buildAuthorizationUrl
 import com.example.bookworm.BuildConfig
+import net.openid.appauth.AuthorizationRequest
+import net.openid.appauth.AuthorizationResponse
+import net.openid.appauth.AuthorizationService
+import net.openid.appauth.AuthorizationServiceConfiguration
+import net.openid.appauth.ResponseTypeValues
 
 
 class OAuthRepo(private val context: Context) {
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun generateCodeVerifier(): String {
-        // random code_verifier with 43 characters
-        val bytes = ByteArray(32)
-        SecureRandom().nextBytes(bytes)
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(bytes)
-    }
+    private lateinit var authService: AuthorizationService
+    private lateinit var authRequest: AuthorizationRequest
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun generateCodeChallenge(codeVerifier: String): String {
-        // code_challenge = BASE64URL-ENCODE(SHA256(ASCII(code_verifier)))
-        val bytes = codeVerifier.toByteArray(StandardCharsets.US_ASCII)
-        val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(digest)
-    }
-
-    private fun launchAuthBrowser(context: Context, url: String) {
-        val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-        context.startActivity(intent)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun codeAuth() {
-        val codeVerifier = generateCodeVerifier()
-        val codeChallenge = generateCodeChallenge(codeVerifier)
-
-        val authUrl = buildAuthorizationUrl(
-            clientId = BuildConfig.FIREBASE_CLIENT_ID,
-            redirectUri = BuildConfig.FIREBASE_CLIENT_URI_REDIRECT,
-            scope = "email profile openid https://www.googleapis.com/auth/books",
-            codeChallenge = codeChallenge
+    private fun configAuth() {
+        val serviceConfig = AuthorizationServiceConfiguration(
+            "https://accounts.google.com/o/oauth2/v2/auth".toUri(),
+            "https://oauth2.googleapis.com/token".toUri()
         )
 
-        launchAuthBrowser(context, authUrl)
+        authRequest = AuthorizationRequest.Builder(
+            serviceConfig,
+            BuildConfig.FIREBASE_CLIENT_ID,
+            ResponseTypeValues.CODE,
+            BuildConfig.FIREBASE_CLIENT_URI_REDIRECT.toUri()
+        )
+            .setScopes("email", "profile", "openid", "https://www.googleapis.com/auth/books")
+            .build()
+
+        authService = AuthorizationService(context)
     }
 
+    fun performTokenRequest(response: AuthorizationResponse) {
+        authService.performTokenRequest(
+            response.createTokenExchangeRequest()
+        ) { tokenResponse, ex ->
+            if (tokenResponse != null) {
+                val accessToken = tokenResponse.accessToken
+                Log.d("AppAuth", "Access Token: $accessToken")
+                // Use token with Google Books API
+            } else {
+                Log.e("AppAuth", "Token exchange failed: $ex")
+            }
+        }
+    }
 
+    fun launchAuthBrowser() {
+        configAuth()
+        val authIntent = authService.getAuthorizationRequestIntent(authRequest)
+        context.startActivity(authIntent)
+    }
 }

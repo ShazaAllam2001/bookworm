@@ -25,8 +25,6 @@ import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.cancellation.CancellationException
 
 
-const val firebaseClientId = BuildConfig.FIREBASE_CLIENT_ID
-
 class UserRepo(private val context: Context) {
     private val credentialsManager = CredentialManager.create(context)
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -79,6 +77,7 @@ class UserRepo(private val context: Context) {
             val result = getGoogleCredential()
             val loggedIn = handleGoogleSignIn(result)
             if (loggedIn) {
+                getUserData()
                 context.startActivity(Intent(context, MainActivity::class.java))
                 return true
             }
@@ -97,17 +96,12 @@ class UserRepo(private val context: Context) {
         firebaseAuth.signOut()
     }
 
-    suspend fun getIdToken(): String? {
-        val user = Firebase.auth.currentUser
-        return user?.getIdToken(true)?.await()?.token
-    }
-
     private suspend fun getGoogleCredential(): GetCredentialResponse {
         val request = GetCredentialRequest.Builder()
             .addCredentialOption(
                 GetGoogleIdOption.Builder()
                     .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId(firebaseClientId)
+                    .setServerClientId(BuildConfig.FIREBASE_CLIENT_ID)
                     .setAutoSelectEnabled(false)
                     .build()
             )
@@ -133,6 +127,16 @@ class UserRepo(private val context: Context) {
         else {
             Log.d("GoogleIdTokenParsingException", "Credential is not GoogleIdTokenCredential")
             return false
+        }
+    }
+
+    private fun getUserData() {
+        val user = firebaseAuth.currentUser
+        user?.let {
+            val displayName = it.displayName
+            val email = it.email
+            val photoUrl = it.photoUrl
+            Log.d("UserInfo", "displayName: $displayName, email: $email, photoUrl: $photoUrl")
         }
     }
 }

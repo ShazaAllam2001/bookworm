@@ -32,6 +32,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        manifestPlaceholders["appAuthRedirectScheme"] = "com.example.bookworm"
+
         buildConfigField("String", "API_KEY", "\"$apiKey\"")
         buildConfigField("String", "FIREBASE_CLIENT_ID", "\"$firebaseClientId\"")
         buildConfigField("String", "FIREBASE_CLIENT_SECRET", "\"$firebaseClientSecret\"")
@@ -94,4 +96,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.datastore.preferences)
+    implementation(libs.appauth)
 }
