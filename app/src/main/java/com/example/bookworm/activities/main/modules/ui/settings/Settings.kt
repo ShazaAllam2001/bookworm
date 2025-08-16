@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
-import com.example.bookworm.activities.login.modules.viewModel.LoginType
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.settings.components.Profile
 import kotlinx.coroutines.launch
@@ -47,10 +46,7 @@ fun Settings(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
             onClick = {
                 scope.launch{
-                    if (userViewModel.loginType == LoginType.Email)
-                        userViewModel.signOut()
-                    else if (userViewModel.loginType == LoginType.Google)
-                        userViewModel.signOutWithGoogle()
+                    userViewModel.signOut()
                 }
             }
         ) {

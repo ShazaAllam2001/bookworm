@@ -4,6 +4,5 @@ enum class Screens(
     val route: String
 ) {
     SplashScreen(route = "splash"),
-    Login(route = "login"),
-    Signup(route = "signup")
+    Login(route = "login")
 }

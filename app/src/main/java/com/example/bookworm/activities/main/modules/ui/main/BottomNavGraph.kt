@@ -13,7 +13,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookworm.activities.login.modules.data.OAuthRepo
 import com.example.bookworm.activities.login.modules.data.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.bookGrid.components.BookDetails
@@ -67,8 +66,7 @@ fun BottomNavGraph(navController: NavHostController) {
         }
         composable(route = BottomBarScreen.Settings.route) {
             val userViewModel = UserViewModel(
-                userRepo = UserRepo(context),
-                oAuthRepo = OAuthRepo(context)
+                userRepo = UserRepo(context)
             )
             Settings(userViewModel = userViewModel)
         }

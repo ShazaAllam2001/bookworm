@@ -6,10 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.bookworm.activities.login.modules.data.OAuthRepo
-import com.example.bookworm.sharedPref.data.PrefRepo
 import com.example.bookworm.activities.login.modules.data.UserRepo
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 
 
@@ -27,19 +24,8 @@ fun LoginNavGraph(navController: NavHostController) {
         }
         composable(route = Screens.Login.route) {
             LogIn(
-                navController = navController,
                 userViewModel = UserViewModel(
-                    userRepo = UserRepo(context),
-                    oAuthRepo = OAuthRepo(context)
-                )
-            )
-        }
-        composable(route = Screens.Signup.route) {
-            SignUp(
-                navController = navController,
-                userViewModel = UserViewModel(
-                    userRepo = UserRepo(context),
-                    oAuthRepo = OAuthRepo(context)
+                    userRepo = UserRepo(context)
                 )
             )
         }

@@ -96,5 +96,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.datastore.preferences)
-    implementation(libs.appauth)
+    implementation(libs.play.services.auth)
 }
