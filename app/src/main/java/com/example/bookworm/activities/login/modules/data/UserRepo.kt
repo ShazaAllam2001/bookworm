@@ -6,16 +6,14 @@ import android.util.Log
 import com.example.bookworm.activities.main.MainActivity
 import com.example.bookworm.activities.redirect.OAuthRedirectActivity
 import com.example.bookworm.sharedPref.data.PrefRepo
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthCredential
-import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.auth.auth
 
 
 class UserRepo(private val context: Context) {
-    private lateinit var prefViewModel: PrefViewModel
+    private lateinit var prefRepo: PrefRepo
 
     fun launchAuthBrowser() {
         val intent = Intent(context, OAuthRedirectActivity::class.java)
@@ -23,7 +21,7 @@ class UserRepo(private val context: Context) {
     }
 
     suspend fun handleAuthSuccess(user: FirebaseUser?, credential: OAuthCredential?) {
-        prefViewModel = PrefViewModel(PrefRepo(context))
+        prefRepo = PrefRepo(context)
 
         var token = ""
         credential?.accessToken?.let { accessToken ->
@@ -38,9 +36,8 @@ class UserRepo(private val context: Context) {
             val photoUrl = it.photoUrl
             Log.d("UserInfo", "uid: $uid, displayName: $displayName, email: $email, photoUrl: $photoUrl")
             // Save to DataStore
-            prefViewModel.savePreferences(uid, displayName?:"", email?:"", photoUrl.toString(), token)
-            prefViewModel.readPreferences()
-            Log.d("UserInfo Returned", prefViewModel.user.toString())
+            prefRepo.savePreferences(uid, displayName?:"", email?:"", photoUrl.toString(), token)
+            //Log.d("UserInfo Returned", prefRepo.readPreferences().toString())
             // Navigate to main screen
             context.startActivity(Intent(context, MainActivity::class.java))
         }

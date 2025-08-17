@@ -1,31 +1,33 @@
 package com.example.bookworm.sharedPref.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookworm.sharedPref.data.PrefRepo
 import com.example.bookworm.sharedPref.data.User
 import kotlinx.coroutines.launch
 
-
 class PrefViewModel(private val prefRepo: PrefRepo): ViewModel() {
-    var user: User? = null
+    private lateinit var user: User
 
-    fun savePreferences(
+    init {
+        viewModelScope.launch {
+            user = prefRepo.readPreferences()
+            Log.d("user", user.toString())
+        }
+    }
+
+    suspend fun savePreferences(
         uid: String,
         displayName: String,
         email: String,
         photoUrl: String,
         token: String
     ) {
-        viewModelScope.launch {
-            prefRepo.savePreferences(uid, displayName, email, photoUrl, token)
-        }
+       prefRepo.savePreferences(uid, displayName, email, photoUrl, token)
     }
 
-    suspend fun readPreferences() {
-        val job = viewModelScope.launch {
-            user = prefRepo.readPreferences()
-        }
-        job.join()
+    fun getUser(): User {
+        return user
     }
 }

@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.main.modules.ui.settings.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -35,15 +34,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 
 
 @Composable
-fun Profile() {
+fun Profile(prefViewModel: PrefViewModel) {
     var name by rememberSaveable { mutableStateOf("Alexander Hipp") }
     var editName by rememberSaveable { mutableStateOf(false) }
     var email by rememberSaveable { mutableStateOf("alexandar@mail.com") }
@@ -145,13 +142,4 @@ fun Profile() {
             )
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun ProfilePreview() {
-    Profile()
 }

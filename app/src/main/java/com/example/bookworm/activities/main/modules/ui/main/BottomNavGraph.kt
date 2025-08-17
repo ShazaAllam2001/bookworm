@@ -2,10 +2,7 @@ package com.example.bookworm.activities.main.modules.ui.main
 
 import android.util.Log
 import android.annotation.SuppressLint
-import android.content.Context
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -26,6 +23,7 @@ import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryM
 import com.example.bookworm.sharedPref.data.PrefRepo
 import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import java.util.Locale
+
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
@@ -52,12 +50,9 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
-            //val prefViewModel = PrefViewModel(PrefRepo(context))
-            //val token by prefViewModel.token.collectAsState()
-            //Log.d("token nav view", token)
             val libraryViewModel = LibraryModel(
                 appLocale = currentLocale,
-                //token = token
+                prefRepo = PrefRepo(context)
             )
             MyLibrary(
                 viewModel = libraryViewModel,
@@ -68,7 +63,13 @@ fun BottomNavGraph(navController: NavHostController) {
             val userViewModel = UserViewModel(
                 userRepo = UserRepo(context)
             )
-            Settings(userViewModel = userViewModel)
+            val prefViewModel = PrefViewModel(
+                prefRepo = PrefRepo(context)
+            )
+            Settings(
+                userViewModel = userViewModel,
+                prefViewModel = prefViewModel
+            )
         }
         composable(
             route = "books/{bookId}",
@@ -91,23 +92,18 @@ fun BottomNavGraph(navController: NavHostController) {
                 type = NavType.IntType
             })
         ) {
-            val sharedPref = LocalContext.current.getSharedPreferences("MyPref", Context.MODE_PRIVATE)
             val libraryId = it.arguments?.getInt("libraryId")?:0
-            val libraryViewModel = sharedPref.getString("user_token", "")?.let { item ->
-                LibraryModel(
-                    appLocale = currentLocale,
-                    token = item
-                )
-            }
-            libraryViewModel?.getLibraryBooks(libraryId)
+            val libraryViewModel = LibraryModel(
+                appLocale = currentLocale,
+                prefRepo = PrefRepo(context)
+            )
+            libraryViewModel.getLibraryBooks(libraryId)
 
-            if (libraryViewModel != null) {
-                BookList(
-                    libraryViewModel = libraryViewModel,
-                    libraryId = libraryId,
-                    navController = navController
-                )
-            }
+            BookList(
+                libraryViewModel = libraryViewModel,
+                libraryId = libraryId,
+                navController = navController
+            )
         }
     }
 }

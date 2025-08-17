@@ -9,7 +9,8 @@ val LibrariesMap = mapOf(
     3 to R.drawable.import_contacts_64dp, // ReadingNow
     4 to R.drawable.check_64dp, // HaveRead
     5 to R.drawable.book_2_64dp, // Reviewed
-    6 to R.drawable.baseline_book_24, // RecentlyViewed
+    6 to R.drawable.book_64dp, // RecentlyViewed
     7 to R.drawable.format_list_bulleted_64dp, // MyeBooks
-    8 to R.drawable.baseline_person_24 // BooksForYou
+    8 to R.drawable.person_64dp, // BooksForYou
+    9 to R.drawable.history_64dp // Browsing History
 )

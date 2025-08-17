@@ -31,7 +31,7 @@ import com.example.bookworm.activities.main.modules.viewModel.libraries.Shelf
 
 @Composable
 fun BookList(
-    libraryViewModel: LibraryModel = LibraryModel(),
+    libraryViewModel: LibraryModel,
     libraryId: Int,
     navController: NavHostController = rememberNavController()
 ) {

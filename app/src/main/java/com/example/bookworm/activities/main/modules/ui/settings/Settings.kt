@@ -10,7 +10,6 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -18,15 +17,15 @@ import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.settings.components.Profile
-import kotlinx.coroutines.launch
+import com.example.bookworm.sharedPref.data.PrefRepo
+import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 
 
 @Composable
 fun Settings(
-    userViewModel: UserViewModel
+    userViewModel: UserViewModel,
+    prefViewModel: PrefViewModel
 ) {
-    val scope = rememberCoroutineScope()
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,13 +40,11 @@ fun Settings(
             text = stringResource(R.string.settings),
             style = MaterialTheme.typography.titleLarge
         )
-        Profile()
+        Profile(prefViewModel = prefViewModel)
         ElevatedButton(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
             onClick = {
-                scope.launch{
-                    userViewModel.signOut()
-                }
+                userViewModel.signOut()
             }
         ) {
             Text(stringResource(R.string.sign_out))

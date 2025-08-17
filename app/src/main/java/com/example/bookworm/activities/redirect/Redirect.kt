@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.example.bookworm.activities.login.modules.data.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
+import com.example.bookworm.sharedPref.data.PrefRepo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.OAuthCredential
@@ -23,7 +24,9 @@ class OAuthRedirectActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userViewModel = UserViewModel(UserRepo(this))
+        userViewModel = UserViewModel(
+            userRepo = UserRepo(this)
+        )
 
         val auth = Firebase.auth
         val provider = OAuthProvider.newBuilder("google.com").apply {
@@ -44,9 +47,8 @@ class OAuthRedirectActivity : ComponentActivity() {
                 // Get the access token
                 credential?.accessToken?.let { accessToken ->
                     Log.d("Auth", "Access Token: $accessToken")
-                    Log.d("Auth", "Access Length: ${accessToken.length}")
                     // Now you can use this accessToken with Google APIs
-                    searchBooks(accessToken, "flower")
+                    searchBookshelves(accessToken)
                 }
                 userViewModel.handleAuthSuccess(user, credential)
             }
@@ -59,8 +61,8 @@ class OAuthRedirectActivity : ComponentActivity() {
             }
     }
 
-    private fun searchBooks(accessToken: String, query: String) {
-        val url = "https://www.googleapis.com/books/v1/volumes?q=$query"
+    private fun searchBookshelves(accessToken: String) {
+        val url = "https://www.googleapis.com/books/v1/mylibrary/bookshelves"
 
         val client = OkHttpClient()
         val request = Request.Builder()

@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.main.modules.ui.myLibrary
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -31,7 +29,7 @@ import com.example.bookworm.activities.main.modules.viewModel.libraries.Librarie
 
 @Composable
 fun MyLibrary(
-    viewModel: LibraryModel = LibraryModel(),
+    viewModel: LibraryModel,
     navController: NavHostController = rememberNavController()
 ) {
     Column(
@@ -47,16 +45,16 @@ fun MyLibrary(
             text = stringResource(R.string.my_library),
             style = MaterialTheme.typography.titleLarge
         )
-        /*LibrariesList(
+        LibrariesState(
             viewModel = viewModel,
             navController = navController
-        )*/
+        )
     }
 }
 
 @Composable
-fun LibrariesList(
-    viewModel: LibraryModel = LibraryModel(),
+fun LibrariesState(
+    viewModel: LibraryModel,
     navController: NavHostController
 ) {
     when (viewModel.librariesUiState) {
@@ -88,24 +86,13 @@ fun LibrariesList(
                     navController.navigate("librarys/${index}")
                 }
             ) {
-                LibrariesMap[list[index].id]?.let {
-                    MyLibraryRow(
-                        icon = it,
-                        name = list[index].title,
-                        numberOfBooks = list[index].volumeCount,
-                    )
-                }
+                MyLibraryRow(
+                    icon = LibrariesMap[list[index].id] ?: R.drawable.book_2_64dp,
+                    name = list[index].title,
+                    numberOfBooks = list[index].volumeCount,
+                )
             }
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun MyLibraryPreview() {
-    MyLibrary()
 }
