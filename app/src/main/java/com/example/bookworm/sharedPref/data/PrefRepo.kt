@@ -2,58 +2,29 @@ package com.example.bookworm.sharedPref.data
 
 import android.content.Context
 import android.util.Log
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import androidx.datastore.dataStore
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 
-private val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "user_settings")
+
+private val Context.datastore by dataStore("user.json", UserPreferencesSerializer)
 
 class PrefRepo(private val context: Context) {
-    val Context.dataStore by preferencesDataStore(name = "user_prefs")
-
-    companion object {
-        val USER_TOKEN = stringPreferencesKey("user_token")
-        val USER_NAME = stringPreferencesKey("user_name")
-        val USER_EMAIL = stringPreferencesKey("user_email")
-        val USER_PHOTO = stringPreferencesKey("user_photo")
-    }
-
-    val tokenFlow: Flow<String> = context.datastore.data
-        .map { preferences ->
-            preferences[USER_TOKEN] ?: ""
-        }
-    val nameFlow: Flow<String> =  context.datastore.data
-        .map { preferences ->
-            preferences[USER_NAME] ?: ""
-        }
-    val mailFlow: Flow<String> = context.datastore.data
-        .map { preferences ->
-            preferences[USER_EMAIL] ?: ""
-        }
-    val photoFlow: Flow<String> = context.datastore.data
-        .map { preferences ->
-            preferences[USER_PHOTO] ?: ""
-        }
-
-    suspend fun setToken(token: String) {
-        context.datastore.edit { preferences ->
-            preferences[USER_TOKEN] = token
-        }
-    }
-
-    suspend fun setUserInfo(
-        name: String,
+    suspend fun savePreferences(
+        uid: String,
+        displayName: String,
         email: String,
-        photo: String
+        photoUrl: String,
+        token: String
     ) {
-        context.datastore.edit { preferences ->
-            preferences[USER_NAME] = name
-            preferences[USER_EMAIL] = email
-            preferences[USER_PHOTO] = photo
+        context.datastore.updateData {
+            it.copy(uid = uid, displayName = displayName, email = email, photoUrl = photoUrl, token = token)
         }
+    }
+
+    suspend fun readPreferences(): User {
+        val user: User = context.datastore.data.first()
+        Log.d("UserInfo Saved", user.toString())
+        return user
     }
 }

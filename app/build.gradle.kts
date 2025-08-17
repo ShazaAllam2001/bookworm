@@ -95,6 +95,6 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.datastore.preferences)
     implementation(libs.play.services.auth)
+    implementation(libs.androidx.datastore)
 }
