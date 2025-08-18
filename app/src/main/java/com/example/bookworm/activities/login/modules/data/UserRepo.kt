@@ -3,6 +3,7 @@ package com.example.bookworm.activities.login.modules.data
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.bookworm.activities.login.LoginActivity
 import com.example.bookworm.activities.main.MainActivity
 import com.example.bookworm.activities.redirect.OAuthRedirectActivity
 import com.example.bookworm.sharedPref.data.PrefRepo
@@ -36,7 +37,7 @@ class UserRepo(private val context: Context) {
             val photoUrl = it.photoUrl
             Log.d("UserInfo", "uid: $uid, displayName: $displayName, email: $email, photoUrl: $photoUrl")
             // Save to DataStore
-            prefRepo.savePreferences(uid, displayName?:"", email?:"", photoUrl.toString(), token)
+            prefRepo.savePreferences(uid = uid, displayName = displayName?:"", email = email?:"", photoUrl = photoUrl.toString(), token = token)
             //Log.d("UserInfo Returned", prefRepo.readPreferences().toString())
             // Navigate to main screen
             context.startActivity(Intent(context, MainActivity::class.java))
@@ -45,5 +46,6 @@ class UserRepo(private val context: Context) {
 
     fun signOut() {
         Firebase.auth.signOut()
+        context.startActivity(Intent(context, LoginActivity::class.java))
     }
 }

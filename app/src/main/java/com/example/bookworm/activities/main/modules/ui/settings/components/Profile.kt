@@ -1,7 +1,6 @@
 package com.example.bookworm.activities.main.modules.ui.settings.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,43 +20,64 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.sharedPref.viewModel.PrefViewModel
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.coil.CoilImage
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun Profile(prefViewModel: PrefViewModel) {
-    var name by rememberSaveable { mutableStateOf("Alexander Hipp") }
+    var photo by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf("") }
     var editName by rememberSaveable { mutableStateOf(false) }
-    var email by rememberSaveable { mutableStateOf("alexandar@mail.com") }
+    var email  by rememberSaveable { mutableStateOf("") }
     var preference by rememberSaveable { mutableStateOf("") }
-    val preferences = remember { mutableStateListOf("Fiction", "Thriller") }
+    val preferences = remember { mutableStateListOf("") }
     var notify by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        val user = prefViewModel.readPreferences()
+        photo = user.photoUrl
+        name = user.displayName
+        email = user.email
+        notify = user.notify
+        preferences.clear()
+        preferences.addAll(user.preferences)
+    }
 
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            modifier = Modifier
-                .size(200.dp)
+        CoilImage(
+            modifier = Modifier.size(200.dp)
                 .clip(CircleShape),
-            painter = painterResource(R.drawable.alexander_unsplash),
-            contentDescription = "Profile Avatar"
+            imageModel = { photo },
+            loading = { LoadingIndicator() },
+            failure = { Text("Failed to load Profile Avatar") },
+            imageOptions = ImageOptions(
+                contentScale = ContentScale.Fit,
+                alignment = Alignment.Center
+            )
         )
         TextField(
             modifier = Modifier.fillMaxWidth(0.5f),
@@ -138,7 +158,9 @@ fun Profile(prefViewModel: PrefViewModel) {
             )
             Checkbox(
                 checked = notify,
-                onCheckedChange = { notify = it }
+                onCheckedChange = {
+                    notify = it
+                }
             )
         }
     }

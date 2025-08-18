@@ -15,10 +15,12 @@ class PrefRepo(private val context: Context) {
         displayName: String,
         email: String,
         photoUrl: String,
+        notify: Boolean = false,
         token: String
     ) {
         context.datastore.updateData {
-            it.copy(uid = uid, displayName = displayName, email = email, photoUrl = photoUrl, token = token)
+            it.copy(uid = uid, displayName = displayName, email = email,
+                photoUrl = photoUrl, notify = notify, token = token)
         }
     }
 

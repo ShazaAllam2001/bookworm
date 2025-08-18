@@ -31,7 +31,7 @@ class LibraryModel(
 
     init {
         viewModelScope.launch {
-            token = prefRepo.readPreferences().token ?: ""
+            token = prefRepo.readPreferences().token
             Log.d("token", token)
             fetchLibraries()
         }

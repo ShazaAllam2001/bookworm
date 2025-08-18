@@ -2,7 +2,9 @@ package com.example.bookworm.activities.main.modules.ui.settings
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.settings.components.Profile
-import com.example.bookworm.sharedPref.data.PrefRepo
 import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 
 
@@ -32,8 +33,7 @@ fun Settings(
             .background(MaterialTheme.colorScheme.background)
     ) {
         Text(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .padding(15.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -41,13 +41,19 @@ fun Settings(
             style = MaterialTheme.typography.titleLarge
         )
         Profile(prefViewModel = prefViewModel)
-        ElevatedButton(
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
-            onClick = {
-                userViewModel.signOut()
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth()
+                .padding(15.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(stringResource(R.string.sign_out))
+            ElevatedButton(
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+                onClick = {
+                    userViewModel.signOut()
+                }
+            ) {
+                Text(stringResource(R.string.sign_out))
+            }
         }
     }
 }
