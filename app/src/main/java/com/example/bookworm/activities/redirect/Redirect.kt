@@ -5,18 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.example.bookworm.activities.login.modules.data.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
-import com.example.bookworm.sharedPref.data.PrefRepo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.auth.auth
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import java.io.IOException
 
 
 class OAuthRedirectActivity : ComponentActivity() {
@@ -43,13 +36,6 @@ class OAuthRedirectActivity : ComponentActivity() {
             .addOnSuccessListener { authResult ->
                 val user = authResult.user
                 val credential = authResult.credential as? OAuthCredential
-
-                // Get the access token
-                credential?.accessToken?.let { accessToken ->
-                    Log.d("Auth", "Access Token: $accessToken")
-                    // Now you can use this accessToken with Google APIs
-                    searchBookshelves(accessToken)
-                }
                 userViewModel.handleAuthSuccess(user, credential)
             }
             .addOnFailureListener { e ->
@@ -59,27 +45,5 @@ class OAuthRedirectActivity : ComponentActivity() {
                     else -> Log.e("Error","Authentication failed: ${e.message}")
                 }
             }
-    }
-
-    private fun searchBookshelves(accessToken: String) {
-        val url = "https://www.googleapis.com/books/v1/mylibrary/bookshelves"
-
-        val client = OkHttpClient()
-        val request = Request.Builder()
-            .url(url)
-            .addHeader("Authorization", "Bearer $accessToken")
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("API", "Request failed: ${e.message}")
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                val responseData = response.body?.string()
-                Log.d("API", "Response: $responseData")
-                // Parse and handle the response
-            }
-        })
     }
 }

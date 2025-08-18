@@ -16,6 +16,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,18 +34,21 @@ import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.books.BookIdUiState
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
 
 @Composable
 fun BookDetails(
-    bookViewModel: BookModel = BookModel(),
+    bookViewModel: BookModel,
+    libraryViewModel: LibraryModel,
     navController: NavHostController = rememberNavController()
 ) {
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -54,7 +61,19 @@ fun BookDetails(
                     navController = navController,
                     bookTitle = book.volumeInfo.title
                 )
-                BookInfo(book = book)
+                BookInfo(
+                    book = book,
+                    onShowDialogChange = { showDialog = it }
+                )
+
+                if (showDialog) {
+                    AddToShelf(
+                       onDismiss = { showDialog = false },
+                        onAdd = { shelfId ->
+                            //libraryViewModel.
+                        }
+                    )
+                }
             }
             is BookIdUiState.Error ->
                 Text((bookViewModel.bookIdUiState as BookIdUiState.Error).msg ?: "")
@@ -97,7 +116,10 @@ fun BookTopBar(
 }
 
 @Composable
-fun BookInfo(book: BookItem) {
+fun BookInfo(
+    book: BookItem,
+    onShowDialogChange: (Boolean) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -132,7 +154,7 @@ fun BookInfo(book: BookItem) {
                 disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.5f),
             ),
             onClick = {
-
+                onShowDialogChange(true)
             }
         ) {
             Text(stringResource(R.string.add_to_shelf))

@@ -80,9 +80,14 @@ fun BottomNavGraph(navController: NavHostController) {
             val bookId = it.arguments?.getString("bookId")?:""
             val viewModel = BookModel(appLocale = currentLocale)
             viewModel.searchBookById(bookId)
+            val libraryViewModel = LibraryModel(
+                appLocale = currentLocale,
+                prefRepo = PrefRepo(context)
+            )
 
             BookDetails(
                 bookViewModel = viewModel,
+                libraryViewModel = libraryViewModel,
                 navController = navController
             )
         }

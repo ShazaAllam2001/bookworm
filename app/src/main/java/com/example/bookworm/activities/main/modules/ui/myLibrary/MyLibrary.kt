@@ -83,7 +83,7 @@ fun LibrariesList(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    navController.navigate("librarys/${index}")
+                    navController.navigate("librarys/${list[index].id}")
                 }
             ) {
                 MyLibraryRow(

@@ -30,16 +30,13 @@ class LibraryModel(
     val booksUiState: BooksUiState get() = _booksUiState
 
     init {
-        viewModelScope.launch {
-            token = prefRepo.readPreferences().token
-            Log.d("token", token)
-            fetchLibraries()
-        }
+        fetchLibraries()
     }
 
-    private fun fetchLibraries() {
+    fun fetchLibraries() {
         viewModelScope.launch {
             try {
+                token = prefRepo.readPreferences().token
                 val listResult = BooksApi.retrofitService.getMyBookshelves(
                     token = "Bearer $token",
                     apiKey = KEY
@@ -52,11 +49,12 @@ class LibraryModel(
         }
     }
 
-     fun getLibraryBooks(libraryId: Int) {
+     fun getLibraryBooks(shelfId: Int) {
          viewModelScope.launch {
              try {
+                 token = prefRepo.readPreferences().token
                  val listResult = BooksApi.retrofitService.getShelfBooks(
-                     shelfId = libraryId,
+                     shelfId = shelfId,
                      token = "Bearer $token",
                      apiKey = KEY
                  )
@@ -66,4 +64,20 @@ class LibraryModel(
              }
          }
      }
+
+    fun addBookToShelf(shelfId: Int, volumeId: String) {
+        viewModelScope.launch {
+            try {
+                val listResult = BooksApi.retrofitService.addBookToShelf(
+                    shelfId = shelfId,
+                    volumeId = volumeId,
+                    token = "Bearer $token",
+                    apiKey = KEY
+                )
+                //_booksUiState = BooksUiState.Success(listResult.items)
+            } catch (e: IOException) {
+                _booksUiState = BooksUiState.Error(e.message)
+            }
+        }
+    }
 }
