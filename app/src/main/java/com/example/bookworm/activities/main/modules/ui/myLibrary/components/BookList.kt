@@ -35,33 +35,40 @@ fun BookList(
     libraryId: Int,
     navController: NavHostController = rememberNavController()
 ) {
-
     Column(
         modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        val libraries = (libraryViewModel.librariesUiState as LibrariesUiState.Success).msg
-        libraries.filter { it.id == libraryId }
-        if (libraries.size == 1) {
-            BookListTopBar(
-                navController = navController,
-                libraryTitle = libraries[0].title
-            )
-            when (libraryViewModel.booksUiState) {
-                is BooksUiState.Loading ->
-                    LoadingIndicator()
-                is BooksUiState.Success -> {
-                    val books = (libraryViewModel.booksUiState as BooksUiState.Success).msg
-                    Books(
-                        library = libraries[0],
-                        books = books,
-                        navController = navController
+        when (libraryViewModel.librariesUiState) {
+            is LibrariesUiState.Loading ->
+                LoadingIndicator()
+            is LibrariesUiState.Success -> {
+                var libraries = (libraryViewModel.librariesUiState as LibrariesUiState.Success).msg
+                libraries = libraries.filter { it.id == libraryId }
+                if (libraries.size == 1) {
+                    BookListTopBar(
+                        navController = navController,
+                        libraryTitle = libraries[0].title
                     )
+                    when (libraryViewModel.booksUiState) {
+                        is BooksUiState.Loading ->
+                            LoadingIndicator()
+                        is BooksUiState.Success -> {
+                            val books = (libraryViewModel.booksUiState as BooksUiState.Success).msg
+                            Books(
+                                library = libraries[0],
+                                books = books,
+                                navController = navController
+                            )
+                        }
+                        is BooksUiState.Error ->
+                            Text((libraryViewModel.booksUiState as BooksUiState.Error).msg ?: "")
+                    }
                 }
-                is BooksUiState.Error ->
-                    Text((libraryViewModel.booksUiState as BooksUiState.Error).msg ?: "")
             }
+            is LibrariesUiState.Error ->
+                Text((libraryViewModel.librariesUiState as LibrariesUiState.Error).msg ?: "")
         }
     }
 }
@@ -79,9 +86,7 @@ fun BookListTopBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = {
-                    navController.popBackStack()
-                }
+                onClick = { navController.popBackStack() }
             ) {
                 Icon(
                     painter = painterResource(R.drawable.arrow_back_64dp),

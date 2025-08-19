@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,22 +39,24 @@ fun BookListRow(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
+            Column(
+                modifier = Modifier.padding(5.dp)
+            ) {
                 Text(
                     if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.labelMedium
                 )
                 Text(
                     book.volumeInfo.title,
                     color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.labelLarge
                 )
                 Text(
                     stringResource(
                         R.string.by,
                         if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
                     ),
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.labelMedium
                 )
             }
             CoilImage(

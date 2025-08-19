@@ -45,28 +45,17 @@ fun MyLibrary(
             text = stringResource(R.string.my_library),
             style = MaterialTheme.typography.titleLarge
         )
-        LibrariesState(
-            viewModel = viewModel,
-            navController = navController
-        )
-    }
-}
-
-@Composable
-fun LibrariesState(
-    viewModel: LibraryModel,
-    navController: NavHostController
-) {
-    when (viewModel.librariesUiState) {
-        is LibrariesUiState.Loading ->
-            LoadingIndicator()
-        is LibrariesUiState.Success ->
-            LibrariesList(
-                navController = navController,
-                list = (viewModel.librariesUiState as LibrariesUiState.Success).msg
-            )
-        is LibrariesUiState.Error ->
-            Text((viewModel.librariesUiState as LibrariesUiState.Error).msg ?: "")
+        when (viewModel.librariesUiState) {
+            is LibrariesUiState.Loading ->
+                LoadingIndicator()
+            is LibrariesUiState.Success ->
+                LibrariesList(
+                    navController = navController,
+                    list = (viewModel.librariesUiState as LibrariesUiState.Success).msg
+                )
+            is LibrariesUiState.Error ->
+                Text((viewModel.librariesUiState as LibrariesUiState.Error).msg ?: "")
+        }
     }
 }
 

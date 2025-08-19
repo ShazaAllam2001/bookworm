@@ -3,6 +3,7 @@ package com.example.bookworm.activities.main.modules.network
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksResponse
 import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
 import com.example.bookworm.activities.main.modules.viewModel.libraries.ShelvesResponse
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -52,7 +53,7 @@ interface BooksApiService {
         @Query("volumeId") volumeId: String,
         @Header("Authorization") token: String,
         @Query("key") apiKey: String
-    ): String
+    ): Response<Unit>
 
     @POST("mylibrary/bookshelves/{shelf}/removeVolume")
     suspend fun removeBookFromShelf(
@@ -60,14 +61,14 @@ interface BooksApiService {
         @Query("volumeId") volumeId: String,
         @Header("Authorization") token: String,
         @Query("key") apiKey: String
-    ): String
+    ): Response<Unit>
 
     @POST("mylibrary/bookshelves/{shelf}/clearVolumes")
     suspend fun removeAllBooksFromShelf(
         @Path("shelf") shelfId: Int,
         @Header("Authorization") token: String,
         @Query("key") apiKey: String
-    ): String
+    ): Response<Unit>
 }
 
 object BooksApi {

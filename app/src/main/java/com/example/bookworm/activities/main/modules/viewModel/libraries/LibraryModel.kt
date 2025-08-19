@@ -21,7 +21,6 @@ class LibraryModel(
     val appLocale: Locale = Locale("en"),
     val prefRepo: PrefRepo
 ) : ViewModel() {
-    private lateinit var token: String
 
     private var _librariesUiState: LibrariesUiState by mutableStateOf(LibrariesUiState.Loading)
     val librariesUiState: LibrariesUiState get() = _librariesUiState
@@ -29,14 +28,17 @@ class LibraryModel(
     private var _booksUiState: BooksUiState by mutableStateOf(BooksUiState.Loading)
     val booksUiState: BooksUiState get() = _booksUiState
 
+    private var _libraryModifyUiState: LibraryModifyUiState by mutableStateOf(LibraryModifyUiState.Loading)
+    val libraryModifyUiState: LibraryModifyUiState get() = _libraryModifyUiState
+
     init {
         fetchLibraries()
     }
 
-    fun fetchLibraries() {
+    private fun fetchLibraries() {
         viewModelScope.launch {
             try {
-                token = prefRepo.readPreferences().token
+                val token = prefRepo.readPreferences().token
                 val listResult = BooksApi.retrofitService.getMyBookshelves(
                     token = "Bearer $token",
                     apiKey = KEY
@@ -52,7 +54,7 @@ class LibraryModel(
      fun getLibraryBooks(shelfId: Int) {
          viewModelScope.launch {
              try {
-                 token = prefRepo.readPreferences().token
+                 val token = prefRepo.readPreferences().token
                  val listResult = BooksApi.retrofitService.getShelfBooks(
                      shelfId = shelfId,
                      token = "Bearer $token",
@@ -68,15 +70,16 @@ class LibraryModel(
     fun addBookToShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {
             try {
-                val listResult = BooksApi.retrofitService.addBookToShelf(
+                val token = prefRepo.readPreferences().token
+                BooksApi.retrofitService.addBookToShelf(
                     shelfId = shelfId,
                     volumeId = volumeId,
                     token = "Bearer $token",
                     apiKey = KEY
                 )
-                //_booksUiState = BooksUiState.Success(listResult.items)
+                _libraryModifyUiState = LibraryModifyUiState.Success("Book added successfully ✅")
             } catch (e: IOException) {
-                _booksUiState = BooksUiState.Error(e.message)
+                _libraryModifyUiState = LibraryModifyUiState.Error("Failed to add Book ❌ \\n ${e.message}")
             }
         }
     }

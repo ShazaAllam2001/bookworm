@@ -1,5 +1,8 @@
 package com.example.bookworm.activities.main.modules.ui.bookGrid.components
 
+import android.graphics.Typeface
+import android.widget.TextView
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,17 +19,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
@@ -35,6 +43,7 @@ import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.books.BookIdUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModifyUiState
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -46,6 +55,17 @@ fun BookDetails(
     navController: NavHostController = rememberNavController()
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    LaunchedEffect(libraryViewModel.libraryModifyUiState) {
+        when (libraryViewModel.libraryModifyUiState) {
+            is LibraryModifyUiState.Success ->
+                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Success).msg, Toast.LENGTH_SHORT).show()
+            is LibraryModifyUiState.Error ->
+                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Error).msg, Toast.LENGTH_SHORT).show()
+            else -> {}
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -68,10 +88,15 @@ fun BookDetails(
 
                 if (showDialog) {
                     AddToShelf(
-                       onDismiss = { showDialog = false },
-                        onAdd = { shelfId ->
-                            //libraryViewModel.
-                        }
+                        onDismiss = { showDialog = false },
+                        onAdd = { checkedShelves ->
+                            checkedShelves.forEach { (id, checked) ->
+                                if (checked) {
+                                    libraryViewModel.addBookToShelf(shelfId = id, volumeId = book.id)
+                                }
+                            }
+                        },
+                        libraryViewModel = libraryViewModel
                     )
                 }
             }
@@ -120,6 +145,9 @@ fun BookInfo(
     book: BookItem,
     onShowDialogChange: (Boolean) -> Unit
 ) {
+    val bodyStyle = MaterialTheme.typography.bodyMedium
+    val bodyColor = MaterialTheme.colorScheme.primary
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -142,9 +170,18 @@ fun BookInfo(
             ),
             style = MaterialTheme.typography.labelLarge
         )
-        Text(
-            book.volumeInfo.description?: "",
-            style = MaterialTheme.typography.bodyMedium
+        AndroidView(
+            factory = { context ->
+                TextView(context)
+            },
+            update = { textView ->
+                textView.text = HtmlCompat.fromHtml(
+                    book.volumeInfo.description?: "",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+                textView.textSize = bodyStyle.fontSize.value
+                textView.setTextColor(bodyColor.toArgb())
+            }
         )
         TextButton(
             colors = ButtonColors(
