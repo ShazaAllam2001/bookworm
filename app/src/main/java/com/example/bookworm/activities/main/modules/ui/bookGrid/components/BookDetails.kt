@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.main.modules.ui.bookGrid.components
 
-import android.graphics.Typeface
 import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -149,8 +148,7 @@ fun BookInfo(
     val bodyColor = MaterialTheme.colorScheme.primary
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .padding(10.dp)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally

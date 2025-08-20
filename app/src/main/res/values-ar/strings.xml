@@ -33,4 +33,7 @@
     <string name="login_with_google">تسجيل دخول بواسطة جوجل</string>
     <string name="sign_up_with_google">إنشاء حساب بواسطة جوجل</string>
     <string name="cancel">إلغاء</string>
+    <string name="clear_all_volumes">إزالة كل الكتب</string>
+    <string name="are_you_sure_you_want_to_clear_the_library_from_books">هل أنت متأكد من حذف جميع الكتب بالمكتبة؟</string>
+    <string name="confirm">تأكيد</string>
 </resources>

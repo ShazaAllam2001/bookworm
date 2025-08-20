@@ -38,6 +38,7 @@ class LibraryModel(
     private fun fetchLibraries() {
         viewModelScope.launch {
             try {
+                _librariesUiState = LibrariesUiState.Loading
                 val token = prefRepo.readPreferences().token
                 val listResult = BooksApi.retrofitService.getMyBookshelves(
                     token = "Bearer $token",
@@ -54,6 +55,7 @@ class LibraryModel(
      fun getLibraryBooks(shelfId: Int) {
          viewModelScope.launch {
              try {
+                 _booksUiState = BooksUiState.Loading
                  val token = prefRepo.readPreferences().token
                  val listResult = BooksApi.retrofitService.getShelfBooks(
                      shelfId = shelfId,
@@ -70,6 +72,7 @@ class LibraryModel(
     fun addBookToShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {
             try {
+                _libraryModifyUiState = LibraryModifyUiState.Loading
                 val token = prefRepo.readPreferences().token
                 BooksApi.retrofitService.addBookToShelf(
                     shelfId = shelfId,
@@ -83,4 +86,42 @@ class LibraryModel(
             }
         }
     }
+
+    fun removeBookFromShelf(shelfId: Int, volumeId: String) {
+        viewModelScope.launch {
+            try {
+                _libraryModifyUiState = LibraryModifyUiState.Loading
+                val token = prefRepo.readPreferences().token
+                BooksApi.retrofitService.removeBookFromShelf(
+                    shelfId = shelfId,
+                    volumeId = volumeId,
+                    token = "Bearer $token",
+                    apiKey = KEY
+                )
+                getLibraryBooks(shelfId = shelfId)
+                _libraryModifyUiState = LibraryModifyUiState.Success("Book removed successfully ✅")
+            } catch (e: IOException) {
+                _libraryModifyUiState = LibraryModifyUiState.Error("Failed to remove Book ❌ \\n ${e.message}")
+            }
+        }
+    }
+
+    fun removeAllBooksFromShelf(shelfId: Int) {
+        viewModelScope.launch {
+            try {
+                _libraryModifyUiState = LibraryModifyUiState.Loading
+                val token = prefRepo.readPreferences().token
+                BooksApi.retrofitService.removeAllBooksFromShelf(
+                    shelfId = shelfId,
+                    token = "Bearer $token",
+                    apiKey = KEY
+                )
+                getLibraryBooks(shelfId = shelfId)
+                _libraryModifyUiState = LibraryModifyUiState.Success("Library cleared successfully ✅")
+            } catch (e: IOException) {
+                _libraryModifyUiState = LibraryModifyUiState.Error("Failed to clear library ❌ \\n ${e.message}")
+            }
+        }
+    }
+
 }

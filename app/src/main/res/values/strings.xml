@@ -32,4 +32,7 @@
     <string name="login_with_google">Login with Google</string>
     <string name="sign_up_with_google">Sign Up with Google</string>
     <string name="cancel">Cancel</string>
+    <string name="clear_all_volumes">Clear All Volumes</string>
+    <string name="are_you_sure_you_want_to_clear_the_library_from_books">Are you sure you want to clear books from the library?</string>
+    <string name="confirm">Confirm</string>
 </resources>

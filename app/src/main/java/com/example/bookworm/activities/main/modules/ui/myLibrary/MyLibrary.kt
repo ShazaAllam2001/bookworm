@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,7 +52,7 @@ fun MyLibrary(
             is LibrariesUiState.Success ->
                 LibrariesList(
                     navController = navController,
-                    list = (viewModel.librariesUiState as LibrariesUiState.Success).msg
+                    libraries = (viewModel.librariesUiState as LibrariesUiState.Success).msg
                 )
             is LibrariesUiState.Error ->
                 Text((viewModel.librariesUiState as LibrariesUiState.Error).msg ?: "")
@@ -62,23 +63,23 @@ fun MyLibrary(
 @Composable
 fun LibrariesList(
     navController: NavHostController,
-    list: List<Shelf>
+    libraries: List<Shelf>
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
             .padding(10.dp)
     ) {
-        items(list.size) { index ->
+        items(libraries, key = { it.id }) { library ->
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    navController.navigate("librarys/${list[index].id}")
+                    navController.navigate("librarys/${library.id}")
                 }
             ) {
                 MyLibraryRow(
-                    icon = LibrariesMap[list[index].id] ?: R.drawable.book_2_64dp,
-                    name = list[index].title,
-                    numberOfBooks = list[index].volumeCount,
+                    icon = LibrariesMap[library.id] ?: R.drawable.book_2_64dp,
+                    name = library.title,
+                    numberOfBooks = library.volumeCount,
                 )
             }
             Spacer(modifier = Modifier.height(10.dp))

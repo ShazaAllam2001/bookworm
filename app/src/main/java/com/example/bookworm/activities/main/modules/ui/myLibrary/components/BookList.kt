@@ -1,31 +1,33 @@
 package com.example.bookworm.activities.main.modules.ui.myLibrary.components
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesUiState
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModifyUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.Shelf
 
 
@@ -35,8 +37,21 @@ fun BookList(
     libraryId: Int,
     navController: NavHostController = rememberNavController()
 ) {
+    val context = LocalContext.current
+
+    LaunchedEffect(libraryViewModel.libraryModifyUiState) {
+        when (libraryViewModel.libraryModifyUiState) {
+            is LibraryModifyUiState.Success ->
+                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Success).msg, Toast.LENGTH_SHORT).show()
+            is LibraryModifyUiState.Error ->
+                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Error).msg, Toast.LENGTH_SHORT).show()
+            else -> {}
+        }
+    }
+
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -49,16 +64,22 @@ fun BookList(
                 if (libraries.size == 1) {
                     BookListTopBar(
                         navController = navController,
-                        libraryTitle = libraries[0].title
+                        library = libraries[0]
                     )
                     when (libraryViewModel.booksUiState) {
                         is BooksUiState.Loading ->
                             LoadingIndicator()
                         is BooksUiState.Success -> {
                             val books = (libraryViewModel.booksUiState as BooksUiState.Success).msg
-                            Books(
-                                library = libraries[0],
+                            BooksListColumn(
                                 books = books,
+                                onItemDismissed = { dismissedItem ->
+                                    libraryViewModel.removeBookFromShelf(shelfId = libraries[0].id, volumeId = dismissedItem.id)
+                                },
+                                library = libraries[0],
+                                onClearLibrary = { library ->
+                                    libraryViewModel.removeAllBooksFromShelf(shelfId = library.id)
+                                },
                                 navController = navController
                             )
                         }
@@ -75,8 +96,8 @@ fun BookList(
 
 @Composable
 fun BookListTopBar(
-    navController: NavHostController,
-    libraryTitle: String
+    library: Shelf,
+    navController: NavHostController
 ) {
     Surface(
         modifier = Modifier.padding(15.dp),
@@ -95,32 +116,13 @@ fun BookListTopBar(
             }
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = libraryTitle,
+                text = library.title,
                 style = MaterialTheme.typography.titleLarge
             )
         }
     }
-}
-
-@Composable
-fun Books(
-    library: Shelf,
-    books: List<BookItem>,
-    navController: NavHostController
-) {
     Text(
-        stringResource(R.string.books, library.volumeCount),
+        text = stringResource(R.string.books, library.volumeCount),
         style = MaterialTheme.typography.titleMedium
     )
-    LazyColumn(
-        modifier = Modifier.padding(15.dp),
-    ) {
-        items(library.volumeCount) { index ->
-            BookListRow(
-                navController = navController,
-                book = books[index]
-            )
-        }
-    }
 }
-
