@@ -45,7 +45,7 @@ interface BooksApiService {
         @Path("shelf") shelfId: Int,
         @Header("Authorization") token: String,
         @Query("key") apiKey: String
-    ): BooksResponse
+    ): Response<BooksResponse>
 
     @POST("mylibrary/bookshelves/{shelf}/addVolume")
     suspend fun addBookToShelf(

@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.ui.myLibrary.components
+package com.example.bookworm.activities.main.modules.ui.myLibrary.components.libraryBooks
 
 import android.widget.Toast
 import androidx.compose.foundation.background

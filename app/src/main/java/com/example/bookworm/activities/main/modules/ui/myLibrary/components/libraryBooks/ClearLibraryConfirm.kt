@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.main.modules.ui.myLibrary.components
+package com.example.bookworm.activities.main.modules.ui.myLibrary.components.libraryBooks
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

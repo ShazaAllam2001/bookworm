@@ -62,7 +62,7 @@ class LibraryModel(
                      token = "Bearer $token",
                      apiKey = KEY
                  )
-                 _booksUiState = BooksUiState.Success(listResult.items)
+                 _booksUiState = BooksUiState.Success(listResult.body()!!.items)
              } catch (e: IOException) {
                  _booksUiState = BooksUiState.Error(e.message)
              }

@@ -23,10 +23,10 @@ class BookModel(val appLocale: Locale = Locale("en")) : ViewModel() {
     val bookIdUiState: BookIdUiState get() = _bookIdUiState
 
     init {
-        fetchBooks()
+        fetchBooksForYou()
     }
 
-    private fun fetchBooks() {
+    private fun fetchBooksForYou() {
         viewModelScope.launch {
             try {
                 val listResult = BooksApi.retrofitService.getBooks(

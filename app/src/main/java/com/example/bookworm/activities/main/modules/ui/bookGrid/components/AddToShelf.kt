@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,8 +23,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesMap
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,16 +48,18 @@ fun AddToShelf(
                 is LibrariesUiState.Success -> {
                     val libraries = (libraryViewModel.librariesUiState as LibrariesUiState.Success).msg
                     LazyColumn {
-                        items(libraries.size) { index ->
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Checkbox(
-                                    modifier = Modifier.padding(2.dp),
-                                    checked = preferences[libraries[index].id] == true,
-                                    onCheckedChange = { preferences[libraries[index].id] = it }
-                                )
-                                Text(libraries[index].title)
+                        items(libraries, key = { it.id }) { library ->
+                            if (LibrariesMap[library.id]?.second == LibraryType.ADD_REMOVE) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Checkbox(
+                                        modifier = Modifier.padding(2.dp),
+                                        checked = preferences[library.id] == true,
+                                        onCheckedChange = { preferences[library.id] = it }
+                                    )
+                                    Text(library.title)
+                                }
                             }
                         }
                     }

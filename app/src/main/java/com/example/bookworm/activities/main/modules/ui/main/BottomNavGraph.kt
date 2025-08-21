@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.main.modules.ui.main
 
-import android.util.Log
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
@@ -13,7 +12,7 @@ import androidx.navigation.navArgument
 import com.example.bookworm.activities.login.modules.data.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.bookGrid.components.BookDetails
-import com.example.bookworm.activities.main.modules.ui.myLibrary.components.BookList
+import com.example.bookworm.activities.main.modules.ui.myLibrary.components.libraryBooks.BookList
 import com.example.bookworm.activities.main.modules.ui.explore.Explore
 import com.example.bookworm.activities.main.modules.ui.foryou.ForYou
 import com.example.bookworm.activities.main.modules.ui.myLibrary.MyLibrary
@@ -103,7 +102,6 @@ fun BottomNavGraph(navController: NavHostController) {
                 prefRepo = PrefRepo(context)
             )
             libraryViewModel.getLibraryBooks(libraryId)
-
 
             BookList(
                 libraryViewModel = libraryViewModel,

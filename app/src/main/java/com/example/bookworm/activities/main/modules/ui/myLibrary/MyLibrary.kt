@@ -77,7 +77,7 @@ fun LibrariesList(
                 }
             ) {
                 MyLibraryRow(
-                    icon = LibrariesMap[library.id] ?: R.drawable.book_2_64dp,
+                    icon = LibrariesMap[library.id]?.first ?: R.drawable.book_2_64dp,
                     name = library.title,
                     numberOfBooks = library.volumeCount,
                 )
