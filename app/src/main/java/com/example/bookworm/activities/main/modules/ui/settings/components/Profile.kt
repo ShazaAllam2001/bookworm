@@ -5,8 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -33,7 +31,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
@@ -140,17 +137,14 @@ fun Profile(
                 focusedContainerColor = MaterialTheme.colorScheme.onSecondary
             )
         )
-        LazyColumn(
-            modifier = Modifier.padding(top = 15.dp)
-        ) {
-            items(categories.size) { index ->
-                Text(
-                    categories[index],
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.SemiBold
-                )
+        PreferencesColumn(
+            categories = categories,
+            onItemDismissed = { category ->
+                categories.remove(category)
+                prefViewModel.saveCategories(categories)
+                updateForYou()
             }
-        }
+        )
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {

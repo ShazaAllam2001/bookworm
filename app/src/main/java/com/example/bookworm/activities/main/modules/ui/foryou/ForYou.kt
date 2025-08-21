@@ -15,8 +15,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -52,7 +56,12 @@ fun ForYou(
                 .padding(15.dp),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            text = stringResource(R.string.for_name, name),
+            text = buildAnnotatedString {
+                append(stringResource(R.string.for_name))
+                withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
+                    append(" $name")
+                }
+            },
             style = MaterialTheme.typography.titleLarge
         )
         when (viewModel.booksUiState) {
@@ -67,7 +76,7 @@ fun ForYou(
                             .padding(15.dp),
                         text = stringResource(R.string.pick_your_preferences_from_settings),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
                 else {

@@ -71,6 +71,10 @@ fun BookList(
                             LoadingIndicator()
                         is BooksUiState.Success -> {
                             val books = (libraryViewModel.booksUiState as BooksUiState.Success).msg
+                            Text(
+                                text = stringResource(R.string.books, libraries[0].volumeCount),
+                                style = MaterialTheme.typography.titleMedium
+                            )
                             BooksListColumn(
                                 books = books,
                                 onItemDismissed = { dismissedItem ->
@@ -121,8 +125,4 @@ fun BookListTopBar(
             )
         }
     }
-    Text(
-        text = stringResource(R.string.books, library.volumeCount),
-        style = MaterialTheme.typography.titleMedium
-    )
 }

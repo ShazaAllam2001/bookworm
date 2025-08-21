@@ -36,8 +36,14 @@ class UserRepo(private val context: Context) {
             val email = it.email
             val photoUrl = it.photoUrl
             Log.d("UserInfo", "uid: $uid, displayName: $displayName, email: $email, photoUrl: $photoUrl")
+            // Read from Datastore
+            val preferences = prefRepo.readPreferences()
+            val categories = preferences.categories
+            val notify = preferences.notify
+            val name = if (preferences.displayName == "") displayName else preferences.displayName
             // Save to DataStore
-            prefRepo.savePreferences(uid = uid, displayName = displayName?:"", email = email?:"", photoUrl = photoUrl.toString(), token = token)
+            prefRepo.savePreferences(uid = uid, displayName = name?:"", email = email?:"",
+                photoUrl = photoUrl.toString(), categories = categories, notify = notify, token = token)
             //Log.d("UserInfo Returned", prefRepo.readPreferences().toString())
             // Navigate to main screen
             context.startActivity(Intent(context, MainActivity::class.java))

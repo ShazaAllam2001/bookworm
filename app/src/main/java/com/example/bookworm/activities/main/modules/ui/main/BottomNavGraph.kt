@@ -34,6 +34,7 @@ fun BottomNavGraph(navController: NavHostController) {
     val context = LocalContext.current
     val currentLocale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
     var updateForYou by rememberSaveable { mutableStateOf(false) }
+    var updateLibrary by rememberSaveable { mutableStateOf(false) }
 
     val bookViewModel = BookModel(
         appLocale = currentLocale,
@@ -76,6 +77,10 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(route = BottomBarScreen.MyLibrary.route) {
+            if (updateLibrary) {
+                libraryViewModel.fetchLibraries()
+                updateLibrary = false
+            }
             MyLibrary(
                 viewModel = libraryViewModel,
                 navController = navController
@@ -100,6 +105,7 @@ fun BottomNavGraph(navController: NavHostController) {
             BookDetails(
                 bookViewModel = bookViewModel,
                 libraryViewModel = libraryViewModel,
+                updateLibrary = { updateLibrary = true },
                 navController = navController
             )
         }

@@ -2,14 +2,14 @@ package com.example.bookworm.activities.main.modules.ui.bookGrid.components
 
 import android.widget.TextView
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -18,12 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
@@ -63,26 +58,6 @@ fun BookInfo(
             ),
             style = MaterialTheme.typography.labelLarge
         )
-        Row {
-            Icon(
-                painter = painterResource(R.drawable.baseline_star_rate_48),
-                contentDescription = "Rating"
-            )
-            Text(
-                buildAnnotatedString {
-                    append("Average Rating of ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append("${book.volumeInfo.averageRating ?: "_"}")
-                    }
-                    append(" from ")
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append("${book.volumeInfo.ratingsCount ?: "_"}")
-                    }
-                    append(" Reviewers")
-                },
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
         AndroidView(
             factory = { context ->
                 TextView(context)
@@ -96,6 +71,7 @@ fun BookInfo(
                 textView.setTextColor(bodyColor.toArgb())
             }
         )
+        Spacer(modifier = Modifier.height(5.dp))
         TextButton(
             colors = ButtonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,

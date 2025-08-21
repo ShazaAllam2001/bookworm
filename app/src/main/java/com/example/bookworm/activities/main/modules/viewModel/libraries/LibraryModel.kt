@@ -35,7 +35,7 @@ class LibraryModel(
         fetchLibraries()
     }
 
-    private fun fetchLibraries() {
+    fun fetchLibraries() {
         viewModelScope.launch {
             try {
                 _librariesUiState = LibrariesUiState.Loading
@@ -62,7 +62,7 @@ class LibraryModel(
                      token = "Bearer $token",
                      apiKey = KEY
                  )
-                 _booksUiState = BooksUiState.Success(listResult.body()!!.items)
+                 _booksUiState = BooksUiState.Success(listResult.body()?.items ?: emptyList())
              } catch (e: IOException) {
                  _booksUiState = BooksUiState.Error(e.message)
              }
@@ -98,6 +98,7 @@ class LibraryModel(
                     token = "Bearer $token",
                     apiKey = KEY
                 )
+                fetchLibraries()
                 getLibraryBooks(shelfId = shelfId)
                 _libraryModifyUiState = LibraryModifyUiState.Success("Book removed successfully ✅")
             } catch (e: IOException) {
@@ -116,6 +117,7 @@ class LibraryModel(
                     token = "Bearer $token",
                     apiKey = KEY
                 )
+                fetchLibraries()
                 getLibraryBooks(shelfId = shelfId)
                 _libraryModifyUiState = LibraryModifyUiState.Success("Library cleared successfully ✅")
             } catch (e: IOException) {
