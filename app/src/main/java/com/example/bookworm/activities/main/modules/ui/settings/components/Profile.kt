@@ -43,13 +43,16 @@ import com.skydoves.landscapist.coil.CoilImage
 
 
 @Composable
-fun Profile(prefViewModel: PrefViewModel) {
+fun Profile(
+    prefViewModel: PrefViewModel,
+    updateForYou: () -> Unit
+) {
     var photo by rememberSaveable { mutableStateOf("") }
     var name by rememberSaveable { mutableStateOf("") }
     var editName by rememberSaveable { mutableStateOf(false) }
     var email  by rememberSaveable { mutableStateOf("") }
-    var preference by rememberSaveable { mutableStateOf("") }
-    val preferences = remember { mutableStateListOf("") }
+    var category by rememberSaveable { mutableStateOf("") }
+    val categories = remember { mutableStateListOf("") }
     var notify by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -58,8 +61,8 @@ fun Profile(prefViewModel: PrefViewModel) {
         name = user.displayName
         email = user.email
         notify = user.notify
-        preferences.clear()
-        preferences.addAll(user.preferences)
+        categories.clear()
+        categories.addAll(user.categories)
     }
 
     Column(
@@ -87,7 +90,7 @@ fun Profile(prefViewModel: PrefViewModel) {
                 Icon(
                     modifier = Modifier.clickable{
                         editName = !editName
-                        // edit name in the database
+                        prefViewModel.saveName(name)
                     },
                     imageVector = if (editName) Icons.Filled.Done else Icons.Filled.Edit,
                     contentDescription = "Edit name"
@@ -101,7 +104,6 @@ fun Profile(prefViewModel: PrefViewModel) {
             ),
             shape = RoundedCornerShape(50)
         )
-
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -116,17 +118,19 @@ fun Profile(prefViewModel: PrefViewModel) {
             )
         )
         OutlinedTextField(
-            value = preference,
-            onValueChange = { preference = it },
+            value = category,
+            onValueChange = { category = it },
             label = { Text(stringResource(R.string.preference)) },
             trailingIcon = {
                 Icon(
                     modifier = Modifier.clickable{
-                        preferences.add(preference)
-                        // add preference in the database
+                        categories.add(category)
+                        category = ""
+                        prefViewModel.saveCategories(categories)
+                        updateForYou()
                     },
                     imageVector = Icons.Filled.Done,
-                    contentDescription = "Add preference "
+                    contentDescription = "Add Category"
                 )
             },
             colors = TextFieldDefaults.colors(
@@ -139,9 +143,9 @@ fun Profile(prefViewModel: PrefViewModel) {
         LazyColumn(
             modifier = Modifier.padding(top = 15.dp)
         ) {
-            items(preferences.size) { index ->
+            items(categories.size) { index ->
                 Text(
-                    preferences[index],
+                    categories[index],
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -158,6 +162,7 @@ fun Profile(prefViewModel: PrefViewModel) {
                 checked = notify,
                 onCheckedChange = {
                     notify = it
+                    prefViewModel.saveNotify(notify)
                 }
             )
         }

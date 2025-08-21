@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.settings.components.Profile
+import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 
 
 @Composable
 fun Settings(
     userViewModel: UserViewModel,
-    prefViewModel: PrefViewModel
+    prefViewModel: PrefViewModel,
+    updateForYou: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -40,7 +42,10 @@ fun Settings(
             text = stringResource(R.string.settings),
             style = MaterialTheme.typography.titleLarge
         )
-        Profile(prefViewModel = prefViewModel)
+        Profile(
+            prefViewModel = prefViewModel,
+            updateForYou = updateForYou
+        )
         Row(
             modifier = Modifier.fillMaxWidth()
                 .padding(15.dp),

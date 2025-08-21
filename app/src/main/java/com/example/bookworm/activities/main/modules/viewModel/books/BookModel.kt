@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookworm.BuildConfig
 import com.example.bookworm.activities.main.modules.network.BooksApi
+import com.example.bookworm.sharedPref.data.PrefRepo
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.Locale
@@ -14,7 +15,10 @@ import java.util.Locale
 
 private const val KEY = BuildConfig.API_KEY
 
-class BookModel(val appLocale: Locale = Locale("en")) : ViewModel() {
+class BookModel(
+    val appLocale: Locale = Locale("en"),
+    val prefRepo: PrefRepo
+) : ViewModel() {
 
     private var _booksUiState: BooksUiState by mutableStateOf(BooksUiState.Loading)
     val booksUiState: BooksUiState get() = _booksUiState
@@ -26,14 +30,20 @@ class BookModel(val appLocale: Locale = Locale("en")) : ViewModel() {
         fetchBooksForYou()
     }
 
-    private fun fetchBooksForYou() {
+    fun fetchBooksForYou() {
         viewModelScope.launch {
             try {
-                val listResult = BooksApi.retrofitService.getBooks(
-                    searchTerms = "twilight+intitle",
-                    lang = appLocale.language,
-                    apiKey = KEY)
-                _booksUiState = BooksUiState.Success(listResult.items)
+                val categories = prefRepo.readPreferences().categories
+                val mergedBooksResult = mutableListOf<BookItem>()
+                categories.forEach { category ->
+                    val listResult = BooksApi.retrofitService.getBooks(
+                        searchTerms = "$category+subject",
+                        lang = appLocale.language,
+                        apiKey = KEY)
+                    mergedBooksResult.addAll(listResult.items)
+                }
+                mergedBooksResult.shuffle()
+                _booksUiState = BooksUiState.Success(mergedBooksResult)
             } catch (e: IOException) {
                 _booksUiState = BooksUiState.Error(e.message)
             }

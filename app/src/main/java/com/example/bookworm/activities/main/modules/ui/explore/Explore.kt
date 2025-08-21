@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.main.modules.ui.explore
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -38,7 +36,7 @@ import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 
 @Composable
 fun Explore(
-    viewModel: BookModel = BookModel(),
+    viewModel: BookModel,
     navController: NavHostController = rememberNavController()
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
@@ -78,7 +76,7 @@ fun Explore(
 
 @Composable
 fun SearchField(
-    viewModel: BookModel = BookModel(),
+    viewModel: BookModel,
     searchText: String,
     onChangeText: (String) -> Unit
 ) {
@@ -111,13 +109,4 @@ fun SearchField(
             )
         }
     }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun ExplorePreview() {
-    Explore()
 }

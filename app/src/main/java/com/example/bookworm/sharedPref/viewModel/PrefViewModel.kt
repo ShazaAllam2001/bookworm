@@ -10,21 +10,36 @@ import kotlinx.coroutines.launch
 class PrefViewModel(private val prefRepo: PrefRepo): ViewModel() {
     private lateinit var user: User
 
-    suspend fun savePreferences(
+    fun savePreferences(
         uid: String,
         displayName: String,
         email: String,
         photoUrl: String,
+        categories: List<String> = emptyList(),
         notify: Boolean = false,
         token: String
     ) {
-       prefRepo.savePreferences(uid, displayName, email, photoUrl, notify, token)
+        viewModelScope.launch {
+            prefRepo.savePreferences(uid, displayName, email, photoUrl, categories, notify, token)
+        }
     }
 
-    suspend fun saveNotify(
-        notify: Boolean = false
-    ) {
-        prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, notify, user.token)
+    fun saveName(displayName: String) {
+        viewModelScope.launch {
+            prefRepo.savePreferences(user.uid, displayName, user.email, user.photoUrl, user.categories, user.notify, user.token)
+        }
+    }
+
+    fun saveCategories(categories: List<String>) {
+        viewModelScope.launch {
+            prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, categories, user.notify, user.token)
+        }
+    }
+
+    fun saveNotify(notify: Boolean = false) {
+        viewModelScope.launch {
+            prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, user.categories, notify, user.token)
+        }
     }
 
     suspend fun readPreferences(): User {

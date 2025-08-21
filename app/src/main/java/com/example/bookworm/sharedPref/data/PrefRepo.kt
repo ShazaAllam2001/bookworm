@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.dataStore
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
 
 
 private val Context.datastore by dataStore("user.json", UserPreferencesSerializer)
@@ -15,12 +14,13 @@ class PrefRepo(private val context: Context) {
         displayName: String,
         email: String,
         photoUrl: String,
+        categories: List<String> = emptyList(),
         notify: Boolean = false,
         token: String
     ) {
         context.datastore.updateData {
-            it.copy(uid = uid, displayName = displayName, email = email,
-                photoUrl = photoUrl, notify = notify, token = token)
+            it.copy(uid = uid, displayName = displayName, email = email, photoUrl = photoUrl,
+                categories = categories, notify = notify, token = token)
         }
     }
 

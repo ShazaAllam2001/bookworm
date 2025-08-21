@@ -35,4 +35,6 @@
     <string name="clear_all_volumes">Clear All Volumes</string>
     <string name="are_you_sure_you_want_to_clear_the_library_from_books">Are you sure you want to clear books from the library?</string>
     <string name="confirm">Confirm</string>
+    <string name="pick_your_preferences_from_settings">Pick your Preferences from Settings</string>
+    <string name="for_name">For %1$s</string>
 </resources>

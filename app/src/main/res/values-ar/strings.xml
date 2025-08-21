@@ -36,4 +36,6 @@
     <string name="clear_all_volumes">إزالة كل الكتب</string>
     <string name="are_you_sure_you_want_to_clear_the_library_from_books">هل أنت متأكد من حذف جميع الكتب بالمكتبة؟</string>
     <string name="confirm">تأكيد</string>
+    <string name="pick_your_preferences_from_settings">اختار تفضيلاتك من الإهدادات</string>
+    <string name="for_name">%1$sمقترح ل</string>
 </resources>
