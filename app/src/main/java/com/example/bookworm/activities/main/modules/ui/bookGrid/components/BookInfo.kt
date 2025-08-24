@@ -1,6 +1,7 @@
 package com.example.bookworm.activities.main.modules.ui.bookGrid.components
 
 import android.widget.TextView
+import android.widget.ScrollView
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.example.bookworm.R
+import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
@@ -43,35 +46,53 @@ fun BookInfo(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CoilImage(
-            modifier = Modifier.fillMaxWidth()
-                .weight(1f),
+            modifier = Modifier.weight(3f)
+                .padding(5.dp),
             imageModel = { book.volumeInfo.imageLinks?.thumbnail },
+            loading = { LoadingIndicator() },
+            failure = { Text("Failed to load image") },
             imageOptions = ImageOptions(
                 contentScale = ContentScale.Fit,
                 alignment = Alignment.Center
             )
         )
         Text(
-            stringResource(
+            text = book.volumeInfo.title,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.labelMedium
+        )
+        Text(
+            text = stringResource(
                 R.string.by,
                 if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
             ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.labelLarge
         )
-        AndroidView(
-            factory = { context ->
-                TextView(context)
-            },
-            update = { textView ->
-                textView.text = HtmlCompat.fromHtml(
-                    book.volumeInfo.description?: "",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
-                textView.textSize = bodyStyle.fontSize.value
-                textView.setTextColor(bodyColor.toArgb())
-            }
-        )
-        Spacer(modifier = Modifier.height(5.dp))
+        Column(
+            modifier = Modifier.fillMaxWidth()
+                .weight(4f)
+                .padding(5.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AndroidView(
+                factory = { context ->
+                    TextView(context)
+                },
+                update = { textView ->
+                    textView.text = HtmlCompat.fromHtml(
+                        book.volumeInfo.description?: "",
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
+                    textView.textSize = bodyStyle.fontSize.value
+                    textView.setTextColor(bodyColor.toArgb())
+                }
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
         TextButton(
             colors = ButtonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,

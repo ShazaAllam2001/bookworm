@@ -37,4 +37,6 @@
     <string name="confirm">Confirm</string>
     <string name="pick_your_preferences_from_settings">Pick your Preferences from Settings</string>
     <string name="for_name">For </string>
+    <string name="book_added_successfully">Book added successfully ✅</string>
+    <string name="books_removed_successfully">Books removed successfully ✅</string>
 </resources>

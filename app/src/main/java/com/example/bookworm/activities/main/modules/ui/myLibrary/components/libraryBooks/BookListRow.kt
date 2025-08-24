@@ -85,8 +85,7 @@ fun BookListRow(
     navController: NavHostController
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth()
-            .fillMaxHeight(0.2f),
+        modifier = Modifier.fillMaxWidth(),
         onClick = {
             navController.navigate("books/${book.id}")
         }
@@ -97,7 +96,8 @@ fun BookListRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
-                modifier = Modifier.padding(5.dp)
+                modifier = Modifier.weight(2f)
+                    .padding(start = 10.dp)
             ) {
                 Text(
                     if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],

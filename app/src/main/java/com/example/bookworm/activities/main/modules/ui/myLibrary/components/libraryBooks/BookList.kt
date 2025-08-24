@@ -42,7 +42,8 @@ fun BookList(
     LaunchedEffect(libraryViewModel.libraryModifyUiState) {
         when (libraryViewModel.libraryModifyUiState) {
             is LibraryModifyUiState.Success ->
-                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Success).msg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,
+                    context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
             is LibraryModifyUiState.Error ->
                 Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Error).msg, Toast.LENGTH_SHORT).show()
             else -> {}

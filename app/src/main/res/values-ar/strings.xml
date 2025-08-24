@@ -38,4 +38,6 @@
     <string name="confirm">تأكيد</string>
     <string name="pick_your_preferences_from_settings">اختار تفضيلاتك من الإهدادات</string>
     <string name="for_name">مقترح ل </string>
+    <string name="book_added_successfully">تمت إضافة الكتاب بنجاح ✅</string>
+    <string name="books_removed_successfully">تمت حذف الكتب بنجاح ✅</string>
 </resources>

@@ -80,9 +80,9 @@ class LibraryModel(
                     token = "Bearer $token",
                     apiKey = KEY
                 )
-                _libraryModifyUiState = LibraryModifyUiState.Success("Book added successfully ✅")
+                _libraryModifyUiState = LibraryModifyUiState.Success
             } catch (e: IOException) {
-                _libraryModifyUiState = LibraryModifyUiState.Error("Failed to add Book ❌ \\n ${e.message}")
+                _libraryModifyUiState = LibraryModifyUiState.Error(e.message)
             }
         }
     }
@@ -100,9 +100,9 @@ class LibraryModel(
                 )
                 fetchLibraries()
                 getLibraryBooks(shelfId = shelfId)
-                _libraryModifyUiState = LibraryModifyUiState.Success("Book removed successfully ✅")
+                _libraryModifyUiState = LibraryModifyUiState.Success
             } catch (e: IOException) {
-                _libraryModifyUiState = LibraryModifyUiState.Error("Failed to remove Book ❌ \\n ${e.message}")
+                _libraryModifyUiState = LibraryModifyUiState.Error(e.message)
             }
         }
     }
@@ -119,9 +119,9 @@ class LibraryModel(
                 )
                 fetchLibraries()
                 getLibraryBooks(shelfId = shelfId)
-                _libraryModifyUiState = LibraryModifyUiState.Success("Library cleared successfully ✅")
+                _libraryModifyUiState = LibraryModifyUiState.Success
             } catch (e: IOException) {
-                _libraryModifyUiState = LibraryModifyUiState.Error("Failed to clear library ❌ \\n ${e.message}")
+                _libraryModifyUiState = LibraryModifyUiState.Error(e.message)
             }
         }
     }

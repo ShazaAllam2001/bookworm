@@ -47,7 +47,7 @@ fun BooksListColumn(
     ) {
         LazyColumn(
             modifier = Modifier.padding(15.dp)
-                .weight(0.8f),
+                .weight(9f),
         ) {
             items(books, key = { it.id }) { book ->
                 if (LibrariesMap[library.id]?.second == LibraryType.ADD_REMOVE ||
@@ -78,7 +78,7 @@ fun BooksListColumn(
             )
             IconButton(
                 modifier = Modifier.fillMaxWidth()
-                    .weight(0.1f),
+                    .weight(1f),
                 onClick = { showDialog = true }
             ) {
                 Row(
