@@ -20,6 +20,8 @@ class UserViewModel(private val userRepo: UserRepo): ViewModel() {
     }
 
     fun signOut() {
-        userRepo.signOut()
+        viewModelScope.launch {
+            userRepo.signOut()
+        }
     }
 }

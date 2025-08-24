@@ -50,8 +50,12 @@ class UserRepo(private val context: Context) {
         }
     }
 
-    fun signOut() {
+    suspend fun signOut() {
         Firebase.auth.signOut()
+        prefRepo = PrefRepo(context)
+        val user = prefRepo.readPreferences()
+        prefRepo.savePreferences(uid = user.uid, displayName = user.displayName, email = user.email,
+            photoUrl = user.photoUrl, categories = user.categories, notify = user.notify, token = "")
         context.startActivity(Intent(context, LoginActivity::class.java))
     }
 }
