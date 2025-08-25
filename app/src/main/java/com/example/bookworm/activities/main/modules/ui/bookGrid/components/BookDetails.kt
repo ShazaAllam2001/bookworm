@@ -31,7 +31,7 @@ import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.books.BookIdUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
-import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModifyUiState
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryAddUiState
 
 
 @Composable
@@ -44,13 +44,13 @@ fun BookDetails(
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
 
-    LaunchedEffect(libraryViewModel.libraryModifyUiState) {
-        when (libraryViewModel.libraryModifyUiState) {
-            is LibraryModifyUiState.Success ->
+    LaunchedEffect(libraryViewModel.libraryAddUiState) {
+        when (libraryViewModel.libraryAddUiState) {
+            is LibraryAddUiState.Success ->
                 Toast.makeText(context,
                     context.getString(R.string.book_added_successfully), Toast.LENGTH_SHORT).show()
-            is LibraryModifyUiState.Error ->
-                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Error).msg, Toast.LENGTH_SHORT).show()
+            is LibraryAddUiState.Error ->
+                Toast.makeText(context, (libraryViewModel.libraryAddUiState as LibraryAddUiState.Error).msg, Toast.LENGTH_SHORT).show()
             else -> {}
         }
     }

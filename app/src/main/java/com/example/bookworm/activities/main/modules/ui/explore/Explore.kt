@@ -106,11 +106,25 @@ fun SearchField(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch =  { viewModel.searchBooks(searchText) }
+                onSearch =  {
+                    if (searchText != "") {
+                        viewModel.searchBooks(searchText)
+                    }
+                    else {
+                        viewModel.fetchBooksForYou()
+                    }
+                }
             )
         )
         IconButton(
-            onClick = { viewModel.searchBooks(searchText) }
+            onClick = {
+                if (searchText != "") {
+                    viewModel.searchBooks(searchText)
+                }
+                else {
+                    viewModel.fetchBooksForYou()
+                }
+            }
         ) {
             Icon(
                 painter = painterResource(R.drawable.baseline_search_24),

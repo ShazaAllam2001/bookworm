@@ -36,7 +36,11 @@ fun BottomNavGraph(navController: NavHostController) {
     var updateForYou by rememberSaveable { mutableStateOf(false) }
     var updateLibrary by rememberSaveable { mutableStateOf(false) }
 
-    val bookViewModel = BookModel(
+    val forYouBookViewModel = BookModel(
+        appLocale = currentLocale,
+        prefRepo = PrefRepo(context)
+    )
+    val exploreBookViewModel = BookModel(
         appLocale = currentLocale,
         prefRepo = PrefRepo(context)
     )
@@ -57,22 +61,20 @@ fun BottomNavGraph(navController: NavHostController) {
     ) {
         composable(route = BottomBarScreen.ForYou.route) {
             if (updateForYou) {
-                bookViewModel.fetchBooksForYou()
+                forYouBookViewModel.fetchBooksForYou()
                 updateForYou = false
             }
             ForYou(
-                viewModel = bookViewModel,
+                viewModel = forYouBookViewModel,
                 prefViewModel = prefViewModel,
                 navController = navController
             )
         }
         composable(route = BottomBarScreen.Explore.route) {
-            if (updateForYou) {
-                bookViewModel.fetchBooksForYou()
-                updateForYou = false
-            }
+            exploreBookViewModel.fetchBooksForYou()
+
             Explore(
-                viewModel = bookViewModel,
+                viewModel = exploreBookViewModel,
                 navController = navController
             )
         }
@@ -100,10 +102,10 @@ fun BottomNavGraph(navController: NavHostController) {
             })
         ) {
             val bookId = it.arguments?.getString("bookId")?:""
-            bookViewModel.searchBookById(bookId)
+            exploreBookViewModel.searchBookById(bookId)
 
             BookDetails(
-                bookViewModel = bookViewModel,
+                bookViewModel = exploreBookViewModel,
                 libraryViewModel = libraryViewModel,
                 updateLibrary = { updateLibrary = true },
                 navController = navController

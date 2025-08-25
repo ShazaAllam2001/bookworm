@@ -27,7 +27,7 @@ import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesUiState
-import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModifyUiState
+import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryRemoveUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.Shelf
 
 
@@ -39,13 +39,13 @@ fun BookList(
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(libraryViewModel.libraryModifyUiState) {
-        when (libraryViewModel.libraryModifyUiState) {
-            is LibraryModifyUiState.Success ->
+    LaunchedEffect(libraryViewModel.libraryRemoveUiState) {
+        when (libraryViewModel.libraryRemoveUiState) {
+            is LibraryRemoveUiState.Success ->
                 Toast.makeText(context,
                     context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
-            is LibraryModifyUiState.Error ->
-                Toast.makeText(context, (libraryViewModel.libraryModifyUiState as LibraryModifyUiState.Error).msg, Toast.LENGTH_SHORT).show()
+            is LibraryRemoveUiState.Error ->
+                Toast.makeText(context, (libraryViewModel.libraryRemoveUiState as LibraryRemoveUiState.Error).msg, Toast.LENGTH_SHORT).show()
             else -> {}
         }
     }

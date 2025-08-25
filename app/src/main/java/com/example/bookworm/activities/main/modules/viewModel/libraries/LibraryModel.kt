@@ -28,8 +28,11 @@ class LibraryModel(
     private var _booksUiState: BooksUiState by mutableStateOf(BooksUiState.Loading)
     val booksUiState: BooksUiState get() = _booksUiState
 
-    private var _libraryModifyUiState: LibraryModifyUiState by mutableStateOf(LibraryModifyUiState.Loading)
-    val libraryModifyUiState: LibraryModifyUiState get() = _libraryModifyUiState
+    private var _libraryAddUiState: LibraryAddUiState by mutableStateOf(LibraryAddUiState.Loading)
+    val libraryAddUiState: LibraryAddUiState get() = _libraryAddUiState
+
+    private var _libraryRemoveUiState: LibraryRemoveUiState by mutableStateOf(LibraryRemoveUiState.Loading)
+    val libraryRemoveUiState: LibraryRemoveUiState get() = _libraryRemoveUiState
 
     init {
         fetchLibraries()
@@ -72,7 +75,7 @@ class LibraryModel(
     fun addBookToShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {
             try {
-                _libraryModifyUiState = LibraryModifyUiState.Loading
+                _libraryAddUiState = LibraryAddUiState.Loading
                 val token = prefRepo.readPreferences().token
                 BooksApi.retrofitService.addBookToShelf(
                     shelfId = shelfId,
@@ -80,9 +83,9 @@ class LibraryModel(
                     token = "Bearer $token",
                     apiKey = KEY
                 )
-                _libraryModifyUiState = LibraryModifyUiState.Success
+                _libraryAddUiState = LibraryAddUiState.Success
             } catch (e: IOException) {
-                _libraryModifyUiState = LibraryModifyUiState.Error(e.message)
+                _libraryAddUiState = LibraryAddUiState.Error(e.message)
             }
         }
     }
@@ -90,7 +93,7 @@ class LibraryModel(
     fun removeBookFromShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {
             try {
-                _libraryModifyUiState = LibraryModifyUiState.Loading
+                _libraryRemoveUiState = LibraryRemoveUiState.Loading
                 val token = prefRepo.readPreferences().token
                 BooksApi.retrofitService.removeBookFromShelf(
                     shelfId = shelfId,
@@ -100,9 +103,9 @@ class LibraryModel(
                 )
                 fetchLibraries()
                 getLibraryBooks(shelfId = shelfId)
-                _libraryModifyUiState = LibraryModifyUiState.Success
+                _libraryRemoveUiState = LibraryRemoveUiState.Success
             } catch (e: IOException) {
-                _libraryModifyUiState = LibraryModifyUiState.Error(e.message)
+                _libraryRemoveUiState = LibraryRemoveUiState.Error(e.message)
             }
         }
     }
@@ -110,7 +113,7 @@ class LibraryModel(
     fun removeAllBooksFromShelf(shelfId: Int) {
         viewModelScope.launch {
             try {
-                _libraryModifyUiState = LibraryModifyUiState.Loading
+                _libraryRemoveUiState = LibraryRemoveUiState.Loading
                 val token = prefRepo.readPreferences().token
                 BooksApi.retrofitService.removeAllBooksFromShelf(
                     shelfId = shelfId,
@@ -119,9 +122,9 @@ class LibraryModel(
                 )
                 fetchLibraries()
                 getLibraryBooks(shelfId = shelfId)
-                _libraryModifyUiState = LibraryModifyUiState.Success
+                _libraryRemoveUiState = LibraryRemoveUiState.Success
             } catch (e: IOException) {
-                _libraryModifyUiState = LibraryModifyUiState.Error(e.message)
+                _libraryRemoveUiState = LibraryRemoveUiState.Error(e.message)
             }
         }
     }
