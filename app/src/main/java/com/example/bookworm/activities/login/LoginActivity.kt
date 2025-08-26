@@ -1,5 +1,6 @@
 package com.example.bookworm.activities.login
 
+import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,7 +31,9 @@ class LoginActivity : ComponentActivity() {
                 prefRepo = PrefRepo(context)
             )
             val user = prefViewModel.readPreferences()
-            if (user.token != "") {
+            val currentTimeSeconds = System.currentTimeMillis() / 1000
+            Log.d("Auth", "Current Time: $currentTimeSeconds, Expiration Time: ${user.expirationTimeStamp}")
+            if (user.token != "" && currentTimeSeconds < user.expirationTimeStamp) {
                 startActivity(Intent(context, MainActivity::class.java))
             }
         }

@@ -8,5 +8,6 @@ data class User(
     val photoUrl: String = "",
     val notify: Boolean = false,
     val categories: List<String> = emptyList(),
-    val token: String = ""
+    val token: String = "",
+    val expirationTimeStamp: Long = 0
 )

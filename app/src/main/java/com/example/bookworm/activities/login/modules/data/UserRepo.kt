@@ -21,12 +21,13 @@ class UserRepo(private val context: Context) {
         context.startActivity(intent)
     }
 
-    suspend fun handleAuthSuccess(user: FirebaseUser?, credential: OAuthCredential?) {
+    suspend fun handleAuthSuccess(user: FirebaseUser?, credential: OAuthCredential?, expirationTime: Long) {
         prefRepo = PrefRepo(context)
 
         var token = ""
         credential?.accessToken?.let { accessToken ->
             Log.d("Auth", "Access Token: $accessToken")
+            Log.d("Auth", "Expires At: $expirationTime")
             token = accessToken
         }
         user?.let {
@@ -43,7 +44,8 @@ class UserRepo(private val context: Context) {
             val name = if (preferences.displayName == "") displayName else preferences.displayName
             // Save to DataStore
             prefRepo.savePreferences(uid = uid, displayName = name?:"", email = email?:"",
-                photoUrl = photoUrl.toString(), categories = categories, notify = notify, token = token)
+                photoUrl = photoUrl.toString(), categories = categories, notify = notify,
+                token = token, expirationTimeStamp = expirationTime)
             //Log.d("UserInfo Returned", prefRepo.readPreferences().toString())
             // Navigate to main screen
             context.startActivity(Intent(context, MainActivity::class.java))
@@ -55,7 +57,8 @@ class UserRepo(private val context: Context) {
         prefRepo = PrefRepo(context)
         val user = prefRepo.readPreferences()
         prefRepo.savePreferences(uid = user.uid, displayName = user.displayName, email = user.email,
-            photoUrl = user.photoUrl, categories = user.categories, notify = user.notify, token = "")
+            photoUrl = user.photoUrl, categories = user.categories, notify = user.notify,
+            token = "", expirationTimeStamp = 0)
         context.startActivity(Intent(context, LoginActivity::class.java))
     }
 }

@@ -11,6 +11,7 @@ import com.example.bookworm.activities.main.modules.network.BooksApi
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
 import com.example.bookworm.sharedPref.data.PrefRepo
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.io.IOException
 import java.util.Locale
 
@@ -34,6 +35,9 @@ class LibraryModel(
     private var _libraryRemoveUiState: LibraryRemoveUiState by mutableStateOf(LibraryRemoveUiState.Loading)
     val libraryRemoveUiState: LibraryRemoveUiState get() = _libraryRemoveUiState
 
+    private var _libraryCheckUiState: LibraryCheckUiState by mutableStateOf(LibraryCheckUiState.Loading)
+    val libraryCheckUiState: LibraryCheckUiState get() = _libraryCheckUiState
+
     init {
         fetchLibraries()
     }
@@ -47,9 +51,10 @@ class LibraryModel(
                     token = "Bearer $token",
                     apiKey = KEY
                 )
-                Log.d("Libraries", listResult.toString())
                 _librariesUiState = LibrariesUiState.Success(listResult.items)
             } catch (e: IOException) {
+                _librariesUiState = LibrariesUiState.Error(e.message)
+            } catch (e: HttpException) {
                 _librariesUiState = LibrariesUiState.Error(e.message)
             }
         }
@@ -68,9 +73,38 @@ class LibraryModel(
                  _booksUiState = BooksUiState.Success(listResult.body()?.items ?: emptyList())
              } catch (e: IOException) {
                  _booksUiState = BooksUiState.Error(e.message)
+             } catch (e: HttpException) {
+                 _booksUiState = BooksUiState.Error(e.message)
              }
          }
      }
+
+    fun isBookInLibrary(shelfId: Int, volumeId: String) {
+        viewModelScope.launch {
+            try {
+                _libraryCheckUiState = LibraryCheckUiState.Loading
+                getLibraryBooks(shelfId)
+                if (booksUiState is BooksUiState.Success) {
+                    val books = (booksUiState as BooksUiState.Success).msg
+                    Log.d("Books", books.toString())
+                    _libraryCheckUiState = LibraryCheckUiState.Success(false)
+                    /*if (books.isEmpty()) {
+                        _libraryCheckUiState = LibraryCheckUiState.Success(false)
+                    }
+                    else {
+                        for (book in books) {
+                            if (book.id == volumeId)
+                                _libraryCheckUiState = LibraryCheckUiState.Success(true)
+                            else if (book == books.last())
+                                _libraryCheckUiState = LibraryCheckUiState.Success(false)
+                        }
+                    }*/
+                }
+            } catch (e: IOException) {
+                _libraryCheckUiState = LibraryCheckUiState.Error(e.message)
+            }
+        }
+    }
 
     fun addBookToShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {
@@ -85,6 +119,8 @@ class LibraryModel(
                 )
                 _libraryAddUiState = LibraryAddUiState.Success
             } catch (e: IOException) {
+                _libraryAddUiState = LibraryAddUiState.Error(e.message)
+            } catch (e: HttpException) {
                 _libraryAddUiState = LibraryAddUiState.Error(e.message)
             }
         }
@@ -106,6 +142,8 @@ class LibraryModel(
                 _libraryRemoveUiState = LibraryRemoveUiState.Success
             } catch (e: IOException) {
                 _libraryRemoveUiState = LibraryRemoveUiState.Error(e.message)
+            } catch (e: HttpException) {
+                _libraryRemoveUiState = LibraryRemoveUiState.Error(e.message)
             }
         }
     }
@@ -124,6 +162,8 @@ class LibraryModel(
                 getLibraryBooks(shelfId = shelfId)
                 _libraryRemoveUiState = LibraryRemoveUiState.Success
             } catch (e: IOException) {
+                _libraryRemoveUiState = LibraryRemoveUiState.Error(e.message)
+            } catch (e: HttpException) {
                 _libraryRemoveUiState = LibraryRemoveUiState.Error(e.message)
             }
         }

@@ -17,28 +17,32 @@ class PrefViewModel(private val prefRepo: PrefRepo): ViewModel() {
         photoUrl: String,
         categories: List<String> = emptyList(),
         notify: Boolean = false,
-        token: String
+        token: String,
+        expirationTimeStamp: Long
     ) {
         viewModelScope.launch {
-            prefRepo.savePreferences(uid, displayName, email, photoUrl, categories, notify, token)
+            prefRepo.savePreferences(uid, displayName, email, photoUrl, categories, notify, token, expirationTimeStamp)
         }
     }
 
     fun saveName(displayName: String) {
         viewModelScope.launch {
-            prefRepo.savePreferences(user.uid, displayName, user.email, user.photoUrl, user.categories, user.notify, user.token)
+            prefRepo.savePreferences(user.uid, displayName, user.email, user.photoUrl, user.categories, user.notify,
+                user.token, user.expirationTimeStamp)
         }
     }
 
     fun saveCategories(categories: List<String>) {
         viewModelScope.launch {
-            prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, categories, user.notify, user.token)
+            prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, categories, user.notify,
+                user.token, user.expirationTimeStamp)
         }
     }
 
     fun saveNotify(notify: Boolean = false) {
         viewModelScope.launch {
-            prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, user.categories, notify, user.token)
+            prefRepo.savePreferences(user.uid, user.displayName, user.email, user.photoUrl, user.categories, notify,
+                user.token, user.expirationTimeStamp)
         }
     }
 

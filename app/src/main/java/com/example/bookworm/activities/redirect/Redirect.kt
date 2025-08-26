@@ -36,7 +36,10 @@ class OAuthRedirectActivity : ComponentActivity() {
             .addOnSuccessListener { authResult ->
                 val user = authResult.user
                 val credential = authResult.credential as? OAuthCredential
-                userViewModel.handleAuthSuccess(user, credential)
+                user?.getIdToken(true)?.addOnSuccessListener { result ->
+                    val expirationTime = result.expirationTimestamp
+                    userViewModel.handleAuthSuccess(user, credential, expirationTime)
+                }
             }
             .addOnFailureListener { e ->
                 when (e) {

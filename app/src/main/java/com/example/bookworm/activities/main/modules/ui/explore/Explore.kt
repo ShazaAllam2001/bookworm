@@ -13,10 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,8 +38,6 @@ fun Explore(
     viewModel: BookModel,
     navController: NavHostController = rememberNavController()
 ) {
-    var searchText by rememberSaveable { mutableStateOf("") }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,8 +54,8 @@ fun Explore(
         )
         SearchField(
             viewModel = viewModel,
-            searchText = searchText,
-            onChangeText = { searchText = it }
+            searchText = viewModel.searchText,
+            onChangeText = { viewModel.searchText = it }
         )
         when (viewModel.booksUiState) {
             is BooksUiState.Loading ->

@@ -13,9 +13,9 @@ class UserViewModel(private val userRepo: UserRepo): ViewModel() {
         userRepo.launchAuthBrowser()
     }
 
-    fun handleAuthSuccess(user: FirebaseUser?, credential: OAuthCredential?) {
+    fun handleAuthSuccess(user: FirebaseUser?, credential: OAuthCredential?, expirationTime: Long) {
         viewModelScope.launch {
-            userRepo.handleAuthSuccess(user, credential)
+            userRepo.handleAuthSuccess(user, credential, expirationTime)
         }
     }
 

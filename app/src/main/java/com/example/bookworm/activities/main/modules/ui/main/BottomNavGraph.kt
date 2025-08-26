@@ -71,8 +71,6 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(route = BottomBarScreen.Explore.route) {
-            exploreBookViewModel.fetchBooksForYou()
-
             Explore(
                 viewModel = exploreBookViewModel,
                 navController = navController
