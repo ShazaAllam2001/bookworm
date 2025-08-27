@@ -3,8 +3,10 @@ package com.example.bookworm.activities.redirect
 import android.util.Log
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import com.example.bookworm.activities.login.modules.data.UserRepo
+import com.example.bookworm.activities.login.modules.data.fireauth.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
+import com.example.bookworm.activities.login.modules.data.firestore.DataRepo
+import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.OAuthCredential
@@ -18,7 +20,9 @@ class OAuthRedirectActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         userViewModel = UserViewModel(
-            userRepo = UserRepo(this)
+            userRepo = UserRepo(this),
+            prefRepo = PrefRepo(this),
+            dataRepo = DataRepo()
         )
 
         val auth = Firebase.auth

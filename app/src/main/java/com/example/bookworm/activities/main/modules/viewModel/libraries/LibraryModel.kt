@@ -1,6 +1,5 @@
 package com.example.bookworm.activities.main.modules.viewModel.libraries
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.bookworm.BuildConfig
 import com.example.bookworm.activities.main.modules.network.BooksApi
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
-import com.example.bookworm.sharedPref.data.PrefRepo
+import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -34,9 +33,6 @@ class LibraryModel(
 
     private var _libraryRemoveUiState: LibraryRemoveUiState by mutableStateOf(LibraryRemoveUiState.Loading)
     val libraryRemoveUiState: LibraryRemoveUiState get() = _libraryRemoveUiState
-
-    private var _libraryCheckUiState: LibraryCheckUiState by mutableStateOf(LibraryCheckUiState.Loading)
-    val libraryCheckUiState: LibraryCheckUiState get() = _libraryCheckUiState
 
     init {
         fetchLibraries()
@@ -78,33 +74,6 @@ class LibraryModel(
              }
          }
      }
-
-    fun isBookInLibrary(shelfId: Int, volumeId: String) {
-        viewModelScope.launch {
-            try {
-                _libraryCheckUiState = LibraryCheckUiState.Loading
-                getLibraryBooks(shelfId)
-                if (booksUiState is BooksUiState.Success) {
-                    val books = (booksUiState as BooksUiState.Success).msg
-                    Log.d("Books", books.toString())
-                    _libraryCheckUiState = LibraryCheckUiState.Success(false)
-                    /*if (books.isEmpty()) {
-                        _libraryCheckUiState = LibraryCheckUiState.Success(false)
-                    }
-                    else {
-                        for (book in books) {
-                            if (book.id == volumeId)
-                                _libraryCheckUiState = LibraryCheckUiState.Success(true)
-                            else if (book == books.last())
-                                _libraryCheckUiState = LibraryCheckUiState.Success(false)
-                        }
-                    }*/
-                }
-            } catch (e: IOException) {
-                _libraryCheckUiState = LibraryCheckUiState.Error(e.message)
-            }
-        }
-    }
 
     fun addBookToShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {

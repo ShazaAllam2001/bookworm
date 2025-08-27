@@ -29,20 +29,26 @@ import com.example.bookworm.activities.main.modules.ui.bookGrid.BookGrid
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
+import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 
 
 @Composable
 fun ForYou(
-    viewModel: BookModel,
-    prefViewModel: PrefViewModel,
+    bookViewModel: BookModel,
+    userViewModel: UserViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     var name by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(Unit) {
-        val user = prefViewModel.readPreferences()
-        name = user.displayName
+    LaunchedEffect(userViewModel.userData) {
+        val uid = userViewModel.readPreferences().uid
+        if (userViewModel.userData == null) {
+            userViewModel.readUser(uid)
+        }
+        else {
+            name = userViewModel.userData!!.displayName
+            bookViewModel.fetchBooksForYou(userViewModel.userData!!.categories)
+        }
     }
 
     Column(
@@ -64,11 +70,11 @@ fun ForYou(
             },
             style = MaterialTheme.typography.titleLarge
         )
-        when (viewModel.booksUiState) {
+        when (bookViewModel.booksUiState) {
             is BooksUiState.Loading ->
                 LoadingIndicator()
             is BooksUiState.Success -> {
-                val books = (viewModel.booksUiState as BooksUiState.Success).msg
+                val books = (bookViewModel.booksUiState as BooksUiState.Success).msg
                 if (books.isEmpty()) {
                     Text(
                         modifier = Modifier
@@ -87,7 +93,7 @@ fun ForYou(
                 }
             }
             is BooksUiState.Error ->
-                Text((viewModel.booksUiState as BooksUiState.Error).msg ?: "")
+                Text((bookViewModel.booksUiState as BooksUiState.Error).msg ?: "")
         }
     }
 }

@@ -6,9 +6,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.bookworm.activities.login.modules.data.UserRepo
+import com.example.bookworm.activities.login.modules.data.fireauth.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
-import com.example.bookworm.sharedPref.data.PrefRepo
+import com.example.bookworm.activities.login.modules.data.firestore.DataRepo
+import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 
 
 @SuppressLint("ViewModelConstructorInComposable")
@@ -26,7 +27,9 @@ fun LoginNavGraph(navController: NavHostController) {
         composable(route = Screens.Login.route) {
             LogIn(
                 userViewModel = UserViewModel(
-                    userRepo = UserRepo(context)
+                    userRepo = UserRepo(context),
+                    prefRepo = PrefRepo(context),
+                    dataRepo = DataRepo()
                 )
             )
         }

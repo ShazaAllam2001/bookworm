@@ -21,12 +21,18 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
+import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.bookGrid.BookGrid
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
@@ -35,9 +41,23 @@ import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
 
 @Composable
 fun Explore(
-    viewModel: BookModel,
+    bookViewModel: BookModel,
+    userViewModel: UserViewModel,
     navController: NavHostController = rememberNavController()
 ) {
+    var categories: List<String> by rememberSaveable { mutableStateOf(emptyList()) }
+
+    LaunchedEffect(userViewModel.userData) {
+        val uid = userViewModel.readPreferences().uid
+        if (userViewModel.userData == null) {
+            userViewModel.readUser(uid)
+        }
+        else {
+            categories = userViewModel.userData!!.categories
+            bookViewModel.fetchBooksForYou(categories)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,27 +73,29 @@ fun Explore(
             style = MaterialTheme.typography.titleLarge
         )
         SearchField(
-            viewModel = viewModel,
-            searchText = viewModel.searchText,
-            onChangeText = { viewModel.searchText = it }
+            bookViewModel = bookViewModel,
+            categories = categories,
+            searchText = bookViewModel.searchText,
+            onChangeText = { bookViewModel.searchText = it }
         )
-        when (viewModel.booksUiState) {
+        when (bookViewModel.booksUiState) {
             is BooksUiState.Loading ->
                 LoadingIndicator()
             is BooksUiState.Success ->
                 BookGrid(
                     navController = navController,
-                    bookList = (viewModel.booksUiState as BooksUiState.Success).msg
+                    bookList = (bookViewModel.booksUiState as BooksUiState.Success).msg
                 )
             is BooksUiState.Error ->
-                Text((viewModel.booksUiState as BooksUiState.Error).msg ?: "")
+                Text((bookViewModel.booksUiState as BooksUiState.Error).msg ?: "")
         }
     }
 }
 
 @Composable
 fun SearchField(
-    viewModel: BookModel,
+    bookViewModel: BookModel,
+    categories: List<String>,
     searchText: String,
     onChangeText: (String) -> Unit
 ) {
@@ -102,10 +124,12 @@ fun SearchField(
             keyboardActions = KeyboardActions(
                 onSearch =  {
                     if (searchText != "") {
-                        viewModel.searchBooks(searchText)
+                        bookViewModel.searchBooks(searchText)
                     }
                     else {
-                        viewModel.fetchBooksForYou()
+                        if (categories.isNotEmpty()) {
+                            bookViewModel.fetchBooksForYou(categories)
+                        }
                     }
                 }
             )
@@ -113,10 +137,12 @@ fun SearchField(
         IconButton(
             onClick = {
                 if (searchText != "") {
-                    viewModel.searchBooks(searchText)
+                    bookViewModel.searchBooks(searchText)
                 }
                 else {
-                    viewModel.fetchBooksForYou()
+                    if (categories.isNotEmpty()) {
+                        bookViewModel.fetchBooksForYou(categories)
+                    }
                 }
             }
         ) {

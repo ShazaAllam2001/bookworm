@@ -15,8 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.activities.login.modules.ui.LoginNavGraph
 import com.example.bookworm.activities.main.MainActivity
-import com.example.bookworm.sharedPref.data.PrefRepo
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
+import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 import com.example.bookworm.ui.theme.BookWormTheme
 import kotlinx.coroutines.launch
 
@@ -27,10 +26,8 @@ class LoginActivity : ComponentActivity() {
 
         val context = this
         lifecycleScope.launch {
-            val prefViewModel = PrefViewModel(
-                prefRepo = PrefRepo(context)
-            )
-            val user = prefViewModel.readPreferences()
+            val prefRepo = PrefRepo(context)
+            val user = prefRepo.readPreferences()
             val currentTimeSeconds = System.currentTimeMillis() / 1000
             Log.d("Auth", "Current Time: $currentTimeSeconds, Expiration Time: ${user.expirationTimeStamp}")
             if (user.token != "" && currentTimeSeconds < user.expirationTimeStamp) {

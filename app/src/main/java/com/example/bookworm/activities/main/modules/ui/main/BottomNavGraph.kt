@@ -13,7 +13,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookworm.activities.login.modules.data.UserRepo
+import com.example.bookworm.activities.login.modules.data.fireauth.UserRepo
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.bookGrid.components.BookDetails
 import com.example.bookworm.activities.main.modules.ui.myLibrary.components.libraryBooks.BookList
@@ -23,8 +23,8 @@ import com.example.bookworm.activities.main.modules.ui.myLibrary.MyLibrary
 import com.example.bookworm.activities.main.modules.ui.settings.Settings
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
-import com.example.bookworm.sharedPref.data.PrefRepo
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
+import com.example.bookworm.activities.login.modules.data.firestore.DataRepo
+import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 import java.util.Locale
 
 
@@ -33,26 +33,23 @@ import java.util.Locale
 fun BottomNavGraph(navController: NavHostController) {
     val context = LocalContext.current
     val currentLocale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
-    var updateForYou by rememberSaveable { mutableStateOf(false) }
+    var updateForYou by rememberSaveable { mutableStateOf(true) }
     var updateLibrary by rememberSaveable { mutableStateOf(false) }
 
     val forYouBookViewModel = BookModel(
-        appLocale = currentLocale,
-        prefRepo = PrefRepo(context)
+        appLocale = currentLocale
     )
     val exploreBookViewModel = BookModel(
-        appLocale = currentLocale,
-        prefRepo = PrefRepo(context)
+        appLocale = currentLocale
     )
     val libraryViewModel = LibraryModel(
         appLocale = currentLocale,
         prefRepo = PrefRepo(context)
     )
     val userViewModel = UserViewModel(
-        userRepo = UserRepo(context)
-    )
-    val prefViewModel = PrefViewModel(
-        prefRepo = PrefRepo(context)
+        userRepo = UserRepo(context),
+        prefRepo = PrefRepo(context),
+        dataRepo = DataRepo()
     )
 
     NavHost(
@@ -60,19 +57,16 @@ fun BottomNavGraph(navController: NavHostController) {
         startDestination = BottomBarScreen.ForYou.route
     ) {
         composable(route = BottomBarScreen.ForYou.route) {
-            if (updateForYou) {
-                forYouBookViewModel.fetchBooksForYou()
-                updateForYou = false
-            }
             ForYou(
-                viewModel = forYouBookViewModel,
-                prefViewModel = prefViewModel,
+                bookViewModel = forYouBookViewModel,
+                userViewModel = userViewModel,
                 navController = navController
             )
         }
         composable(route = BottomBarScreen.Explore.route) {
             Explore(
-                viewModel = exploreBookViewModel,
+                bookViewModel = forYouBookViewModel,
+                userViewModel = userViewModel,
                 navController = navController
             )
         }
@@ -89,7 +83,6 @@ fun BottomNavGraph(navController: NavHostController) {
         composable(route = BottomBarScreen.Settings.route) {
             Settings(
                 userViewModel = userViewModel,
-                prefViewModel = prefViewModel,
                 updateForYou = { updateForYou = true }
             )
         }

@@ -33,17 +33,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
 
 @Composable
 fun Profile(
-    prefViewModel: PrefViewModel,
+    userViewModel: UserViewModel,
     updateForYou: () -> Unit
 ) {
+    var uid by rememberSaveable { mutableStateOf("") }
     var photo by rememberSaveable { mutableStateOf("") }
     var name by rememberSaveable { mutableStateOf("") }
     var editName by rememberSaveable { mutableStateOf(false) }
@@ -52,14 +53,20 @@ fun Profile(
     val categories = remember { mutableStateListOf("") }
     var notify by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        val user = prefViewModel.readPreferences()
+    LaunchedEffect(userViewModel.userData) {
+        val user = userViewModel.readPreferences()
         photo = user.photoUrl
-        name = user.displayName
         email = user.email
-        notify = user.notify
-        categories.clear()
-        categories.addAll(user.categories)
+        uid = user.uid
+        if (userViewModel.userData == null) {
+            userViewModel.readUser(user.uid)
+        }
+        else {
+            name = userViewModel.userData!!.displayName
+            notify = userViewModel.userData!!.notify
+            categories.clear()
+            categories.addAll(userViewModel.userData!!.categories)
+        }
     }
 
     Column(
@@ -87,7 +94,8 @@ fun Profile(
                 Icon(
                     modifier = Modifier.clickable{
                         editName = !editName
-                        prefViewModel.saveName(name)
+                        if (uid != "")
+                            userViewModel.saveName(uid, name)
                     },
                     imageVector = if (editName) Icons.Filled.Done else Icons.Filled.Edit,
                     contentDescription = "Edit name"
@@ -123,7 +131,8 @@ fun Profile(
                     modifier = Modifier.clickable{
                         categories.add(category)
                         category = ""
-                        prefViewModel.saveCategories(categories)
+                        if (uid != "")
+                            userViewModel.saveCategories(uid, categories)
                         updateForYou()
                     },
                     imageVector = Icons.Filled.Done,
@@ -141,7 +150,8 @@ fun Profile(
             categories = categories,
             onItemDismissed = { category ->
                 categories.remove(category)
-                prefViewModel.saveCategories(categories)
+                if (uid != "")
+                    userViewModel.saveCategories(uid, categories)
                 updateForYou()
             }
         )
@@ -156,7 +166,8 @@ fun Profile(
                 checked = notify,
                 onCheckedChange = {
                     notify = it
-                    prefViewModel.saveNotify(notify)
+                    if (uid != "")
+                        userViewModel.saveNotify(uid, notify)
                 }
             )
         }

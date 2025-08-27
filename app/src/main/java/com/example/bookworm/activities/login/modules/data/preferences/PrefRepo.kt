@@ -1,4 +1,4 @@
-package com.example.bookworm.sharedPref.data
+package com.example.bookworm.activities.login.modules.data.preferences
 
 import android.content.Context
 import android.util.Log
@@ -11,22 +11,18 @@ private val Context.datastore by dataStore("user.json", UserPreferencesSerialize
 class PrefRepo(private val context: Context) {
     suspend fun savePreferences(
         uid: String,
-        displayName: String,
         email: String,
         photoUrl: String,
-        categories: List<String> = emptyList(),
-        notify: Boolean = false,
         token: String,
         expirationTimeStamp: Long
     ) {
         context.datastore.updateData {
-            it.copy(uid = uid, displayName = displayName, email = email, photoUrl = photoUrl,
-                categories = categories, notify = notify, token = token, expirationTimeStamp = expirationTimeStamp)
+            it.copy(uid = uid, email = email, photoUrl = photoUrl, token = token, expirationTimeStamp = expirationTimeStamp)
         }
     }
 
-    suspend fun readPreferences(): User {
-        val user: User = context.datastore.data.first()
+    suspend fun readPreferences(): UserPref {
+        val user: UserPref = context.datastore.data.first()
         Log.d("UserInfo Saved", user.toString())
         return user
     }

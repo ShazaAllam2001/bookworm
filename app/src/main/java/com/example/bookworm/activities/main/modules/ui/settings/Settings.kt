@@ -19,14 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.activities.main.modules.ui.settings.components.Profile
-import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
-import com.example.bookworm.sharedPref.viewModel.PrefViewModel
 
 
 @Composable
 fun Settings(
     userViewModel: UserViewModel,
-    prefViewModel: PrefViewModel,
     updateForYou: () -> Unit
 ) {
     Column(
@@ -43,7 +40,7 @@ fun Settings(
             style = MaterialTheme.typography.titleLarge
         )
         Profile(
-            prefViewModel = prefViewModel,
+            userViewModel = userViewModel,
             updateForYou = updateForYou
         )
         Row(

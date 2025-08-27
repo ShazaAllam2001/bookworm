@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.googleid)
     implementation(libs.androidx.credentials)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
