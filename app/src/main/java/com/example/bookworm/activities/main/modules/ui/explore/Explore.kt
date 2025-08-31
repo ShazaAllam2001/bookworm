@@ -15,7 +15,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Icon
@@ -37,6 +36,7 @@ import com.example.bookworm.activities.main.modules.ui.bookGrid.BookGrid
 import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
 import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -66,7 +66,7 @@ fun Explore(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp),
+                .padding(MaterialTheme.dimens.paddingMedium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             text = stringResource(R.string.explore),
@@ -100,7 +100,7 @@ fun SearchField(
     onChangeText: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier.padding(10.dp),
+        modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TextField(
@@ -117,7 +117,7 @@ fun SearchField(
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent
             ),
-            shape = RoundedCornerShape(15.dp),
+            shape = RoundedCornerShape(MaterialTheme.dimens.roundCorner),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Search
             ),

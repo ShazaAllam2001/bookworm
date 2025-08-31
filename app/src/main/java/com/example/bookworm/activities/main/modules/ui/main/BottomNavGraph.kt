@@ -25,6 +25,7 @@ import com.example.bookworm.activities.main.modules.viewModel.books.BookModel
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
 import com.example.bookworm.activities.login.modules.data.firestore.DataRepo
 import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
+import com.example.bookworm.common.constants.BottomBarTabs
 import java.util.Locale
 
 
@@ -54,23 +55,23 @@ fun BottomNavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = BottomBarScreen.ForYou.route
+        startDestination = BottomBarTabs.ForYou.route
     ) {
-        composable(route = BottomBarScreen.ForYou.route) {
+        composable(route = BottomBarTabs.ForYou.route) {
             ForYou(
                 bookViewModel = forYouBookViewModel,
                 userViewModel = userViewModel,
                 navController = navController
             )
         }
-        composable(route = BottomBarScreen.Explore.route) {
+        composable(route = BottomBarTabs.Explore.route) {
             Explore(
                 bookViewModel = forYouBookViewModel,
                 userViewModel = userViewModel,
                 navController = navController
             )
         }
-        composable(route = BottomBarScreen.MyLibrary.route) {
+        composable(route = BottomBarTabs.MyLibrary.route) {
             if (updateLibrary) {
                 libraryViewModel.fetchLibraries()
                 updateLibrary = false
@@ -80,7 +81,7 @@ fun BottomNavGraph(navController: NavHostController) {
                 navController = navController
             )
         }
-        composable(route = BottomBarScreen.Settings.route) {
+        composable(route = BottomBarTabs.Settings.route) {
             Settings(
                 userViewModel = userViewModel,
                 updateForYou = { updateForYou = true }

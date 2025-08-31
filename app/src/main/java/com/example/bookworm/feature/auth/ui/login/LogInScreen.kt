@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.login.modules.ui
+package com.example.bookworm.feature.auth.ui.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,23 +11,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import com.example.bookworm.R
-import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
-
+import com.example.bookworm.ui.theme.dimens
 
 @Composable
-fun LogIn(
-    userViewModel: UserViewModel
+fun LoginScreen(
+    onNavigateToBrowser: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
-
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -38,23 +33,19 @@ fun LogIn(
             style = MaterialTheme.typography.headlineLarge
         )
         HorizontalDivider(
-            modifier = Modifier.padding(25.dp),
+            modifier = Modifier.padding(MaterialTheme.dimens.paddingLarge),
             thickness = 2.dp,
             color = MaterialTheme.colorScheme.primary
         )
         Button(
-            onClick = {
-                scope.launch {
-                    userViewModel.launchAuthBrowser()
-                }
-            }
+            onClick = { onNavigateToBrowser() }
         ) {
             Row(
-                modifier = Modifier.padding(5.dp),
+                modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.padding(end = 5.dp),
+                    modifier = Modifier.padding(end = MaterialTheme.dimens.paddingSmall),
                     painter = painterResource(R.drawable.icons8_google),
                     contentDescription = null
                 )

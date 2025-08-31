@@ -22,6 +22,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.bookworm.common.constants.BottomBarTabs
 
 
 @Composable
@@ -41,7 +42,7 @@ fun MainScreen() {
 
 @Composable
 fun NavHostController.shouldShowBottomBar(): Boolean {
-    val bottomBarRoutes = BottomBarScreen.entries.map { it.route }
+    val bottomBarRoutes = BottomBarTabs.entries.map { it.route }
     return currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
 }
 
@@ -56,7 +57,7 @@ fun BottomBar(navController: NavHostController) {
         exit = slideOutVertically(targetOffsetY = { it })
     ) {
         NavigationBar {
-            BottomBarScreen.entries.forEach { screen ->
+            BottomBarTabs.entries.forEach { screen ->
                 NavigationBarItem(
                     label = {
                         Text(stringResource(screen.title))

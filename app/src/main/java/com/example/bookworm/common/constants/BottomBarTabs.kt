@@ -1,10 +1,10 @@
-package com.example.bookworm.activities.main.modules.ui.main
+package com.example.bookworm.common.constants
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.example.bookworm.R
 
-enum class BottomBarScreen(
+enum class BottomBarTabs(
     @StringRes val title: Int,
     @DrawableRes val icon: Int,
     val route: String

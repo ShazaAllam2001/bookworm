@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.login.modules.ui
+package com.example.bookworm.common.constants
 
 enum class Screens(
     val route: String

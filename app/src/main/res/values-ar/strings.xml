@@ -40,4 +40,5 @@
     <string name="for_name">مقترح ل </string>
     <string name="book_added_successfully">تمت إضافة الكتاب بنجاح ✅</string>
     <string name="books_removed_successfully">تمت حذف الكتب بنجاح ✅</string>
+    <string name="get_started">ابدأ</string>
 </resources>

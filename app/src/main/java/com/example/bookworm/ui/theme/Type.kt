@@ -8,46 +8,46 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.bookworm.R
 
-val Merienda = FontFamily(Font(R.font.merienda))
+val PublicSans = FontFamily(Font(R.font.public_sans))
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     headlineLarge = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.Bold,
         fontSize = 36.sp
     ),
     titleLarge = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
     titleSmall = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp
     ),
     bodyMedium = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontSize = 16.sp
     ),
     labelLarge = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp
     ),
     labelMedium = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = Merienda,
+        fontFamily = PublicSans,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     )

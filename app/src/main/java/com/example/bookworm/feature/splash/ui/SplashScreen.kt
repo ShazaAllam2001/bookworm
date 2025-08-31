@@ -1,6 +1,5 @@
-package com.example.bookworm.activities.login.modules.ui
+package com.example.bookworm.feature.splash.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
@@ -17,65 +17,47 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
-import com.example.bookworm.ui.theme.BookWormTheme
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
-fun SplashScreen(navController: NavHostController = rememberNavController()) {
+fun SplashScreen(onNavigateToLogin: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.onPrimary)
     ) {
-        Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(R.drawable.background_splash),
-            contentDescription = null,
-            contentScale = ContentScale.Fit
-        )
         Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(20.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(MaterialTheme.dimens.paddingLarge),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ElevatedButton(
                 border = BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground),
-                onClick = {
-                    navController.navigate(Screens.Login.route)
-                }
+                onClick = { onNavigateToLogin() }
             ) {
                 Text(
-                    text = "Get Started",
+                    text = stringResource(R.string.get_started),
                     style = MaterialTheme.typography.titleLarge
                 )
             }
         }
         Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Book Worm \uD83D\uDCDA",
-                style = MaterialTheme.typography.headlineLarge
+            Image(
+                modifier = Modifier.fillMaxWidth(0.7f),
+                painter = painterResource(R.drawable.bookworm),
+                contentDescription = null,
+                contentScale = ContentScale.Fit
             )
         }
-    }
-}
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun SplashPreview() {
-    BookWormTheme {
-        SplashScreen()
     }
 }

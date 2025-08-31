@@ -1,4 +1,4 @@
-package com.example.bookworm.activities.login
+package com.example.bookworm.feature.auth.ui
 
 import android.util.Log
 import android.content.Intent
@@ -13,18 +13,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
-import com.example.bookworm.activities.login.modules.ui.LoginNavGraph
 import com.example.bookworm.activities.main.MainActivity
 import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
+import com.example.bookworm.feature.auth.ui.navigation.AuthNavigation
 import com.example.bookworm.ui.theme.BookWormTheme
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+//@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val context = this
+        /*val context = this
         lifecycleScope.launch {
             val prefRepo = PrefRepo(context)
             val user = prefRepo.readPreferences()
@@ -33,24 +34,31 @@ class LoginActivity : ComponentActivity() {
             if (user.token != "" && currentTimeSeconds < user.expirationTimeStamp) {
                 startActivity(Intent(context, MainActivity::class.java))
             }
-        }
+        }*/
 
         enableEdgeToEdge()
         setContent {
             BookWormTheme {
-                LoginScreen()
+                Login(
+                    onNavigateToBrowser = {
+                        startActivity(Intent(this, OAuthRedirectActivity::class.java))
+                    }
+                )
             }
         }
     }
 }
 
 @Composable
-fun LoginScreen() {
+fun Login(onNavigateToBrowser: () -> Unit) {
     val navController = rememberNavController()
 
     Scaffold { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            LoginNavGraph(navController = navController)
+            AuthNavigation(
+                navController = navController,
+                onNavigateToBrowser = onNavigateToBrowser
+            )
         }
     }
 }
