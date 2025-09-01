@@ -1,6 +1,5 @@
 package com.example.bookworm.feature.auth.ui
 
-import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,16 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
-import com.example.bookworm.activities.main.MainActivity
-import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 import com.example.bookworm.feature.auth.ui.navigation.AuthNavigation
 import com.example.bookworm.ui.theme.BookWormTheme
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
-//@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

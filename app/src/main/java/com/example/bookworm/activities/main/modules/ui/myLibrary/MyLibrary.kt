@@ -21,7 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.activities.main.modules.ui.myLibrary.components.MyLibraryRow
-import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
+import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesUiState
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
 import com.example.bookworm.activities.main.modules.viewModel.libraries.Shelf

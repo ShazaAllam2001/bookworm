@@ -26,8 +26,9 @@ credentials = "1.5.0"
 play-services-auth = "20.7.0"
 datastore = "1.1.7"
 firebaseFirestore = "26.0.0"
-hilt = "2.51.1"
+hilt = "2.48"
 hilt-nav = "1.2.0"
+java-poet = "1.13.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,7 +65,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-nav" }
-
+javapoet = { module = "com.squareup:javapoet", version.ref = "java-poet" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
-import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
+import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 

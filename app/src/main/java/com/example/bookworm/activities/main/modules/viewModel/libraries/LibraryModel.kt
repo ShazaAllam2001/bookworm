@@ -6,8 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookworm.BuildConfig
-import com.example.bookworm.activities.main.modules.network.BooksApi
-import com.example.bookworm.activities.main.modules.viewModel.books.BooksUiState
+import com.example.bookworm.common.network.BooksApi
+import com.example.bookworm.feature.books.ui.BooksUiState
 import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
 import kotlinx.coroutines.launch
 import retrofit2.HttpException

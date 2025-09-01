@@ -3,7 +3,7 @@ package com.example.bookworm.activities.login.modules.data.fireauth
 import android.content.Context
 import android.content.Intent
 import com.example.bookworm.feature.auth.ui.LoginActivity
-import com.example.bookworm.activities.main.MainActivity
+import com.example.bookworm.feature.main.ui.MainActivity
 import com.example.bookworm.feature.auth.ui.OAuthRedirectActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

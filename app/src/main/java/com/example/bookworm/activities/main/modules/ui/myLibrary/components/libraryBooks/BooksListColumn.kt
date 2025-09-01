@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
-import com.example.bookworm.activities.main.modules.viewModel.books.BookItem
+import com.example.bookworm.feature.books.domain.model.BookItem
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibrariesMap
 import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryType
 import com.example.bookworm.activities.main.modules.viewModel.libraries.Shelf

@@ -9,13 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.bookworm.activities.main.MainActivity
-import com.example.bookworm.activities.main.modules.ui.loading.LoadingIndicator
+import com.example.bookworm.feature.main.ui.MainActivity
+import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.auth.ui.login.LoginViewModel
 import com.example.bookworm.ui.theme.BookWormTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class OAuthRedirectActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,13 +24,13 @@ class OAuthRedirectActivity : ComponentActivity() {
             BookWormTheme {
                 val viewModel: LoginViewModel = hiltViewModel()
                 val uiState by viewModel.uiState.collectAsState()
-                viewModel.signIn()
+                viewModel.signIn(this)
                 if (uiState.isLoading) {
                     LoadingIndicator()
                 } else {
                     if (uiState.isSignedIn) {
                         startActivity(Intent(this, MainActivity::class.java))
-                        Log.d("test", uiState.user.toString())
+                        Log.d("Account Logged In", uiState.user.toString())
                     }
                 }
             }
