@@ -1,6 +1,10 @@
 package com.example.bookworm.feature.libraries.ui.libraryBooks
 
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
@@ -9,14 +13,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
+import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
 import com.example.bookworm.feature.libraries.domain.model.Shelf
 
@@ -28,15 +37,16 @@ fun BookList(
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
+    val uiState by libraryViewModel.uiState.collectAsState()
 
-    /*LaunchedEffect(libraryViewModel.libraryRemoveUiState) {
-        when (libraryViewModel.libraryRemoveUiState) {
-            is LibraryRemoveUiState.Success ->
-                Toast.makeText(context,
-                    context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
-            is LibraryRemoveUiState.Error ->
-                Toast.makeText(context, (libraryViewModel.libraryRemoveUiState as LibraryRemoveUiState.Error).msg, Toast.LENGTH_SHORT).show()
-            else -> {}
+    LaunchedEffect(uiState) {
+        if (uiState.modified) {
+            Toast.makeText(context,
+                context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
+            libraryViewModel.resetModifyState()
+        }
+        else if (uiState.errorMessage != null) {
+            Toast.makeText(context, uiState.errorMessage, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -46,47 +56,46 @@ fun BookList(
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when (libraryViewModel.librariesUiState) {
-            is LibrariesUiState.Loading ->
-                LoadingIndicator()
-            is LibrariesUiState.Success -> {
-                var libraries = (libraryViewModel.librariesUiState as LibrariesUiState.Success).msg
+        if (uiState.isLoading) {
+            LoadingIndicator()
+        }
+        else {
+            if (uiState.libraries != null) {
+                var libraries = uiState.libraries!!
                 libraries = libraries.filter { it.id == libraryId }
                 if (libraries.size == 1) {
                     BookListTopBar(
                         navController = navController,
                         library = libraries[0]
                     )
-                    when (libraryViewModel.booksUiState) {
-                        is BooksUiState.Loading ->
-                            LoadingIndicator()
-                        is BooksUiState.Success -> {
-                            val books = (libraryViewModel.booksUiState as BooksUiState.Success).msg
-                            Text(
-                                text = stringResource(R.string.books, libraries[0].volumeCount),
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            BooksListColumn(
-                                books = books,
-                                onItemDismissed = { dismissedItem ->
-                                    libraryViewModel.removeBookFromShelf(shelfId = libraries[0].id, volumeId = dismissedItem.id)
-                                },
-                                library = libraries[0],
-                                onClearLibrary = { library ->
-                                    libraryViewModel.removeAllBooksFromShelf(shelfId = library.id)
-                                },
-                                navController = navController
-                            )
-                        }
-                        is BooksUiState.Error ->
-                            Text((libraryViewModel.booksUiState as BooksUiState.Error).msg ?: "")
+                    if (uiState.books != null) {
+                        val books = uiState.books!!
+                        Text(
+                            text = stringResource(R.string.books, libraries[0].volumeCount),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        BooksListColumn(
+                            books = books,
+                            onItemDismissed = { dismissedItem ->
+                                libraryViewModel.removeBookFromShelf(shelfId = libraries[0].id, volumeId = dismissedItem.id)
+                            },
+                            library = libraries[0],
+                            onClearLibrary = { library ->
+                                libraryViewModel.removeAllBooksFromShelf(shelfId = library.id)
+                            },
+                            navController = navController
+                        )
+                    }
+                    else {
+                        Text(uiState.errorMessage ?: "")
                     }
                 }
             }
-            is LibrariesUiState.Error ->
-                Text((libraryViewModel.librariesUiState as LibrariesUiState.Error).msg ?: "")
+            else {
+                Text(uiState.errorMessage ?: "")
+            }
         }
-    }*/
+    }
 }
 
 @Composable

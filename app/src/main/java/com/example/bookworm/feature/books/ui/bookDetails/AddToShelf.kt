@@ -5,18 +5,28 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.common.ui.loading.LoadingIndicator
+import com.example.bookworm.feature.libraries.data.constants.LibrariesMap
+import com.example.bookworm.feature.libraries.data.constants.LibraryType
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -27,17 +37,19 @@ fun AddToShelf(
     libraryViewModel: LibraryViewModel
 ) {
     val preferences = remember { mutableStateMapOf<Int, Boolean>() }
+    val uiState by libraryViewModel.uiState.collectAsState()
 
     BasicAlertDialog(
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
         onDismissRequest = { onDismiss() }
     ) {
         Column {
-            /*when (libraryViewModel.librariesUiState) {
-                is LibrariesUiState.Loading ->
-                    LoadingIndicator()
-                is LibrariesUiState.Success -> {
-                    val libraries = (libraryViewModel.librariesUiState as LibrariesUiState.Success).msg
+            if (uiState.isLoading) {
+                LoadingIndicator()
+            }
+            else {
+                if (uiState.libraries != null) {
+                    val libraries = uiState.libraries!!
                     LazyColumn {
                         items(libraries, key = { it.id }) { library ->
                             if (LibrariesMap[library.id]?.second == LibraryType.ADD_REMOVE) {
@@ -55,9 +67,10 @@ fun AddToShelf(
                         }
                     }
                 }
-                is LibrariesUiState.Error ->
-                    Text((libraryViewModel.librariesUiState as LibrariesUiState.Error).msg ?: "")
-            }*/
+                else {
+                    Text(uiState.errorMessage ?: "")
+                }
+            }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,

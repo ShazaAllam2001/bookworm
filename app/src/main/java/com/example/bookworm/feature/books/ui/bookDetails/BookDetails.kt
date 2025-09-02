@@ -1,5 +1,6 @@
 package com.example.bookworm.feature.books.ui.bookDetails
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -39,19 +41,20 @@ fun BookDetails(
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by bookViewModel.uiState.collectAsState()
+    val libraryUiState by libraryViewModel.uiState.collectAsState()
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
 
-    /*LaunchedEffect(libraryViewModel.libraryAddUiState) {
-        when (libraryViewModel.libraryAddUiState) {
-            is LibraryAddUiState.Success ->
-                Toast.makeText(context,
-                    context.getString(R.string.book_added_successfully), Toast.LENGTH_SHORT).show()
-            is LibraryAddUiState.Error ->
-                Toast.makeText(context, (libraryViewModel.libraryAddUiState as LibraryAddUiState.Error).msg, Toast.LENGTH_SHORT).show()
-            else -> {}
+    LaunchedEffect(libraryUiState) {
+        if (libraryUiState.modified) {
+            Toast.makeText(context,
+                context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
+            libraryViewModel.resetModifyState()
         }
-    }*/
+        else if (uiState.errorMessage != null) {
+            Toast.makeText(context, uiState.errorMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -78,7 +81,7 @@ fun BookDetails(
                     onAdd = { checkedShelves ->
                         checkedShelves.forEach { (id, checked) ->
                             if (checked) {
-                                //libraryViewModel.addBookToShelf(shelfId = id, volumeId = book.id)
+                                libraryViewModel.addBookToShelf(shelfId = id, volumeId = book.id)
                             }
                         }
                         updateLibrary()

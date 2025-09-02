@@ -6,8 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -23,16 +21,12 @@ import com.example.bookworm.feature.settings.ui.settings.Settings
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
 import com.example.bookworm.common.constants.BottomBarTabs
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
-import com.example.bookworm.feature.auth.ui.login.LoginViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
-import java.util.Locale
 
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
-    val context = LocalContext.current
-    val currentLocale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
     var updateForYou by rememberSaveable { mutableStateOf(true) }
     var updateLibrary by rememberSaveable { mutableStateOf(false) }
 
@@ -61,7 +55,7 @@ fun BottomNavGraph(navController: NavHostController) {
         }
         composable(route = BottomBarTabs.MyLibrary.route) {
             if (updateLibrary) {
-                //libraryViewModel.fetchLibraries()
+                libraryViewModel.fetchLibraries()
                 updateLibrary = false
             }
             MyLibrary(
@@ -98,7 +92,7 @@ fun BottomNavGraph(navController: NavHostController) {
             })
         ) {
             val libraryId = it.arguments?.getInt("libraryId")?:0
-            //libraryViewModel.getLibraryBooks(libraryId)
+            libraryViewModel.getLibraryBooks(libraryId)
 
             BookList(
                 libraryViewModel = libraryViewModel,

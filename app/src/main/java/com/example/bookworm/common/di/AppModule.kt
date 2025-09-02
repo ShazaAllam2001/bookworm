@@ -57,9 +57,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLibrariesRepo(api: BooksApiService): LibraryRepository {
+    fun provideLibrariesRepo(api: BooksApiService, userPreferencesRepository: UserPreferencesRepository): LibraryRepository {
         return LibraryRepositoryImpl(
-            booksApi = api
+            booksApi = api,
+            userPreferencesRepository = userPreferencesRepository
         )
     }
 }
