@@ -28,27 +28,27 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.feature.books.ui.bookGrid.BookGrid
 import com.example.bookworm.common.ui.loading.LoadingIndicator
-import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
+import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
 
 
 @Composable
 fun ForYou(
     bookViewModel: BookViewModel,
-    userViewModel: UserViewModel,
+    loggedInViewModel: LoggedInViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     var name by rememberSaveable { mutableStateOf("") }
     val uiState by bookViewModel.uiState.collectAsState()
+    val userUiState by loggedInViewModel.uiState.collectAsState()
 
-    LaunchedEffect(userViewModel.userData) {
-        val uid = userViewModel.readPreferences().uid
-        if (userViewModel.userData == null) {
-            userViewModel.readUser(uid)
+    LaunchedEffect(userUiState) {
+        if (userUiState.userData == null) {
+            loggedInViewModel.getUserData()
         }
         else {
-            name = userViewModel.userData!!.displayName
-            bookViewModel.fetchBooksForYou(userViewModel.userData!!.categories)
+            name = userUiState.userData!!.displayName
+            bookViewModel.fetchBooksForYou(userUiState.userData!!.categories)
         }
     }
 

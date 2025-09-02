@@ -2,7 +2,7 @@ package com.example.bookworm.feature.auth.data.local
 
 import androidx.datastore.core.IOException
 import androidx.datastore.core.Serializer
-import com.example.bookworm.feature.auth.domain.model.UserPreferences
+import com.example.bookworm.feature.auth.domain.model.preferences.UserPreferences
 import java.io.OutputStream
 import java.io.InputStream
 import com.google.gson.Gson

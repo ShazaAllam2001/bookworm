@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.datastore.dataStore
 import com.example.bookworm.feature.auth.data.local.UserPreferencesSerializer
-import com.example.bookworm.feature.auth.domain.model.UserPreferences
+import com.example.bookworm.feature.auth.domain.model.preferences.UserPreferences
 import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first

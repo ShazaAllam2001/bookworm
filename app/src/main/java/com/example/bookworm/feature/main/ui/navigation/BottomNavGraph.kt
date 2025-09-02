@@ -2,7 +2,6 @@ package com.example.bookworm.feature.main.ui.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -15,18 +14,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.bookworm.activities.login.modules.data.fireauth.UserRepo
-import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
-import com.example.bookworm.feature.books.ui.bookGrid.components.BookDetails
-import com.example.bookworm.activities.main.modules.ui.myLibrary.components.libraryBooks.BookList
+import com.example.bookworm.feature.books.ui.bookDetails.BookDetails
+import com.example.bookworm.feature.libraries.ui.libraryBooks.BookList
 import com.example.bookworm.feature.books.ui.explore.Explore
 import com.example.bookworm.feature.books.ui.foryou.ForYou
-import com.example.bookworm.activities.main.modules.ui.myLibrary.MyLibrary
-import com.example.bookworm.activities.main.modules.ui.settings.Settings
-import com.example.bookworm.activities.main.modules.viewModel.libraries.LibraryModel
-import com.example.bookworm.activities.login.modules.data.firestore.DataRepo
-import com.example.bookworm.activities.login.modules.data.preferences.PrefRepo
+import com.example.bookworm.feature.libraries.ui.myLibrary.MyLibrary
+import com.example.bookworm.feature.settings.ui.settings.Settings
+import com.example.bookworm.feature.libraries.ui.LibraryViewModel
 import com.example.bookworm.common.constants.BottomBarTabs
+import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
+import com.example.bookworm.feature.auth.ui.login.LoginViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
 import java.util.Locale
 
@@ -41,15 +38,8 @@ fun BottomNavGraph(navController: NavHostController) {
 
     val forYouBookViewModel: BookViewModel = hiltViewModel()
     val exploreBookViewModel: BookViewModel = hiltViewModel()
-    val libraryViewModel = LibraryModel(
-        appLocale = currentLocale,
-        prefRepo = PrefRepo(context)
-    )
-    val userViewModel = UserViewModel(
-        userRepo = UserRepo(context),
-        prefRepo = PrefRepo(context),
-        dataRepo = DataRepo()
-    )
+    val libraryViewModel: LibraryViewModel = hiltViewModel()
+    val loggedInViewModel: LoggedInViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -58,20 +48,20 @@ fun BottomNavGraph(navController: NavHostController) {
         composable(route = BottomBarTabs.ForYou.route) {
             ForYou(
                 bookViewModel = forYouBookViewModel,
-                userViewModel = userViewModel,
+                loggedInViewModel = loggedInViewModel,
                 navController = navController
             )
         }
         composable(route = BottomBarTabs.Explore.route) {
             Explore(
                 bookViewModel = forYouBookViewModel,
-                userViewModel = userViewModel,
+                loggedInViewModel = loggedInViewModel,
                 navController = navController
             )
         }
         composable(route = BottomBarTabs.MyLibrary.route) {
             if (updateLibrary) {
-                libraryViewModel.fetchLibraries()
+                //libraryViewModel.fetchLibraries()
                 updateLibrary = false
             }
             MyLibrary(
@@ -81,7 +71,7 @@ fun BottomNavGraph(navController: NavHostController) {
         }
         composable(route = BottomBarTabs.Settings.route) {
             Settings(
-                userViewModel = userViewModel,
+                loggedInViewModel = loggedInViewModel,
                 updateForYou = { updateForYou = true }
             )
         }
@@ -108,7 +98,7 @@ fun BottomNavGraph(navController: NavHostController) {
             })
         ) {
             val libraryId = it.arguments?.getInt("libraryId")?:0
-            libraryViewModel.getLibraryBooks(libraryId)
+            //libraryViewModel.getLibraryBooks(libraryId)
 
             BookList(
                 libraryViewModel = libraryViewModel,

@@ -1,8 +1,13 @@
 package com.example.bookworm.feature.auth.data.repository
 
 import android.util.Log
-import com.example.bookworm.feature.auth.domain.model.UserData
+import com.example.bookworm.feature.auth.domain.model.userData.UserData
 import com.example.bookworm.feature.auth.domain.repository.UserDataRepository
+import com.example.bookworm.feature.auth.domain.repository.UserDataRepository.Companion.CATEGORIES
+import com.example.bookworm.feature.auth.domain.repository.UserDataRepository.Companion.NOTIFY
+import com.example.bookworm.feature.auth.domain.repository.UserDataRepository.Companion.NAME
+import com.example.bookworm.feature.auth.domain.repository.UserDataRepository.Companion.TAG
+import com.example.bookworm.feature.auth.domain.repository.UserDataRepository.Companion.COLLECTION
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
@@ -12,14 +17,6 @@ import javax.inject.Singleton
 @Singleton
 class UserDataRepositoryImpl: UserDataRepository {
     private val db = Firebase.firestore
-
-    companion object {
-        const val TAG = "user"
-        const val COLLECTION = "user"
-        const val NAME = "name"
-        const val CATEGORIES = "categories"
-        const val NOTIFY = "notify"
-    }
 
     override suspend fun saveUser(userId: String, userData: UserData) {
         val user = mapOf(

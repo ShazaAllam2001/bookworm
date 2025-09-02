@@ -32,9 +32,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
-import com.example.bookworm.activities.login.modules.viewModel.UserViewModel
 import com.example.bookworm.feature.books.ui.bookGrid.BookGrid
 import com.example.bookworm.common.ui.loading.LoadingIndicator
+import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
 import com.example.bookworm.ui.theme.dimens
 
@@ -42,19 +42,19 @@ import com.example.bookworm.ui.theme.dimens
 @Composable
 fun Explore(
     bookViewModel: BookViewModel,
-    userViewModel: UserViewModel,
+    loggedInViewModel: LoggedInViewModel,
     navController: NavHostController = rememberNavController()
 ) {
-    val uiState by bookViewModel.uiState.collectAsState()
     var categories: List<String> by rememberSaveable { mutableStateOf(emptyList()) }
+    val uiState by bookViewModel.uiState.collectAsState()
+    val userUiState by loggedInViewModel.uiState.collectAsState()
 
-    LaunchedEffect(userViewModel.userData) {
-        val uid = userViewModel.readPreferences().uid
-        if (userViewModel.userData == null) {
-            userViewModel.readUser(uid)
+    LaunchedEffect(userUiState) {
+        if (userUiState.userData == null) {
+            loggedInViewModel.getUserData()
         }
         else {
-            categories = userViewModel.userData!!.categories
+            categories = userUiState.userData!!.categories
             bookViewModel.fetchBooksForYou(categories)
         }
     }

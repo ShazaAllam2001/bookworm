@@ -1,7 +1,7 @@
 package com.example.bookworm.feature.auth.data.mapper
 
 import android.util.Log
-import com.example.bookworm.feature.auth.domain.model.User
+import com.example.bookworm.feature.auth.domain.model.auth.User
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthCredential
 import kotlinx.coroutines.tasks.await

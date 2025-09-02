@@ -1,17 +1,15 @@
 package com.example.bookworm.feature.auth.data.repository
 
 import android.util.Log
-import android.content.Context
 import android.app.Activity
 import com.example.bookworm.feature.auth.data.mapper.AuthMapper
-import com.example.bookworm.feature.auth.domain.model.AuthResult
-import com.example.bookworm.feature.auth.domain.model.User
+import com.example.bookworm.feature.auth.domain.model.auth.AuthResult
+import com.example.bookworm.feature.auth.domain.model.auth.User
 import com.example.bookworm.feature.auth.domain.repository.AuthRepository
 import com.google.firebase.Firebase
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.auth.auth
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
