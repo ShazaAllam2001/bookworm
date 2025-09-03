@@ -31,6 +31,7 @@ import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.books.ui.BookViewModel
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -65,13 +66,11 @@ fun BookDetails(
             LoadingIndicator()
         }
         else if (uiState.book != null) {
-            val book = uiState.book
             BookTopBar(
-                navController = navController,
-                bookTitle = book!!.volumeInfo.title
+                navController = navController
             )
             BookInfo(
-                book = book,
+                book = uiState.book!!,
                 onShowDialogChange = { showDialog = it }
             )
 
@@ -81,7 +80,7 @@ fun BookDetails(
                     onAdd = { checkedShelves ->
                         checkedShelves.forEach { (id, checked) ->
                             if (checked) {
-                                libraryViewModel.addBookToShelf(shelfId = id, volumeId = book.id)
+                                libraryViewModel.addBookToShelf(shelfId = id, volumeId = uiState.book!!.id)
                             }
                         }
                         updateLibrary()
@@ -98,14 +97,14 @@ fun BookDetails(
 
 @Composable
 fun BookTopBar(
-    navController: NavHostController,
-    bookTitle: String
+    navController: NavHostController
 ) {
     Surface(
-        modifier = Modifier.padding(5.dp),
+        modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
         color = MaterialTheme.colorScheme.onPrimary
     ) {
         Row(
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
@@ -118,14 +117,6 @@ fun BookTopBar(
                     contentDescription = "Back to books list"
                 )
             }
-            Text(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(10.dp),
-                text = bookTitle,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge
-            )
         }
     }
 }

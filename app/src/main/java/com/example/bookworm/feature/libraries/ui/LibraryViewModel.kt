@@ -34,7 +34,7 @@ class LibraryViewModel @Inject constructor(
         fetchLibraries()
     }
 
-    fun fetchLibraries() {
+    fun fetchLibraries(shelfId: Int? = null) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
@@ -42,7 +42,8 @@ class LibraryViewModel @Inject constructor(
                 is LibraryResult.Success -> {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        libraries = result.message
+                        libraries = result.message,
+                        library = result.message.firstOrNull{ it.id == shelfId }
                     )
                 }
                 is LibraryResult.Error -> {
@@ -96,36 +97,68 @@ class LibraryViewModel @Inject constructor(
 
     fun removeBookFromShelf(shelfId: Int, volumeId: String) {
         viewModelScope.launch {
-            when (val result = removeBookFromShelfUseCase(shelfId, volumeId)) {
-                is ModifyLibraryResult.Success -> {
-                    _uiState.value = _uiState.value.copy(
-                        modified = result.message
-                    )
-                }
-                is ModifyLibraryResult.Error -> {
-                    _uiState.value = _uiState.value.copy(
-                        errorMessage = result.message
-                    )
-                }
-                ModifyLibraryResult.Loading -> { }
+            val result = removeBookFromShelfUseCase(shelfId, volumeId)
+            val resultLibraries = fetchLibrariesUseCase()
+            val resultBooks = getLibraryBooksUseCase(shelfId)
+            if (result is ModifyLibraryResult.Success
+                && resultLibraries is LibraryResult.Success
+                && resultBooks is BooksResult.Success) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    modified = result.message,
+                    libraries = resultLibraries.message,
+                    library = resultLibraries.message.firstOrNull{ it.id == shelfId },
+                    books = resultBooks.message
+                )
+            }
+            else if (result is ModifyLibraryResult.Error) {
+                _uiState.value = LibraryUiState(
+                    errorMessage = result.message
+                )
+            }
+            else if (resultLibraries is LibraryResult.Error) {
+                _uiState.value = LibraryUiState(
+                    errorMessage = resultLibraries.message
+                )
+            }
+            else if (resultBooks is BooksResult.Error) {
+                _uiState.value = LibraryUiState(
+                    errorMessage = resultBooks.message
+                )
             }
         }
     }
 
     fun removeAllBooksFromShelf(shelfId: Int) {
         viewModelScope.launch {
-            when (val result = removeAllBooksFromShelfUseCase(shelfId)) {
-                is ModifyLibraryResult.Success -> {
-                    _uiState.value = _uiState.value.copy(
-                        modified = result.message
-                    )
-                }
-                is ModifyLibraryResult.Error -> {
-                    _uiState.value = _uiState.value.copy(
-                        errorMessage = result.message
-                    )
-                }
-                ModifyLibraryResult.Loading -> { }
+            val result = removeAllBooksFromShelfUseCase(shelfId)
+            val resultLibraries = fetchLibrariesUseCase()
+            val resultBooks = getLibraryBooksUseCase(shelfId)
+            if (result is ModifyLibraryResult.Success
+                && resultLibraries is LibraryResult.Success
+                && resultBooks is BooksResult.Success) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    modified = result.message,
+                    libraries = resultLibraries.message,
+                    library = resultLibraries.message.firstOrNull{ it.id == shelfId },
+                    books = resultBooks.message
+                )
+            }
+            else if (result is ModifyLibraryResult.Error) {
+                _uiState.value = LibraryUiState(
+                    errorMessage = result.message
+                )
+            }
+            else if (resultLibraries is LibraryResult.Error) {
+                _uiState.value = LibraryUiState(
+                    errorMessage = resultLibraries.message
+                )
+            }
+            else if (resultBooks is BooksResult.Error) {
+                _uiState.value = LibraryUiState(
+                    errorMessage = resultBooks.message
+                )
             }
         }
     }

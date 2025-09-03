@@ -1,6 +1,5 @@
 package com.example.bookworm.feature.main.ui.navigation
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,11 +19,11 @@ import com.example.bookworm.feature.libraries.ui.myLibrary.MyLibrary
 import com.example.bookworm.feature.settings.ui.settings.Settings
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
 import com.example.bookworm.common.constants.BottomBarTabs
+import com.example.bookworm.common.constants.Screens
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
 
 
-@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
     var updateForYou by rememberSaveable { mutableStateOf(true) }
@@ -70,12 +69,12 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(
-            route = "books/{bookId}",
-            arguments = listOf(navArgument("bookId"){
+            route = Screens.Books.route,
+            arguments = listOf(navArgument(Screens.Books.parameter){
                 type = NavType.StringType
             })
         ) {
-            val bookId = it.arguments?.getString("bookId")?:""
+            val bookId = it.arguments?.getString(Screens.Books.parameter)?:""
             exploreBookViewModel.searchBookById(bookId)
 
             BookDetails(
@@ -86,17 +85,17 @@ fun BottomNavGraph(navController: NavHostController) {
             )
         }
         composable(
-            route = "librarys/{libraryId}",
-            arguments = listOf(navArgument("libraryId"){
+            route = Screens.Librarys.route,
+            arguments = listOf(navArgument(Screens.Librarys.parameter){
                 type = NavType.IntType
             })
         ) {
-            val libraryId = it.arguments?.getInt("libraryId")?:0
+            val libraryId = it.arguments?.getInt(Screens.Librarys.parameter)?:0
+            libraryViewModel.fetchLibraries(libraryId)
             libraryViewModel.getLibraryBooks(libraryId)
 
             BookList(
                 libraryViewModel = libraryViewModel,
-                libraryId = libraryId,
                 navController = navController
             )
         }

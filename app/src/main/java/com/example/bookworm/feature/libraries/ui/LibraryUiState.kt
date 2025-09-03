@@ -7,6 +7,7 @@ data class LibraryUiState(
     val isLoading: Boolean = false,
     val modified: Boolean = false,
     val libraries: List<Shelf>? = null,
+    val library: Shelf? = null,
     val books: List<BookItem>? = null,
     val errorMessage: String? = null
 )

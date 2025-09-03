@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -20,12 +21,12 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -40,13 +41,13 @@ fun BookInfo(
 
     Column(
         modifier = Modifier.fillMaxSize()
-            .padding(10.dp)
+            .padding(MaterialTheme.dimens.paddingMedium)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CoilImage(
             modifier = Modifier.weight(3f)
-                .padding(5.dp),
+                .padding(MaterialTheme.dimens.paddingSmall),
             imageModel = { book.volumeInfo.imageLinks?.thumbnail },
             loading = { LoadingIndicator() },
             failure = { Text("Failed to load image") },
@@ -59,7 +60,7 @@ fun BookInfo(
             text = book.volumeInfo.title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelLarge
         )
         Text(
             text = stringResource(
@@ -73,7 +74,7 @@ fun BookInfo(
         Column(
             modifier = Modifier.fillMaxWidth()
                 .weight(4f)
-                .padding(5.dp)
+                .padding(MaterialTheme.dimens.paddingSmall)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -91,8 +92,10 @@ fun BookInfo(
                 }
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(MaterialTheme.dimens.paddingMedium))
         TextButton(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(MaterialTheme.dimens.roundCorner),
             colors = ButtonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,
                 contentColor = MaterialTheme.colorScheme.onSecondary,

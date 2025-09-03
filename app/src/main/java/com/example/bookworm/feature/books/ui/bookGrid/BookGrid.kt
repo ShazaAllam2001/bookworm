@@ -5,11 +5,12 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun BookGrid(
@@ -19,8 +20,8 @@ fun BookGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(
-            start = 16.dp,
-            end = 16.dp
+            start = MaterialTheme.dimens.paddingMedium2,
+            end = MaterialTheme.dimens.paddingMedium2
         ),
         content = {
             items(bookList, key = { book -> book.id }) { item ->

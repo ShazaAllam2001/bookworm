@@ -12,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
 import com.example.bookworm.feature.books.domain.model.BookItem
 import com.example.bookworm.common.ui.loading.LoadingIndicator
+import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -27,7 +27,7 @@ fun BookCard(
     book: BookItem
 ) {
     Card(
-        modifier = modifier.padding(5.dp),
+        modifier = modifier.padding(MaterialTheme.dimens.paddingSmall),
         onClick = {
             navController.navigate("books/${book.id}")
         }
@@ -47,7 +47,7 @@ fun BookCard(
                 )
             )
             Column(
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
