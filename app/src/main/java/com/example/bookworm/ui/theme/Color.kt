@@ -14,6 +14,8 @@ val darkRed = Color(0xFF492532)
 
 val yellowWhite = Color(0xFFFEF7FF)
 val white = Color(0xFFFFFFFF)
+val lightGray = Color(0xFF7E7B7B)
+val darkGray = Color(0xFF484646)
 val lightBlack = Color(0xFF1D1B20)
 val lavender = Color(0xFF6750A4)
 val darkLavender = Color(0xFF625B71)

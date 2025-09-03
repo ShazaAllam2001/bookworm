@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
 import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -99,19 +100,24 @@ fun BookListRow(
                     .padding(start = 10.dp)
             ) {
                 Text(
-                    if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],
+                    modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),
+                    text = if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],
+                    color = MaterialTheme.colorScheme.tertiary,
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    book.volumeInfo.title,
+                    modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),
+                    text = book.volumeInfo.title,
                     color = MaterialTheme.colorScheme.secondary,
                     style = MaterialTheme.typography.labelLarge
                 )
                 Text(
-                    stringResource(
+                    modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),
+                    text = stringResource(
                         R.string.by,
                         if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
                     ),
+                    color = MaterialTheme.colorScheme.tertiary,
                     style = MaterialTheme.typography.labelMedium
                 )
             }

@@ -16,6 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +29,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
+import com.example.bookworm.feature.books.domain.model.BookItem
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
 import com.example.bookworm.feature.libraries.domain.model.Shelf
 
@@ -38,8 +42,12 @@ fun BookList(
 ) {
     val context = LocalContext.current
     val uiState by libraryViewModel.uiState.collectAsState()
+    var filteredLibrary: Shelf? by rememberSaveable { mutableStateOf(null) }
+    var books: List<BookItem>? by rememberSaveable { mutableStateOf(null) }
 
     LaunchedEffect(uiState) {
+        filteredLibrary = uiState.libraries?.firstOrNull{ it.id == libraryId }
+        books = uiState.books
         if (uiState.modified) {
             Toast.makeText(context,
                 context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
@@ -60,35 +68,37 @@ fun BookList(
             LoadingIndicator()
         }
         else {
-            if (uiState.libraries != null) {
-                var libraries = uiState.libraries!!
-                libraries = libraries.filter { it.id == libraryId }
-                if (libraries.size == 1) {
-                    BookListTopBar(
-                        navController = navController,
-                        library = libraries[0]
+            if (filteredLibrary != null) {
+                BookListTopBar(
+                    navController = navController,
+                    library = filteredLibrary!!
+                )
+                Text(
+                    text = stringResource(R.string.books, filteredLibrary!!.volumeCount),
+                    style = MaterialTheme.typography.titleMedium
+                )
+                if (books != null) {
+                    BooksListColumn(
+                        books = books!!,
+                        onItemDismissed = { dismissedItem ->
+                            libraryViewModel.removeBookFromShelf(
+                                    shelfId = filteredLibrary!!.id,
+                                    volumeId = dismissedItem.id
+                            )
+                            libraryViewModel.fetchLibraries()
+                            libraryViewModel.getLibraryBooks(filteredLibrary!!.id)
+                        },
+                        library = filteredLibrary!!,
+                        onClearLibrary = {
+                            libraryViewModel.removeAllBooksFromShelf(shelfId = filteredLibrary!!.id)
+                            libraryViewModel.fetchLibraries()
+                            libraryViewModel.getLibraryBooks(filteredLibrary!!.id)
+                        },
+                        navController = navController
                     )
-                    if (uiState.books != null) {
-                        val books = uiState.books!!
-                        Text(
-                            text = stringResource(R.string.books, libraries[0].volumeCount),
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        BooksListColumn(
-                            books = books,
-                            onItemDismissed = { dismissedItem ->
-                                libraryViewModel.removeBookFromShelf(shelfId = libraries[0].id, volumeId = dismissedItem.id)
-                            },
-                            library = libraries[0],
-                            onClearLibrary = { library ->
-                                libraryViewModel.removeAllBooksFromShelf(shelfId = library.id)
-                            },
-                            navController = navController
-                        )
-                    }
-                    else {
-                        Text(uiState.errorMessage ?: "")
-                    }
+                }
+                else {
+                    Text(uiState.errorMessage ?: "")
                 }
             }
             else {

@@ -1,15 +1,18 @@
 package com.example.bookworm.feature.libraries.ui.myLibrary
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,22 +26,27 @@ fun MyLibraryRow(
     numberOfBooks: Int
 ) {
     Row(
-        modifier = Modifier.padding(10.dp),
-        horizontalArrangement = Arrangement.SpaceAround
+        modifier = Modifier.background(MaterialTheme.colorScheme.onSecondary),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
+            modifier = Modifier.background(MaterialTheme.colorScheme.onPrimary)
+                .padding(10.dp),
             painter = painterResource(icon),
             contentDescription = "$name icon"
         )
         Spacer(modifier = Modifier.width(10.dp))
-        Column {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
-                name,
+                text = name,
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.labelLarge
             )
             Text(
-                stringResource(R.string.books, numberOfBooks),
+                text = stringResource(R.string.books, numberOfBooks),
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.labelMedium
             )

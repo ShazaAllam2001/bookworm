@@ -35,9 +35,9 @@ private val LightColorScheme = lightColorScheme(
     background = yellowWhite,
     onBackground = lightBlack,
     primary = lavender,
-    onPrimary = white,
+    onPrimary = lightGray,
     secondary = darkLavender,
-    onSecondary = white,
+    onSecondary = darkGray,
     tertiary = darkPink,
     onTertiary = white
 )

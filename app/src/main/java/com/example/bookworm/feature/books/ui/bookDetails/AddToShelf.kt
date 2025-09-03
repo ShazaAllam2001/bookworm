@@ -36,7 +36,7 @@ fun AddToShelf(
     onAdd: (Map<Int, Boolean>) -> Unit,
     libraryViewModel: LibraryViewModel
 ) {
-    val preferences = remember { mutableStateMapOf<Int, Boolean>() }
+    val modifiedLibraries = remember { mutableStateMapOf<Int, Boolean>() }
     val uiState by libraryViewModel.uiState.collectAsState()
 
     BasicAlertDialog(
@@ -58,8 +58,8 @@ fun AddToShelf(
                                 ) {
                                     Checkbox(
                                         modifier = Modifier.padding(2.dp),
-                                        checked = preferences[library.id] == true,
-                                        onCheckedChange = { preferences[library.id] = it }
+                                        checked = modifiedLibraries[library.id] == true,
+                                        onCheckedChange = { modifiedLibraries[library.id] = it }
                                     )
                                     Text(library.title)
                                 }
@@ -78,7 +78,7 @@ fun AddToShelf(
             ) {
                 TextButton(
                     onClick = {
-                        onAdd(preferences)
+                        onAdd(modifiedLibraries)
                         onDismiss()
                     }
                 ) {
@@ -87,7 +87,7 @@ fun AddToShelf(
                 TextButton(
                     onClick = {
                         onDismiss()
-                        preferences.clear()
+                        modifiedLibraries.clear()
                     }
                 ) {
                     Text(stringResource(R.string.cancel))

@@ -2,7 +2,7 @@ package com.example.bookworm.feature.books.ui.explore
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -104,17 +102,23 @@ fun SearchField(
     searchText: String,
     onChangeText: (String) -> Unit
 ) {
-    Row(
-        modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium),
-        verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium)
     ) {
         TextField(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.fillMaxWidth(),
             value = searchText,
             onValueChange = onChangeText,
+            prefix = {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_search_24),
+                    contentDescription = "Search Button"
+                )
+            },
             placeholder = {
                 Text(
-                    stringResource(R.string.search_for_books),
+                    modifier = Modifier.padding(start = MaterialTheme.dimens.paddingExtraSmall),
+                    text = stringResource(R.string.search_for_books),
                     style = MaterialTheme.typography.titleSmall
                 )
             },
@@ -139,22 +143,5 @@ fun SearchField(
                 }
             )
         )
-        IconButton(
-            onClick = {
-                if (searchText != "") {
-                    bookViewModel.searchBooks(searchText)
-                }
-                else {
-                    if (categories.isNotEmpty()) {
-                        bookViewModel.fetchBooksForYou(categories)
-                    }
-                }
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.baseline_search_24),
-                contentDescription = "Search Button"
-            )
-        }
     }
 }

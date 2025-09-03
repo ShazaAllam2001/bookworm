@@ -37,7 +37,7 @@ fun BooksListColumn(
     books: List<BookItem>,
     onItemDismissed: (BookItem) -> Unit,
     library: Shelf,
-    onClearLibrary: (Shelf) -> Unit,
+    onClearLibrary: () -> Unit,
     navController: NavHostController
 ) {
     var showDialog by rememberSaveable { mutableStateOf(false) }
@@ -100,7 +100,7 @@ fun BooksListColumn(
             if (showDialog) {
                 ClearLibraryConfirm(
                     onDismiss = { showDialog = false },
-                    onConfirm = { onClearLibrary(library) }
+                    onConfirm = { onClearLibrary() }
                 )
             }
         }

@@ -48,7 +48,7 @@ fun BookDetails(
     LaunchedEffect(libraryUiState) {
         if (libraryUiState.modified) {
             Toast.makeText(context,
-                context.getString(R.string.books_removed_successfully), Toast.LENGTH_SHORT).show()
+                context.getString(R.string.book_added_successfully), Toast.LENGTH_SHORT).show()
             libraryViewModel.resetModifyState()
         }
         else if (uiState.errorMessage != null) {
