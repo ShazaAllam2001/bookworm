@@ -13,19 +13,19 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
-import com.example.bookworm.feature.libraries.domain.model.Shelf
+import com.example.bookworm.feature.libraries.data.model.Shelf
 import com.example.bookworm.feature.libraries.data.constants.LibrariesMap
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -33,7 +33,7 @@ fun MyLibrary(
     viewModel: LibraryViewModel,
     navController: NavHostController = rememberNavController()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -42,7 +42,7 @@ fun MyLibrary(
     ) {
         Text(
             modifier = Modifier.fillMaxWidth()
-                .padding(15.dp),
+                .padding(MaterialTheme.dimens.paddingMedium),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             text = stringResource(R.string.my_library),
@@ -70,7 +70,7 @@ fun LibrariesList(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth()
-            .padding(10.dp)
+            .padding(MaterialTheme.dimens.paddingMedium)
     ) {
         items(libraries, key = { it.id }) { library ->
             Card(
@@ -85,7 +85,7 @@ fun LibrariesList(
                     numberOfBooks = library.volumeCount,
                 )
             }
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(MaterialTheme.dimens.paddingMedium))
         }
     }
 }

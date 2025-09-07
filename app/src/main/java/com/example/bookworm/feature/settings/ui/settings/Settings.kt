@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -40,7 +41,7 @@ fun Settings(
     ) {
         Text(
             modifier = Modifier.fillMaxWidth()
-                .padding(15.dp),
+                .padding(MaterialTheme.dimens.paddingMedium2),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             text = stringResource(R.string.settings),
@@ -52,11 +53,14 @@ fun Settings(
         )
         Row(
             modifier = Modifier.fillMaxWidth()
-                .padding(15.dp),
+                .padding(MaterialTheme.dimens.paddingMedium2),
             horizontalArrangement = Arrangement.Center
         ) {
             ElevatedButton(
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+                border = BorderStroke(
+                    MaterialTheme.dimens.thicknessExtraSmall,
+                    MaterialTheme.colorScheme.onBackground
+                ),
                 onClick = {
                     loggedInViewModel.signOut()
                 }

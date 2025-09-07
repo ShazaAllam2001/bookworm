@@ -20,7 +20,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,6 +28,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookworm.R
 import com.example.bookworm.feature.books.ui.bookGrid.BookGrid
 import com.example.bookworm.common.ui.loading.LoadingIndicator
@@ -43,17 +44,17 @@ fun Explore(
     loggedInViewModel: LoggedInViewModel,
     navController: NavHostController = rememberNavController()
 ) {
-    var categories: List<String> by rememberSaveable { mutableStateOf(emptyList()) }
-    val uiState by bookViewModel.uiState.collectAsState()
-    val userUiState by loggedInViewModel.uiState.collectAsState()
+    var searchText by rememberSaveable { mutableStateOf("") }
+
+    val uiState by bookViewModel.uiState.collectAsStateWithLifecycle()
+    val userUiState by loggedInViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(userUiState) {
         if (userUiState.userData == null) {
             loggedInViewModel.getUserData()
         }
         else {
-            categories = userUiState.userData!!.categories
-            bookViewModel.fetchBooksForYou(categories)
+            bookViewModel.fetchBooksForYou(userUiState.userData!!.categories)
         }
     }
 
@@ -73,9 +74,9 @@ fun Explore(
         )
         SearchField(
             bookViewModel = bookViewModel,
-            categories = categories,
-            searchText = bookViewModel.searchText,
-            onChangeText = { bookViewModel.searchText = it }
+            categories = userUiState.userData!!.categories,
+            searchText = searchText,
+            onChangeText = { searchText = it }
         )
         if (uiState.isLoading) {
             LoadingIndicator()
@@ -102,6 +103,8 @@ fun SearchField(
     searchText: String,
     onChangeText: (String) -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     Box(
         modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium)
     ) {
@@ -111,7 +114,7 @@ fun SearchField(
             onValueChange = onChangeText,
             prefix = {
                 Icon(
-                    painter = painterResource(R.drawable.baseline_search_24),
+                    painter = painterResource(R.drawable.search_24),
                     contentDescription = "Search Button"
                 )
             },
@@ -140,6 +143,7 @@ fun SearchField(
                             bookViewModel.fetchBooksForYou(categories)
                         }
                     }
+                    focusManager.clearFocus()
                 }
             )
         )

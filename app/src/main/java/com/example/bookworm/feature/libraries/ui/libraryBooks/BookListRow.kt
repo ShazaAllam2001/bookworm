@@ -22,10 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
@@ -56,7 +55,7 @@ fun SwipeBookListRow(
                         if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart) Color.Red
                         else Color.Transparent
                     )
-                    .padding(horizontal = 25.dp)
+                    .padding(horizontal = MaterialTheme.dimens.paddingLarge2)
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
@@ -64,7 +63,7 @@ fun SwipeBookListRow(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.baseline_delete_64),
+                        painter = painterResource(R.drawable.delete_64),
                         contentDescription = "Delete"
                     )
                 }
@@ -97,7 +96,7 @@ fun BookListRow(
         ) {
             Column(
                 modifier = Modifier.weight(2f)
-                    .padding(start = 10.dp)
+                    .padding(start = MaterialTheme.dimens.paddingMedium)
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),

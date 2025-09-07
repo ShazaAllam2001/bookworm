@@ -11,6 +11,7 @@ import com.example.bookworm.feature.libraries.domain.usecase.GetLibraryBooksUseC
 import com.example.bookworm.feature.libraries.domain.usecase.RemoveAllBooksFromShelfUseCase
 import com.example.bookworm.feature.libraries.domain.usecase.RemoveBookFromShelfUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +36,7 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun fetchLibraries(shelfId: Int? = null) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             when (val result = fetchLibrariesUseCase()) {
@@ -51,13 +52,12 @@ class LibraryViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                LibraryResult.Loading -> { }
             }
         }
     }
 
      fun getLibraryBooks(shelfId: Int) {
-         viewModelScope.launch {
+         viewModelScope.launch(Dispatchers.IO) {
              _uiState.value = _uiState.value.copy(isLoading = true)
 
              when (val result = getLibraryBooksUseCase(shelfId)) {
@@ -72,13 +72,12 @@ class LibraryViewModel @Inject constructor(
                          errorMessage = result.message
                      )
                  }
-                 BooksResult.Loading -> { }
              }
          }
      }
 
     fun addBookToShelf(shelfId: Int, volumeId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (val result = addBookToShelfUseCase(shelfId, volumeId)) {
                 is ModifyLibraryResult.Success -> {
                     _uiState.value = _uiState.value.copy(
@@ -90,13 +89,12 @@ class LibraryViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                ModifyLibraryResult.Loading -> { }
             }
         }
     }
 
     fun removeBookFromShelf(shelfId: Int, volumeId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = removeBookFromShelfUseCase(shelfId, volumeId)
             val resultLibraries = fetchLibrariesUseCase()
             val resultBooks = getLibraryBooksUseCase(shelfId)
@@ -130,7 +128,7 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun removeAllBooksFromShelf(shelfId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = removeAllBooksFromShelfUseCase(shelfId)
             val resultLibraries = fetchLibrariesUseCase()
             if (result is ModifyLibraryResult.Success

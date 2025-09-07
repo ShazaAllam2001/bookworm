@@ -15,19 +15,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.libraries.data.constants.LibrariesMap
 import com.example.bookworm.feature.libraries.data.constants.LibraryType
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
+import com.example.bookworm.ui.theme.dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +37,7 @@ fun AddToShelf(
     libraryViewModel: LibraryViewModel
 ) {
     val modifiedLibraries = remember { mutableStateMapOf<Int, Boolean>() }
-    val uiState by libraryViewModel.uiState.collectAsState()
+    val uiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
 
     BasicAlertDialog(
         modifier = Modifier.background(MaterialTheme.colorScheme.background),
@@ -57,7 +57,7 @@ fun AddToShelf(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Checkbox(
-                                        modifier = Modifier.padding(2.dp),
+                                        modifier = Modifier.padding(MaterialTheme.dimens.paddingExtraSmall),
                                         checked = modifiedLibraries[library.id] == true,
                                         onCheckedChange = { modifiedLibraries[library.id] = it }
                                     )

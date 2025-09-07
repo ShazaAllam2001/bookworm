@@ -15,8 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.ui.theme.dimens
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +30,7 @@ fun ClearLibraryConfirm(
         onDismissRequest = { onDismiss() }
     ) {
         Column(
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium)
         ) {
             Text(stringResource(R.string.are_you_sure_you_want_to_clear_the_library_from_books))
             Row(

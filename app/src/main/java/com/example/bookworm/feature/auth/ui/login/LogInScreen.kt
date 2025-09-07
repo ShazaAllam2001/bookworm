@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.ui.theme.dimens
 
@@ -34,7 +33,7 @@ fun LoginScreen(
         )
         HorizontalDivider(
             modifier = Modifier.padding(MaterialTheme.dimens.paddingLarge),
-            thickness = 2.dp,
+            thickness = MaterialTheme.dimens.thicknessSmall,
             color = MaterialTheme.colorScheme.primary
         )
         Button(

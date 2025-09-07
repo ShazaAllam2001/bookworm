@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun MyLibraryRow(
@@ -31,11 +32,11 @@ fun MyLibraryRow(
     ) {
         Icon(
             modifier = Modifier.background(MaterialTheme.colorScheme.onPrimary)
-                .padding(10.dp),
+                .padding(MaterialTheme.dimens.paddingMedium),
             painter = painterResource(icon),
             contentDescription = "$name icon"
         )
-        Spacer(modifier = Modifier.width(10.dp))
+        Spacer(modifier = Modifier.width(MaterialTheme.dimens.paddingMedium))
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center

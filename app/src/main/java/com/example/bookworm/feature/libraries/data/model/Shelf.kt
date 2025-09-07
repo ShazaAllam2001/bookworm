@@ -1,12 +1,7 @@
-package com.example.bookworm.feature.libraries.domain.model
+package com.example.bookworm.feature.libraries.data.model
 
 import kotlinx.serialization.Serializable
 
-
-@Serializable
-data class ShelvesResponse(
-    val items: List<Shelf>
-)
 
 @Serializable
 data class Shelf(

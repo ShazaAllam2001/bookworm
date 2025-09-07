@@ -1,8 +1,8 @@
 package com.example.bookworm.common.network
 
-import com.example.bookworm.feature.books.domain.model.BooksResponse
-import com.example.bookworm.feature.books.domain.model.BookItem
-import com.example.bookworm.feature.libraries.domain.model.ShelvesResponse
+import com.example.bookworm.feature.books.data.model.BooksResponse
+import com.example.bookworm.feature.books.data.model.BookItem
+import com.example.bookworm.feature.libraries.data.model.ShelvesResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header

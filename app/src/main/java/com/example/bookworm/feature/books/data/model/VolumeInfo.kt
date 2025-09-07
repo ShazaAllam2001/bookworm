@@ -1,18 +1,6 @@
-package com.example.bookworm.feature.books.domain.model
+package com.example.bookworm.feature.books.data.model
 
 import kotlinx.serialization.Serializable
-
-
-@Serializable
-data class BooksResponse(
-    val items: List<BookItem>
-)
-
-@Serializable
-data class BookItem(
-    val id: String,
-    val volumeInfo: VolumeInfo,
-)
 
 @Serializable
 data class VolumeInfo(
@@ -29,10 +17,4 @@ data class VolumeInfo(
     val imageLinks: ImageLinks? = null,
     val language: String,
     val previewLink: String
-)
-
-@Serializable
-data class ImageLinks(
-    val smallThumbnail: String,
-    val thumbnail: String
 )

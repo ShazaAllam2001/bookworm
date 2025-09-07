@@ -1,6 +1,6 @@
 package com.example.bookworm.feature.books.ui
 
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 
 data class BookUiState(
     val isLoading: Boolean = false,

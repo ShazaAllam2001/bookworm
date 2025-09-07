@@ -25,7 +25,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage

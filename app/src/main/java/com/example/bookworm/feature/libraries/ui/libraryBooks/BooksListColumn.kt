@@ -24,13 +24,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.feature.libraries.data.constants.LibrariesMap
 import com.example.bookworm.feature.libraries.data.constants.LibraryType
-import com.example.bookworm.feature.libraries.domain.model.Shelf
+import com.example.bookworm.feature.libraries.data.model.Shelf
+import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun BooksListColumn(
@@ -46,7 +46,7 @@ fun BooksListColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn(
-            modifier = Modifier.padding(15.dp)
+            modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium2)
                 .weight(9f),
         ) {
             items(books, key = { it.id }) { book ->
@@ -65,15 +65,15 @@ fun BooksListColumn(
                         navController = navController
                     )
                 }
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(MaterialTheme.dimens.paddingLarge2))
             }
         }
         if (LibrariesMap[library.id]?.second == LibraryType.ADD_REMOVE ||
             LibrariesMap[library.id]?.second == LibraryType.REMOVE_ONLY
         ) {
             HorizontalDivider(
-                modifier = Modifier.padding(horizontal = 25.dp),
-                thickness = 2.dp,
+                modifier = Modifier.padding(horizontal = MaterialTheme.dimens.paddingMedium2),
+                thickness = MaterialTheme.dimens.thicknessSmall,
                 color = MaterialTheme.colorScheme.primary
             )
             IconButton(
@@ -86,7 +86,7 @@ fun BooksListColumn(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.baseline_delete_48),
+                        painter = painterResource(R.drawable.delete_48),
                         contentDescription = "Delete All Rows"
                     )
                     Text(

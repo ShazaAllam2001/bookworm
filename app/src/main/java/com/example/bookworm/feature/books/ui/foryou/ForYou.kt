@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -22,7 +21,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
@@ -30,6 +29,7 @@ import com.example.bookworm.feature.books.ui.bookGrid.BookGrid
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -39,8 +39,8 @@ fun ForYou(
     navController: NavHostController = rememberNavController()
 ) {
     var name by rememberSaveable { mutableStateOf("") }
-    val uiState by bookViewModel.uiState.collectAsState()
-    val userUiState by loggedInViewModel.uiState.collectAsState()
+    val uiState by bookViewModel.uiState.collectAsStateWithLifecycle()
+    val userUiState by loggedInViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(userUiState) {
         if (userUiState.userData == null) {
@@ -60,7 +60,7 @@ fun ForYou(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp),
+                .padding(MaterialTheme.dimens.paddingMedium2),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             text = buildAnnotatedString {
@@ -80,7 +80,7 @@ fun ForYou(
                 Text(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(15.dp),
+                        .padding(MaterialTheme.dimens.paddingMedium2),
                     text = stringResource(R.string.pick_your_preferences_from_settings),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleMedium

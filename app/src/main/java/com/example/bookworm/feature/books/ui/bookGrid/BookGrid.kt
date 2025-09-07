@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.ui.theme.dimens
 
 @Composable

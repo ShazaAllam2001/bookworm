@@ -32,10 +32,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
+import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
@@ -80,7 +80,7 @@ fun Profile(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CoilImage(
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(MaterialTheme.dimens.imageSizeMedium)
                 .clip(CircleShape),
             imageModel = { photo },
             loading = { LoadingIndicator() },

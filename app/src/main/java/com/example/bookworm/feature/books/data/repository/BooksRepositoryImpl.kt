@@ -3,7 +3,7 @@ package com.example.bookworm.feature.books.data.repository
 import com.example.bookworm.BuildConfig
 import com.example.bookworm.common.network.BooksApiService
 import com.example.bookworm.feature.books.domain.model.BookIdResult
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.feature.books.domain.model.BooksResult
 import com.example.bookworm.feature.books.domain.repository.BooksRepository
 import retrofit2.HttpException

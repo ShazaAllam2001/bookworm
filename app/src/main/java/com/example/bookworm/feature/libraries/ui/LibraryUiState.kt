@@ -1,7 +1,7 @@
 package com.example.bookworm.feature.libraries.ui
 
-import com.example.bookworm.feature.books.domain.model.BookItem
-import com.example.bookworm.feature.libraries.domain.model.Shelf
+import com.example.bookworm.feature.books.data.model.BookItem
+import com.example.bookworm.feature.libraries.data.model.Shelf
 
 data class LibraryUiState(
     val isLoading: Boolean = false,

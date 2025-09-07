@@ -21,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
+import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun PreferencesColumn(
@@ -32,7 +32,7 @@ fun PreferencesColumn(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp),
+            .padding(MaterialTheme.dimens.paddingLarge),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         items(categories, key = { it }) { category ->
@@ -60,13 +60,13 @@ fun PreferencesColumn(
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth()
-                                .padding(10.dp),
+                                .padding(MaterialTheme.dimens.paddingMedium),
                             horizontalArrangement = Arrangement.End,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart) {
                                 Icon(
-                                    painter = painterResource(R.drawable.baseline_delete_24),
+                                    painter = painterResource(R.drawable.delete_24),
                                     contentDescription = "Delete"
                                 )
                             }
@@ -76,7 +76,7 @@ fun PreferencesColumn(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(MaterialTheme.dimens.paddingMedium),
                     text = category,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelMedium,

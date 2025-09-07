@@ -1,8 +1,5 @@
 package com.example.bookworm.feature.books.ui
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookworm.feature.books.domain.model.BookIdResult
@@ -12,6 +9,7 @@ import com.example.bookworm.feature.books.domain.usecase.FetchBooksForYouUseCase
 import com.example.bookworm.feature.books.domain.usecase.SearchBookByIdUseCase
 import com.example.bookworm.feature.books.domain.usecase.SearchBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,13 +23,11 @@ class BookViewModel @Inject constructor(
     private val searchBookByIdUseCase: SearchBookByIdUseCase
 ) : ViewModel() {
 
-    var searchText by mutableStateOf("")
-
     private val _uiState = MutableStateFlow(BookUiState())
     val uiState: StateFlow<BookUiState> = _uiState.asStateFlow()
 
     fun fetchBooksForYou(categories: List<String>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             when (val result = fetchBooksForYouUseCase(categories)) {
@@ -45,13 +41,12 @@ class BookViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                BooksResult.Loading -> { }
             }
         }
     }
 
     fun searchBooks(searchTerms: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             when (val result = searchBooksUseCase(searchTerms)) {
@@ -65,13 +60,12 @@ class BookViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                BooksResult.Loading -> { }
             }
         }
     }
 
     fun searchBookById(bookId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             when (val result = searchBookByIdUseCase(bookId)) {
@@ -85,7 +79,6 @@ class BookViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                BookIdResult.Loading -> { }
             }
         }
     }

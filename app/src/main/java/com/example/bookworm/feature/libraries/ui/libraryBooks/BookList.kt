@@ -14,20 +14,20 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.libraries.ui.LibraryViewModel
-import com.example.bookworm.feature.libraries.domain.model.Shelf
+import com.example.bookworm.feature.libraries.data.model.Shelf
+import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -36,7 +36,7 @@ fun BookList(
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
-    val uiState by libraryViewModel.uiState.collectAsState()
+    val uiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(uiState) {
         if (uiState.modified) {
@@ -101,7 +101,7 @@ fun BookListTopBar(
     navController: NavHostController
 ) {
     Surface(
-        modifier = Modifier.padding(15.dp),
+        modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium2),
         color = MaterialTheme.colorScheme.background
     ) {
         Row(

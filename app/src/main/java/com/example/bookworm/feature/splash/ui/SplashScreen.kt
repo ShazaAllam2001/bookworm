@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.example.bookworm.R
 import com.example.bookworm.ui.theme.dimens
 
@@ -38,7 +37,7 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ElevatedButton(
-                border = BorderStroke(2.dp, MaterialTheme.colorScheme.onBackground),
+                border = BorderStroke(MaterialTheme.dimens.thicknessSmall, MaterialTheme.colorScheme.onBackground),
                 onClick = { onNavigateToLogin() }
             ) {
                 Text(

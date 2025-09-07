@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
-import com.example.bookworm.feature.books.domain.model.BookItem
+import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
