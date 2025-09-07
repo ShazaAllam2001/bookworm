@@ -13,7 +13,6 @@ class SearchBookByIdUseCase @Inject constructor(
                 BookIdResult.Success(result.message)
             }
             is BookIdResult.Error -> result
-            BookIdResult.Loading -> result
         }
     }
 }

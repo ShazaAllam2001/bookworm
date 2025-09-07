@@ -12,10 +12,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
-import javax.inject.Singleton
+import javax.inject.Inject
 
-@Singleton
-class UserDataRepositoryImpl: UserDataRepository {
+class UserDataRepositoryImpl @Inject constructor(): UserDataRepository {
     private val db = Firebase.firestore
 
     override suspend fun saveUser(userId: String, userData: UserData) {

@@ -9,9 +9,7 @@ import com.example.bookworm.feature.auth.domain.repository.UserPreferencesReposi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class UserPreferencesRepositoryImpl @Inject constructor(
    @ApplicationContext private val context: Context
 ) : UserPreferencesRepository {

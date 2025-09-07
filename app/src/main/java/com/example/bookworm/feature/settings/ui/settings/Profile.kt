@@ -91,7 +91,6 @@ fun Profile(
             )
         )
         TextField(
-            modifier = Modifier.fillMaxWidth(0.5f),
             value = name,
             onValueChange = { name = it },
             singleLine = true,
