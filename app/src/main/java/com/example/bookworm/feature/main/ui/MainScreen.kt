@@ -27,7 +27,9 @@ import com.example.bookworm.feature.main.ui.navigation.BottomNavGraph
 
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onNavigateToLogin: () -> Unit
+) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -36,7 +38,10 @@ fun MainScreen() {
         }
     ) { innerPadding ->
         Box(Modifier.padding(innerPadding)) {
-            BottomNavGraph(navController = navController)
+            BottomNavGraph(
+                navController = navController,
+                onNavigateToLogin = onNavigateToLogin
+            )
         }
     }
 }

@@ -58,8 +58,6 @@ fun BookInfo(
         )
         Text(
             text = book.volumeInfo.title,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.labelLarge
         )
         Text(

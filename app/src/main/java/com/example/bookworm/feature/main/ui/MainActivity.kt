@@ -1,12 +1,11 @@
 package com.example.bookworm.feature.main.ui
 
-import android.content.res.Configuration
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.bookworm.feature.auth.ui.LoginActivity
 import com.example.bookworm.ui.theme.BookWormTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,20 +16,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BookWormTheme {
-                MainScreen()
+                MainScreen(
+                    onNavigateToLogin = {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    }
+                )
             }
         }
     }
 }
-
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
-@Composable
-fun MainScreenPreview() {
-    BookWormTheme {
-        MainScreen()
-    }
-}
-

@@ -25,7 +25,10 @@ import com.example.bookworm.feature.books.ui.BookViewModel
 
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    onNavigateToLogin: () -> Unit
+) {
     var updateForYou by rememberSaveable { mutableStateOf(true) }
     var updateLibrary by rememberSaveable { mutableStateOf(false) }
 
@@ -65,6 +68,7 @@ fun BottomNavGraph(navController: NavHostController) {
         composable(route = BottomBarTabs.Settings.route) {
             Settings(
                 loggedInViewModel = loggedInViewModel,
+                onNavigateToLogin = onNavigateToLogin,
                 updateForYou = { updateForYou = true }
             )
         }

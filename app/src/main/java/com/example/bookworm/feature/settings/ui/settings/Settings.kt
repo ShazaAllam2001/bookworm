@@ -12,6 +12,8 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -23,8 +25,14 @@ import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 @Composable
 fun Settings(
     loggedInViewModel: LoggedInViewModel,
+    onNavigateToLogin: () -> Unit,
     updateForYou: () -> Unit
 ) {
+    val uiState by loggedInViewModel.uiState.collectAsState()
+    if (!uiState.isSignedIn) {
+        onNavigateToLogin()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

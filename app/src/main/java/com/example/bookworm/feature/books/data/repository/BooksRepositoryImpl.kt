@@ -3,6 +3,7 @@ package com.example.bookworm.feature.books.data.repository
 import com.example.bookworm.BuildConfig
 import com.example.bookworm.common.network.BooksApiService
 import com.example.bookworm.feature.books.domain.model.BookIdResult
+import com.example.bookworm.feature.books.domain.model.BookItem
 import com.example.bookworm.feature.books.domain.model.BooksResult
 import com.example.bookworm.feature.books.domain.repository.BooksRepository
 import retrofit2.HttpException
@@ -19,20 +20,17 @@ class BooksRepositoryImpl @Inject constructor(
 
     override suspend fun fetchBooksForYou(categories: List<String>): BooksResult {
         return try {
-            var query = ""
-            categories.forEachIndexed { index, category ->
-                query += "$category+subject"
-                if (categories.lastIndex != index)
-                    query += "|"
+            val listResult = mutableSetOf<BookItem>()
+            categories.forEach { category ->
+                val result = booksApi.getBooks(
+                    searchTerms = "$category+subject",
+                    apiKey = KEY
+                )
+                listResult.addAll(result.items)
             }
-            val listResult = booksApi.getBooks(
-                searchTerms = query,
-                maxResults = 40,
-                apiKey = KEY
-            )
-            BooksResult.Success(listResult.items)
+            BooksResult.Success(listResult.toList().shuffled())
         } catch (e: Exception) {
-            BooksResult.Error(e.message ?: "Sign in failed")
+            BooksResult.Error(e.message ?: "")
         }
     }
 

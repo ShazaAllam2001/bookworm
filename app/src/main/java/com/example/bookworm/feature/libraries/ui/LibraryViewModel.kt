@@ -133,16 +133,14 @@ class LibraryViewModel @Inject constructor(
         viewModelScope.launch {
             val result = removeAllBooksFromShelfUseCase(shelfId)
             val resultLibraries = fetchLibrariesUseCase()
-            val resultBooks = getLibraryBooksUseCase(shelfId)
             if (result is ModifyLibraryResult.Success
-                && resultLibraries is LibraryResult.Success
-                && resultBooks is BooksResult.Success) {
+                && resultLibraries is LibraryResult.Success) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     modified = result.message,
                     libraries = resultLibraries.message,
                     library = resultLibraries.message.firstOrNull{ it.id == shelfId },
-                    books = resultBooks.message
+                    books = emptyList()
                 )
             }
             else if (result is ModifyLibraryResult.Error) {
@@ -153,11 +151,6 @@ class LibraryViewModel @Inject constructor(
             else if (resultLibraries is LibraryResult.Error) {
                 _uiState.value = LibraryUiState(
                     errorMessage = resultLibraries.message
-                )
-            }
-            else if (resultBooks is BooksResult.Error) {
-                _uiState.value = LibraryUiState(
-                    errorMessage = resultBooks.message
                 )
             }
         }

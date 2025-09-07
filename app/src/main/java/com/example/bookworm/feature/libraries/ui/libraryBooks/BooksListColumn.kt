@@ -100,7 +100,7 @@ fun BooksListColumn(
             if (showDialog) {
                 ClearLibraryConfirm(
                     onDismiss = { showDialog = false },
-                    onConfirm = { onClearLibrary() }
+                    onConfirm = onClearLibrary
                 )
             }
         }
