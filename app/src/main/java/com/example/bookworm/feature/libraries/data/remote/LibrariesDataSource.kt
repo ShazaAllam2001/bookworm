@@ -1,99 +1,68 @@
 package com.example.bookworm.feature.libraries.data.remote
 
-import android.content.Context
 import com.example.bookworm.BuildConfig
-import com.example.bookworm.R
-import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
-import com.example.bookworm.feature.books.domain.model.BooksResult
-import com.example.bookworm.feature.libraries.domain.model.LibraryResult
-import com.example.bookworm.feature.libraries.domain.model.ModifyLibraryResult
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.example.bookworm.feature.books.data.model.BookItem
+import com.example.bookworm.feature.libraries.data.model.Shelf
 import javax.inject.Inject
 
 private const val KEY = BuildConfig.API_KEY
 
 class LibrariesDataSource @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val librariesApi: LibrariesApiService,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val librariesApi: LibrariesApiService
 ) {
-    suspend fun fetchLibraries(): LibraryResult {
+    suspend fun fetchLibraries(token: String): Result<List<Shelf>> {
         return runCatching {
-            val token = userPreferencesRepository.getUserPreferences().token
             val listResult = librariesApi.getMyBookshelves(
                 token = "Bearer $token",
                 apiKey = KEY
             )
-            LibraryResult.Success(listResult.items)
-        }.getOrElse { e ->
-            LibraryResult.Error(e.message)
+            listResult.items
         }
     }
 
-    suspend fun getLibraryBooks(shelfId: Int): BooksResult {
+    suspend fun getLibraryBooks(token: String, shelfId: Int): Result<List<BookItem>> {
         return runCatching {
-            val token = userPreferencesRepository.getUserPreferences().token
             val listResult = librariesApi.getShelfBooks(
                 shelfId = shelfId,
                 token = "Bearer $token",
                 apiKey = KEY
             )
-            BooksResult.Success(listResult.body()?.items ?: emptyList())
-        }.getOrElse { e ->
-            BooksResult.Error(e.message)
+            listResult.body()?.items ?: emptyList()
         }
     }
 
-    suspend fun addBookToShelf(shelfId: Int, volumeId: String): ModifyLibraryResult {
+    suspend fun addBookToShelf(token: String, shelfId: Int, volumeId: String): Result<Boolean> {
         return runCatching {
-            val token = userPreferencesRepository.getUserPreferences().token
             val result = librariesApi.addBookToShelf(
                 shelfId = shelfId,
                 volumeId = volumeId,
                 token = "Bearer $token",
                 apiKey = KEY
             )
-            return if (result.isSuccessful)
-                ModifyLibraryResult.Success(result.isSuccessful)
-            else
-                ModifyLibraryResult.Error(context.getString(R.string.library_not_modified))
-        }.getOrElse { e ->
-            ModifyLibraryResult.Error(e.message)
+            result.isSuccessful
         }
     }
 
-    suspend fun removeBookFromShelf(shelfId: Int, volumeId: String): ModifyLibraryResult {
+    suspend fun removeBookFromShelf(token: String, shelfId: Int, volumeId: String): Result<Boolean> {
         return runCatching {
-            val token = userPreferencesRepository.getUserPreferences().token
             val result = librariesApi.removeBookFromShelf(
                 shelfId = shelfId,
                 volumeId = volumeId,
                 token = "Bearer $token",
                 apiKey = KEY
             )
-            return if (result.isSuccessful)
-                ModifyLibraryResult.Success(result.isSuccessful)
-            else
-                ModifyLibraryResult.Error(context.getString(R.string.library_not_modified))
-        }.getOrElse { e ->
-            ModifyLibraryResult.Error(e.message)
+            result.isSuccessful
         }
     }
 
-    suspend fun removeAllBooksFromShelf(shelfId: Int): ModifyLibraryResult {
+    suspend fun removeAllBooksFromShelf(token: String, shelfId: Int): Result<Boolean> {
         return runCatching {
-            val token = userPreferencesRepository.getUserPreferences().token
             val result = librariesApi.removeAllBooksFromShelf(
                 shelfId = shelfId,
                 token = "Bearer $token",
                 apiKey = KEY
             )
-            return if (result.isSuccessful)
-                ModifyLibraryResult.Success(result.isSuccessful)
-            else
-                ModifyLibraryResult.Error(context.getString(R.string.library_not_modified))
-        }.getOrElse { e ->
-            ModifyLibraryResult.Error(e.message)
+            result.isSuccessful
         }
     }
 }

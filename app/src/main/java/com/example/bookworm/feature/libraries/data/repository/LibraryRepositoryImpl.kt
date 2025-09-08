@@ -1,5 +1,6 @@
 package com.example.bookworm.feature.libraries.data.repository
 
+import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
 import com.example.bookworm.feature.books.domain.model.BooksResult
 import com.example.bookworm.feature.libraries.data.remote.LibrariesDataSource
 import com.example.bookworm.feature.libraries.domain.model.LibraryResult
@@ -8,26 +9,47 @@ import com.example.bookworm.feature.libraries.domain.repository.LibraryRepositor
 import javax.inject.Inject
 
 class LibraryRepositoryImpl @Inject constructor(
-    private val librariesDataSource: LibrariesDataSource
+    private val librariesDataSource: LibrariesDataSource,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : LibraryRepository {
 
     override suspend fun fetchLibraries(): LibraryResult {
-        return librariesDataSource.fetchLibraries()
+        val token = userPreferencesRepository.getUserPreferences().token
+        val result = librariesDataSource.fetchLibraries(token)
+        if (result.isSuccess)
+            return LibraryResult.Success(result.getOrDefault(emptyList()))
+        return LibraryResult.Error(result.exceptionOrNull()?.message)
     }
 
     override suspend fun getLibraryBooks(shelfId: Int): BooksResult {
-        return librariesDataSource.getLibraryBooks(shelfId)
+        val token = userPreferencesRepository.getUserPreferences().token
+        val result = librariesDataSource.getLibraryBooks(token, shelfId)
+        if (result.isSuccess)
+            return BooksResult.Success(result.getOrDefault(emptyList()))
+        return BooksResult.Error(result.exceptionOrNull()?.message)
     }
 
     override suspend fun addBookToShelf(shelfId: Int, volumeId: String): ModifyLibraryResult {
-        return librariesDataSource.addBookToShelf(shelfId, volumeId)
+        val token = userPreferencesRepository.getUserPreferences().token
+        val result = librariesDataSource.addBookToShelf(token, shelfId, volumeId)
+        if (result.isSuccess)
+            return ModifyLibraryResult.Success(result.getOrDefault(false))
+        return ModifyLibraryResult.Error(result.exceptionOrNull()?.message)
     }
 
     override suspend fun removeBookFromShelf(shelfId: Int, volumeId: String): ModifyLibraryResult {
-        return librariesDataSource.removeBookFromShelf(shelfId, volumeId)
+        val token = userPreferencesRepository.getUserPreferences().token
+        val result = librariesDataSource.removeBookFromShelf(token, shelfId, volumeId)
+        if (result.isSuccess)
+            return ModifyLibraryResult.Success(result.getOrDefault(false))
+        return ModifyLibraryResult.Error(result.exceptionOrNull()?.message)
     }
 
     override suspend fun removeAllBooksFromShelf(shelfId: Int): ModifyLibraryResult {
-        return librariesDataSource.removeAllBooksFromShelf(shelfId)
+        val token = userPreferencesRepository.getUserPreferences().token
+        val result = librariesDataSource.removeAllBooksFromShelf(token, shelfId)
+        if (result.isSuccess)
+            return ModifyLibraryResult.Success(result.getOrDefault(false))
+        return ModifyLibraryResult.Error(result.exceptionOrNull()?.message)
     }
 }

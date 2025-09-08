@@ -11,7 +11,7 @@ private const val KEY = BuildConfig.API_KEY
 class BooksDataSource @Inject constructor(
     private val booksApi: BooksApiService
 ) {
-    suspend fun fetchBooksForYou(categories: List<String>): BooksResult {
+    suspend fun fetchBooksForYou(categories: List<String>): Result<List<BookItem>> {
         return runCatching {
             val listResult = mutableSetOf<BookItem>()
             categories.forEach { category ->
@@ -21,33 +21,27 @@ class BooksDataSource @Inject constructor(
                 )
                 listResult.addAll(result.items)
             }
-            BooksResult.Success(listResult.toList().shuffled())
-        }.getOrElse { e ->
-            BooksResult.Error(e.message)
+            listResult.toList().shuffled()
         }
     }
 
-    suspend fun searchBooks(searchTerms: String): BooksResult {
+    suspend fun searchBooks(searchTerms: String): Result<List<BookItem>> {
         return runCatching {
             val listResult = booksApi.getBooks(
                 searchTerms = searchTerms,
                 apiKey = KEY
             )
-            BooksResult.Success(listResult.items)
-        }.getOrElse { e ->
-            BooksResult.Error(e.message)
+            listResult.items
         }
     }
 
-    suspend fun searchBookById(bookId: String): BookIdResult {
+    suspend fun searchBookById(bookId: String): Result<BookItem> {
         return runCatching {
             val result = booksApi.getBookById(
                 bookId = bookId,
                 apiKey = KEY
             )
-            BookIdResult.Success(result)
-        }.getOrElse { e ->
-            BookIdResult.Error(e.message)
+            result
         }
     }
 }

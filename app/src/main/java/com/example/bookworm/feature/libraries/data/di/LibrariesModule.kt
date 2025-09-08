@@ -1,6 +1,5 @@
 package com.example.bookworm.feature.libraries.data.di
 
-import android.app.Application
 import com.example.bookworm.common.constants.BASE_URL
 import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
 import com.example.bookworm.feature.libraries.data.remote.LibrariesApiService
@@ -32,22 +31,22 @@ object LibrariesModule {
     @Provides
     @ViewModelScoped
     fun provideLibrariesDataSource(
-        app: Application,
-        api: LibrariesApiService,
-        userPreferencesRepository: UserPreferencesRepository
+        api: LibrariesApiService
     ): LibrariesDataSource {
         return LibrariesDataSource(
-            context = app,
-            librariesApi = api,
-            userPreferencesRepository = userPreferencesRepository
+            librariesApi = api
         )
     }
 
     @Provides
     @ViewModelScoped
-    fun provideLibrariesRepo(librariesDataSource: LibrariesDataSource): LibraryRepository {
+    fun provideLibrariesRepo(
+        librariesDataSource: LibrariesDataSource,
+        userPreferencesRepository: UserPreferencesRepository
+    ): LibraryRepository {
         return LibraryRepositoryImpl(
-            librariesDataSource = librariesDataSource
+            librariesDataSource = librariesDataSource,
+            userPreferencesRepository = userPreferencesRepository
         )
     }
 }
