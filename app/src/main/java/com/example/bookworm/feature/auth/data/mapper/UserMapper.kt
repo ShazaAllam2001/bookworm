@@ -2,14 +2,14 @@ package com.example.bookworm.feature.auth.data.mapper
 
 import android.util.Log
 import com.example.bookworm.feature.auth.domain.model.auth.User
+import com.example.bookworm.feature.auth.domain.model.userData.UserData
+import com.example.bookworm.feature.auth.domain.repository.UserDataRepository
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthCredential
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AuthMapper @Inject constructor() {
+class UserMapper @Inject constructor() {
     suspend fun mapToUser(firebaseUser: FirebaseUser?, credential: OAuthCredential?): User {
         var uid = ""
         var displayName = ""
@@ -40,5 +40,14 @@ class AuthMapper @Inject constructor() {
             expirationTimeStamp = expirationTimestamp,
             isAuthenticated = true
         )
+    }
+
+    fun mapToUserData(map: Map<String, Any>?): UserData {
+        val userData =  UserData(
+            displayName = map?.get(UserDataRepository.NAME) as String,
+            categories = (map[UserDataRepository.CATEGORIES] as List<*>).filterIsInstance<String>(),
+            notify = map[UserDataRepository.NOTIFY] as Boolean
+        )
+        return userData
     }
 }
