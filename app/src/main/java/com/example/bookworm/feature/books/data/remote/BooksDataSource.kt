@@ -2,8 +2,6 @@ package com.example.bookworm.feature.books.data.remote
 
 import com.example.bookworm.BuildConfig
 import com.example.bookworm.feature.books.data.model.BookItem
-import com.example.bookworm.feature.books.domain.model.BookIdResult
-import com.example.bookworm.feature.books.domain.model.BooksResult
 import javax.inject.Inject
 
 private const val KEY = BuildConfig.API_KEY

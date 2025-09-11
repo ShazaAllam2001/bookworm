@@ -5,8 +5,8 @@ import com.example.bookworm.feature.auth.domain.model.preferences.UserPreference
 
 data class LoggedInUiState(
     val isLoading: Boolean = false,
+    val isSignedIn: Boolean = false,
     val userData: UserData? = null,
     val userPref: UserPreferences? = null,
-    val errorMessage: String? = null,
-    val isSignedIn: Boolean = false
+    val errorMessage: String? = null
 )

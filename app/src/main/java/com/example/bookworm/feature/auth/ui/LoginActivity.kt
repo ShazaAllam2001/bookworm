@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 import com.example.bookworm.feature.auth.ui.navigation.AuthNavigation
 import com.example.bookworm.feature.main.ui.MainActivity
@@ -32,22 +32,23 @@ class LoginActivity : ComponentActivity() {
             BookWormTheme {
                 val viewModel: LoggedInViewModel = hiltViewModel()
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-                viewModel.checkPref()
-                if (uiState.isLoading) {
-                    LoadingIndicator()
+                LaunchedEffect(Unit) {
+                    viewModel.checkPref()
                 }
-                else {
-                    if (uiState.isSignedIn) {
-                        startActivity(Intent(this, MainActivity::class.java))
+
+                if (uiState.isSignedIn) {
+                    LaunchedEffect(Unit) {
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         Log.d("Account Logged In", uiState.userPref.toString())
                     }
-                    else {
-                        Login(
-                            onNavigateToBrowser = {
-                                startActivity(Intent(this, OAuthRedirectActivity::class.java))
-                            }
-                        )
-                    }
+                    finish()
+                }
+                else {
+                    Login(
+                        onNavigateToBrowser = {
+                            startActivity(Intent(this@LoginActivity, OAuthRedirectActivity::class.java))
+                        }
+                    )
                 }
             }
         }

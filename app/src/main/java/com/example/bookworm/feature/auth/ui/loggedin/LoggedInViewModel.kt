@@ -46,7 +46,7 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                AuthResult.Loading -> { }
+                AuthResult.Loading -> {}
             }
         }
     }
@@ -69,7 +69,6 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                PrefResult.Loading -> { }
             }
         }
     }
@@ -92,7 +91,6 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                UserDataResult.Loading -> { }
             }
         }
     }
@@ -115,7 +113,6 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                UserDataResult.Loading -> { }
             }
         }
     }
@@ -138,7 +135,6 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                UserDataResult.Loading -> { }
             }
         }
     }
@@ -161,7 +157,6 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                UserDataResult.Loading -> { }
             }
         }
     }

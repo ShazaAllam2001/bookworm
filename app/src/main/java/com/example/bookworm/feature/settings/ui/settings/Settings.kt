@@ -32,39 +32,40 @@ fun Settings(
     if (!uiState.isSignedIn) {
         onNavigateToLogin()
     }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth()
-                .padding(MaterialTheme.dimens.paddingMedium2),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            text = stringResource(R.string.settings),
-            style = MaterialTheme.typography.titleLarge
-        )
-        Profile(
-            loggedInViewModel = loggedInViewModel,
-            updateForYou = updateForYou
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .padding(MaterialTheme.dimens.paddingMedium2),
-            horizontalArrangement = Arrangement.Center
+    else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ) {
-            ElevatedButton(
-                border = BorderStroke(
-                    MaterialTheme.dimens.thicknessExtraSmall,
-                    MaterialTheme.colorScheme.onBackground
-                ),
-                onClick = {
-                    loggedInViewModel.signOut()
-                }
+            Text(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(MaterialTheme.dimens.paddingMedium2),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                text = stringResource(R.string.settings),
+                style = MaterialTheme.typography.titleLarge
+            )
+            Profile(
+                loggedInViewModel = loggedInViewModel,
+                updateForYou = updateForYou
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(MaterialTheme.dimens.paddingMedium2),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text(stringResource(R.string.sign_out))
+                ElevatedButton(
+                    border = BorderStroke(
+                        MaterialTheme.dimens.thicknessExtraSmall,
+                        MaterialTheme.colorScheme.onBackground
+                    ),
+                    onClick = {
+                        loggedInViewModel.signOut()
+                    }
+                ) {
+                    Text(stringResource(R.string.sign_out))
+                }
             }
         }
     }

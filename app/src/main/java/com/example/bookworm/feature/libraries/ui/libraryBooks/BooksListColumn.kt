@@ -3,10 +3,8 @@ package com.example.bookworm.feature.libraries.ui.libraryBooks
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -48,6 +46,7 @@ fun BooksListColumn(
         LazyColumn(
             modifier = Modifier.padding(MaterialTheme.dimens.paddingMedium2)
                 .weight(9f),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.paddingLarge2)
         ) {
             items(books, key = { it.id }) { book ->
                 if (LibrariesMap[library.id]?.second == LibraryType.ADD_REMOVE ||
@@ -65,7 +64,6 @@ fun BooksListColumn(
                         navController = navController
                     )
                 }
-                Spacer(modifier = Modifier.height(MaterialTheme.dimens.paddingLarge2))
             }
         }
         if (LibrariesMap[library.id]?.second == LibraryType.ADD_REMOVE ||

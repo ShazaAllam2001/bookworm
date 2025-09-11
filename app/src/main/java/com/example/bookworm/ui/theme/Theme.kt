@@ -62,11 +62,10 @@ fun BookWormTheme(
     CompositionLocalProvider(
         LocalDimens provides Dimensions()
     ) {
-
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
     }
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
 }

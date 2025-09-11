@@ -4,7 +4,6 @@ import com.example.bookworm.feature.books.domain.model.BookIdResult
 import com.example.bookworm.feature.books.data.remote.BooksDataSource
 import com.example.bookworm.feature.books.domain.model.BooksResult
 import com.example.bookworm.feature.books.domain.repository.BooksRepository
-import com.example.bookworm.feature.libraries.domain.model.LibraryResult
 import javax.inject.Inject
 
 class BooksRepositoryImpl @Inject constructor(
