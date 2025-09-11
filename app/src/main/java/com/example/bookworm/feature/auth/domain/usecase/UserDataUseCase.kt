@@ -1,6 +1,7 @@
 package com.example.bookworm.feature.auth.domain.usecase
 
 import com.example.bookworm.feature.auth.data.mapper.UserMapper
+import com.example.bookworm.feature.auth.domain.model.userData.UserData
 import com.example.bookworm.feature.auth.domain.model.userData.UserDataResult
 import com.example.bookworm.feature.auth.domain.repository.UserDataRepository
 import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
@@ -19,7 +20,13 @@ class UserDataUseCase @Inject constructor(
             val map = document.data
             return UserDataResult.Success(userMapper.mapToUserData(map))
         }
-        return UserDataResult.Error("No Such Document Exist!")
+        else {
+            val userData = UserData(displayName = userPref.displayName)
+            userDataRepository.saveUser(
+                userId = uid,
+                userData = userData
+            )
+            return UserDataResult.Success(userData)
+        }
     }
-
 }

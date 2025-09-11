@@ -23,7 +23,8 @@ class UserPreferencesRepositoryImpl @Inject constructor(
 
     override suspend fun saveUserPreferences(userPref: UserPreferences) {
         context.datastore.updateData {
-            it.copy(uid = userPref.uid, email = userPref.email, photoUrl = userPref.photoUrl,
+            it.copy(uid = userPref.uid, displayName = userPref.displayName,
+                email = userPref.email, photoUrl = userPref.photoUrl,
                 token = userPref.token, expirationTimeStamp = userPref.expirationTimeStamp)
         }
     }

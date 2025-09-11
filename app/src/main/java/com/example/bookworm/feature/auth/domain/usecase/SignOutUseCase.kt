@@ -15,7 +15,7 @@ class SignOutUseCase @Inject constructor(
     suspend operator fun invoke(): AuthResult {
         return when (val result = authRepository.signOut()) {
             is AuthResult.Success -> {
-                val userPref = UserPreferences("", "", "", "", 0)
+                val userPref = UserPreferences("","","","","",0)
                 userPreferencesRepository.saveUserPreferences(userPref)
                 AuthResult.Success(User.empty())
             }

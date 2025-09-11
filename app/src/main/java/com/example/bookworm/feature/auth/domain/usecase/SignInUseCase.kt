@@ -16,7 +16,10 @@ class SignInUseCase @Inject constructor(
         return when (val result = authRepository.signIn(context)) {
             is AuthResult.Success -> {
                 val user = result.user
-                val userPref = UserPreferences(user.uid, user.email, user.photoUrl, user.token, user.expirationTimeStamp)
+                val userPref = UserPreferences(
+                    uid = user.uid, displayName = user.displayName, email = user.email,
+                    photoUrl = user.photoUrl, token = user.token, expirationTimeStamp = user.expirationTimeStamp
+                )
                 userPreferencesRepository.saveUserPreferences(userPref)
                 AuthResult.Success(user)
             }
