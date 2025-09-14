@@ -13,14 +13,12 @@ class SignOutUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
     suspend operator fun invoke(): AuthResult {
-        return when (val result = authRepository.signOut()) {
-            is AuthResult.Success -> {
-                val userPref = UserPreferences("","","","","",0)
-                userPreferencesRepository.saveUserPreferences(userPref)
-                AuthResult.Success(User.empty())
-            }
-            is AuthResult.Error -> result
-            AuthResult.Loading -> result
+        val result = authRepository.signOut()
+        if (result.isSuccess) {
+            val userPref = UserPreferences("","","","","",0)
+            userPreferencesRepository.saveUserPreferences(userPref)
+            return AuthResult.Success(User.empty())
         }
+        return AuthResult.Error(result.exceptionOrNull()?.message ?: "")
     }
 }

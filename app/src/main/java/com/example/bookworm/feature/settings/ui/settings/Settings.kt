@@ -19,11 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.bookworm.R
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
+import com.example.bookworm.feature.notifications.ui.viewModel.NotifyViewModel
 import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
 fun Settings(
+    notifyViewModel: NotifyViewModel,
     loggedInViewModel: LoggedInViewModel,
     onNavigateToLogin: () -> Unit,
     updateForYou: () -> Unit
@@ -47,6 +49,7 @@ fun Settings(
                 style = MaterialTheme.typography.titleLarge
             )
             Profile(
+                notifyViewModel = notifyViewModel,
                 loggedInViewModel = loggedInViewModel,
                 updateForYou = updateForYou
             )

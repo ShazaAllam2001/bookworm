@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.loading.LoadingIndicator
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
+import com.example.bookworm.feature.notifications.ui.viewModel.NotifyViewModel
 import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
@@ -42,6 +43,7 @@ import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun Profile(
+    notifyViewModel: NotifyViewModel,
     loggedInViewModel: LoggedInViewModel,
     updateForYou: () -> Unit
 ) {
@@ -169,6 +171,7 @@ fun Profile(
                 onCheckedChange = {
                     notify = it
                     loggedInViewModel.saveNotify(notify)
+                    notifyViewModel.getRecommendation()
                 }
             )
         }

@@ -46,7 +46,6 @@ class LoggedInViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                AuthResult.Loading -> {}
             }
         }
     }

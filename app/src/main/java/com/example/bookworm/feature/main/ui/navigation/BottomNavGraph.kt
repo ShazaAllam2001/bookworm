@@ -22,6 +22,7 @@ import com.example.bookworm.common.constants.BottomBarTabs
 import com.example.bookworm.common.constants.Screens
 import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
 import com.example.bookworm.feature.books.ui.BookViewModel
+import com.example.bookworm.feature.notifications.ui.viewModel.NotifyViewModel
 
 
 @Composable
@@ -36,6 +37,7 @@ fun BottomNavGraph(
     val exploreBookViewModel: BookViewModel = hiltViewModel()
     val libraryViewModel: LibraryViewModel = hiltViewModel()
     val loggedInViewModel: LoggedInViewModel = hiltViewModel()
+    val notifyViewModel: NotifyViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
@@ -67,6 +69,7 @@ fun BottomNavGraph(
         }
         composable(route = BottomBarTabs.Settings.route) {
             Settings(
+                notifyViewModel = notifyViewModel,
                 loggedInViewModel = loggedInViewModel,
                 onNavigateToLogin = onNavigateToLogin,
                 updateForYou = { updateForYou = true }

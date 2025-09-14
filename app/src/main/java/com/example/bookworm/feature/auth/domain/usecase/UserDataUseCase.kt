@@ -1,9 +1,9 @@
 package com.example.bookworm.feature.auth.domain.usecase
 
-import com.example.bookworm.feature.auth.data.mapper.UserMapper
+import com.example.bookworm.common.data.mapper.UserMapper
 import com.example.bookworm.feature.auth.domain.model.userData.UserData
 import com.example.bookworm.feature.auth.domain.model.userData.UserDataResult
-import com.example.bookworm.feature.auth.domain.repository.UserDataRepository
+import com.example.bookworm.feature.settings.domain.repository.UserDataRepository
 import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
 import javax.inject.Inject
 

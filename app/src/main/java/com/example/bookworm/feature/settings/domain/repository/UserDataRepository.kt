@@ -1,4 +1,4 @@
-package com.example.bookworm.feature.auth.domain.repository
+package com.example.bookworm.feature.settings.domain.repository
 
 import com.example.bookworm.feature.auth.domain.model.userData.UserData
 import com.google.firebase.firestore.DocumentSnapshot

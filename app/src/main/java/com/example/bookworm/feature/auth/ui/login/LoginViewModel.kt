@@ -36,7 +36,6 @@ class LoginViewModel @Inject constructor(
                         errorMessage = result.message
                     )
                 }
-                AuthResult.Loading -> { }
             }
         }
     }

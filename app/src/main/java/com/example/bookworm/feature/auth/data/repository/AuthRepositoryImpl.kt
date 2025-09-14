@@ -1,9 +1,7 @@
 package com.example.bookworm.feature.auth.data.repository
 
-import android.util.Log
 import android.app.Activity
-import com.example.bookworm.feature.auth.data.mapper.UserMapper
-import com.example.bookworm.feature.auth.domain.model.auth.AuthResult
+import com.example.bookworm.common.data.mapper.UserMapper
 import com.example.bookworm.feature.auth.domain.model.auth.User
 import com.example.bookworm.feature.auth.domain.repository.AuthRepository
 import com.google.firebase.Firebase
@@ -17,8 +15,8 @@ class AuthRepositoryImpl @Inject constructor(
     private val authMapper: UserMapper
 ) : AuthRepository {
 
-    override suspend fun signIn(context: Activity): AuthResult {
-        return try {
+    override suspend fun signIn(context: Activity): Result<User> {
+        return runCatching {
             val auth = Firebase.auth
             val provider = OAuthProvider.newBuilder("google.com").apply {
                 scopes = listOf(
@@ -32,20 +30,15 @@ class AuthRepositoryImpl @Inject constructor(
             val authResult = auth.startActivityForSignInWithProvider(context, provider).await()
             val firebaseUser = authResult.user
             val credential = authResult.credential as? OAuthCredential
-            val user = authMapper.mapToUser(firebaseUser, credential)
-            Log.d("user", user.toString())
-            AuthResult.Success(user)
-        } catch (e: Exception) {
-            AuthResult.Error(e.message ?: "Sign in failed")
+            val tokenResult = firebaseUser?.getIdToken(true)?.await()
+            authMapper.mapToUser(firebaseUser, tokenResult, credential)
         }
     }
 
-    override suspend fun signOut(): AuthResult {
-        return try {
+    override suspend fun signOut(): Result<User> {
+        return runCatching {
             Firebase.auth.signOut()
-            AuthResult.Success(User.empty())
-        } catch (e: Exception) {
-            AuthResult.Error(e.message ?: "Sign out failed")
+            User.empty()
         }
     }
 }

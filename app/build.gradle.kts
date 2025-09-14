@@ -105,6 +105,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.landscapist.coil)
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)

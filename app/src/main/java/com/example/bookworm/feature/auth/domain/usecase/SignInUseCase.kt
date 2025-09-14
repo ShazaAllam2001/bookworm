@@ -13,18 +13,18 @@ class SignInUseCase @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository
 ) {
     suspend operator fun invoke(context: Activity): AuthResult {
-        return when (val result = authRepository.signIn(context)) {
-            is AuthResult.Success -> {
-                val user = result.user
+        val result = authRepository.signIn(context)
+        if (result.isSuccess) {
+            val user = result.getOrNull()
+            if (user != null) {
                 val userPref = UserPreferences(
                     uid = user.uid, displayName = user.displayName, email = user.email,
                     photoUrl = user.photoUrl, token = user.token, expirationTimeStamp = user.expirationTimeStamp
                 )
                 userPreferencesRepository.saveUserPreferences(userPref)
-                AuthResult.Success(user)
+                return AuthResult.Success(user)
             }
-            is AuthResult.Error -> result
-            AuthResult.Loading -> result
         }
+        return AuthResult.Error(result.exceptionOrNull()?.message ?: "")
     }
 }
