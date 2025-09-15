@@ -2,7 +2,6 @@ package com.example.bookworm.common.data.mapper
 
 import android.util.Log
 import com.example.bookworm.feature.auth.domain.model.auth.User
-import com.example.bookworm.feature.auth.domain.model.preferences.UserPreferences
 import com.example.bookworm.feature.auth.domain.model.userData.UserData
 import com.example.bookworm.feature.settings.domain.repository.UserDataRepository
 import com.google.firebase.auth.FirebaseUser

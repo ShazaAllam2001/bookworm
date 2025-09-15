@@ -41,5 +41,8 @@
     <string name="book_added_successfully">تمت إضافة الكتاب بنجاح ✅</string>
     <string name="books_removed_successfully">تمت حذف الكتب بنجاح ✅</string>
     <string name="get_started">ابدأ</string>
-    <string name="library_not_modified">Library Not Modified</string>
+    <string name="library_not_modified">لن يتم تعديل المكتبة</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="your_daily_book_bite">Your Daily Book Bite</string>
+    <string name="bookworm">BookWorm</string>
 </resources>
