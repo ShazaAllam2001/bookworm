@@ -39,7 +39,7 @@ class NotifyViewModel @Inject constructor(
             when (val result = userDataUseCase()) {
                 is UserDataResult.Success -> {
                     val category = result.user.categories.random()
-                    when (val books = searchBooksUseCase(category)) {
+                    when (val books = searchBooksUseCase("$category+subject")) {
                         is BooksResult.Success -> {
                             val book = books.message.random()
                             _uiState.value = NotifyState(
