@@ -6,18 +6,12 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
-import com.example.bookworm.feature.auth.ui.loggedin.LoggedInViewModel
-import com.example.bookworm.feature.auth.ui.navigation.AuthNavigation
+import com.example.bookworm.feature.user.ui.viewModel.LoggedInViewModel
+import com.example.bookworm.feature.auth.ui.composables.navigation.Login
 import com.example.bookworm.feature.main.ui.MainActivity
 import com.example.bookworm.ui.theme.BookWormTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,20 +45,6 @@ class LoginActivity : ComponentActivity() {
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun Login(onNavigateToBrowser: () -> Unit) {
-    val navController = rememberNavController()
-
-    Scaffold { innerPadding ->
-        Box(Modifier.padding(innerPadding)) {
-            AuthNavigation(
-                navController = navController,
-                onNavigateToBrowser = onNavigateToBrowser
-            )
         }
     }
 }

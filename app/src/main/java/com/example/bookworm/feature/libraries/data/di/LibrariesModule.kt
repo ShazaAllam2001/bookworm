@@ -1,7 +1,7 @@
 package com.example.bookworm.feature.libraries.data.di
 
 import com.example.bookworm.common.constants.BASE_URL
-import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
+import com.example.bookworm.feature.user.domain.repository.UserPreferencesRepository
 import com.example.bookworm.feature.libraries.data.remote.LibrariesApiService
 import com.example.bookworm.feature.libraries.data.remote.LibrariesDataSource
 import com.example.bookworm.feature.libraries.data.repository.LibraryRepositoryImpl

@@ -12,6 +12,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import com.example.bookworm.feature.auth.ui.LoginActivity
+import com.example.bookworm.feature.main.ui.composables.MainScreen
 import com.example.bookworm.ui.theme.BookWormTheme
 import dagger.hilt.android.AndroidEntryPoint
 

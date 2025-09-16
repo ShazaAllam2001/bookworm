@@ -10,8 +10,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.bookworm.feature.main.ui.MainActivity
-import com.example.bookworm.common.ui.loading.LoadingIndicator
-import com.example.bookworm.feature.auth.ui.login.LoginViewModel
+import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
+import com.example.bookworm.feature.auth.ui.viewModel.LoginViewModel
 import com.example.bookworm.ui.theme.BookWormTheme
 import dagger.hilt.android.AndroidEntryPoint
 

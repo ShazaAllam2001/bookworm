@@ -1,10 +1,10 @@
 package com.example.bookworm.feature.auth.domain.usecase
 
 import android.app.Activity
-import com.example.bookworm.feature.auth.domain.model.auth.AuthResult
-import com.example.bookworm.feature.auth.domain.model.preferences.UserPreferences
+import com.example.bookworm.feature.auth.domain.model.AuthResult
+import com.example.bookworm.feature.user.domain.model.preferences.UserPreferences
 import com.example.bookworm.feature.auth.domain.repository.AuthRepository
-import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
+import com.example.bookworm.feature.user.domain.repository.UserPreferencesRepository
 import javax.inject.Inject
 
 

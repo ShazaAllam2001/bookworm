@@ -1,8 +1,8 @@
 package com.example.bookworm.feature.auth.data.remote
 
 import android.app.Activity
-import com.example.bookworm.common.data.mapper.UserMapper
-import com.example.bookworm.feature.auth.domain.model.auth.User
+import com.example.bookworm.feature.user.data.mapper.UserMapper
+import com.example.bookworm.feature.auth.domain.model.User
 import com.google.firebase.Firebase
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
@@ -28,8 +28,8 @@ class AuthDataSource @Inject constructor(
             }.build()
             val authResult = auth.startActivityForSignInWithProvider(context, provider).await()
             val firebaseUser = authResult.user
-            val credential = authResult.credential as? OAuthCredential
             val tokenResult = firebaseUser?.getIdToken(true)?.await()
+            val credential = authResult.credential as? OAuthCredential
             userMapper.mapToUser(firebaseUser, tokenResult, credential)
         }
     }

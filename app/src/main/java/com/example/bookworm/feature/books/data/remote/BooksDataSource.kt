@@ -11,7 +11,7 @@ class BooksDataSource @Inject constructor(
 ) {
     suspend fun fetchBooksForYou(categories: List<String>): Result<List<BookItem>> {
         return runCatching {
-            val listResult = mutableSetOf<BookItem>()
+            val listResult = mutableListOf<BookItem>()
             categories.forEach { category ->
                 val result = booksApi.getBooks(
                     searchTerms = "$category+subject",
@@ -19,7 +19,7 @@ class BooksDataSource @Inject constructor(
                 )
                 listResult.addAll(result.items)
             }
-            listResult.toList().shuffled()
+            listResult.shuffled()
         }
     }
 

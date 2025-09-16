@@ -1,6 +1,6 @@
 package com.example.bookworm.feature.libraries.data.repository
 
-import com.example.bookworm.feature.auth.domain.repository.UserPreferencesRepository
+import com.example.bookworm.feature.user.domain.repository.UserPreferencesRepository
 import com.example.bookworm.feature.books.domain.model.BooksResult
 import com.example.bookworm.feature.libraries.data.remote.LibrariesDataSource
 import com.example.bookworm.feature.libraries.domain.model.LibraryResult

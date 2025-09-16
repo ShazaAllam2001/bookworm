@@ -9,8 +9,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
-import com.example.bookworm.feature.auth.domain.model.userData.UserDataResult
-import com.example.bookworm.feature.auth.domain.usecase.UserDataUseCase
+import com.example.bookworm.feature.user.domain.model.userData.UserDataResult
+import com.example.bookworm.feature.user.domain.usecase.UserDataUseCase
 import com.example.bookworm.feature.books.domain.model.BooksResult
 import com.example.bookworm.feature.books.domain.usecase.SearchBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
