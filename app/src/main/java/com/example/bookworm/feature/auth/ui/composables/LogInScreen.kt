@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.bookworm.R
+import com.example.bookworm.common.ui.composables.animation.AnimatedText
 import com.example.bookworm.ui.theme.dimens
 
 @Composable
@@ -27,8 +28,8 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Book Worm \uD83D\uDCDA",
+        AnimatedText(
+            text = stringResource(R.string.book_worm_title),
             style = MaterialTheme.typography.headlineLarge
         )
         HorizontalDivider(

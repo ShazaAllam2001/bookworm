@@ -21,8 +21,6 @@ class UserPreferencesDataSource @Inject constructor(
     }
 
     suspend fun saveUserPreferences(userPref: UserPreferences) {
-        dataStore.updateData {
-            userPref
-        }
+        dataStore.updateData { userPref }
     }
 }

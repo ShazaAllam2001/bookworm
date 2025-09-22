@@ -12,10 +12,6 @@ import javax.inject.Inject
 class UserMapper @Inject constructor() {
     fun mapToUser(firebaseUser: FirebaseUser?, tokenResult: GetTokenResult?, credential: OAuthCredential?): User {
         val userData = firebaseUser?.run {
-            val uid = uid
-            val displayName = displayName ?: ""
-            val email = email ?: ""
-            val photoUrl = photoUrl?.toString() ?: ""
             val expirationTimestamp = tokenResult?.expirationTimestamp ?: 0L
             val token = credential?.accessToken ?: ""
 
@@ -24,9 +20,9 @@ class UserMapper @Inject constructor() {
 
             User(
                 uid = uid,
-                displayName = displayName,
-                email = email,
-                photoUrl = photoUrl,
+                displayName = displayName ?: "",
+                email = email ?: "",
+                photoUrl = photoUrl?.toString() ?: "",
                 token = token,
                 expirationTimeStamp = expirationTimestamp,
                 isAuthenticated = true

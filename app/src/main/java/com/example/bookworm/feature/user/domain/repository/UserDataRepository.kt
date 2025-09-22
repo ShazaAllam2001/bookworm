@@ -5,7 +5,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 
 interface UserDataRepository {
     companion object {
-        const val TAG = "user"
         const val COLLECTION = "user"
         const val NAME = "name"
         const val CATEGORIES = "categories"
