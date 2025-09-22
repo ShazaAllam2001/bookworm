@@ -41,7 +41,8 @@ fun Settings(
                 .background(MaterialTheme.colorScheme.background)
         ) {
             Text(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.weight(0.1f)
+                    .fillMaxWidth()
                     .padding(MaterialTheme.dimens.paddingMedium2),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -49,12 +50,14 @@ fun Settings(
                 style = MaterialTheme.typography.titleLarge
             )
             Profile(
+                modifier = Modifier.weight(0.8f),
                 notifyViewModel = notifyViewModel,
                 loggedInViewModel = loggedInViewModel,
                 updateForYou = updateForYou
             )
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.weight(0.1f)
+                    .fillMaxWidth()
                     .padding(MaterialTheme.dimens.paddingMedium2),
                 horizontalArrangement = Arrangement.Center
             ) {

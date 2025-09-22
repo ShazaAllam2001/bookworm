@@ -60,7 +60,7 @@ fun AnimatedText(
             val animAlpha by animateFloatAsState(
                 targetValue = if (state) 1f else 0f,
                 animationSpec = tween(
-                    delayMillis = 900,
+                    delayMillis = 500,
                     easing = LinearEasing
                 )
             )

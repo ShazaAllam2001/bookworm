@@ -26,7 +26,7 @@ val Typography = Typography(
     ),
     titleLarge = TextStyle(
         fontFamily = PublicSans,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.ExtraBold,
         fontSize = 24.sp
     ),
     titleMedium = TextStyle(
@@ -36,7 +36,7 @@ val Typography = Typography(
     ),
     titleSmall = TextStyle(
         fontFamily = PublicSans,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp
     ),
     bodyMedium = TextStyle(

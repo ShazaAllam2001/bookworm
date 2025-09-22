@@ -63,21 +63,22 @@ fun Explore(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(MaterialTheme.dimens.paddingMedium),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            text = stringResource(R.string.explore),
-            style = MaterialTheme.typography.titleLarge
-        )
         SearchField(
             bookViewModel = bookViewModel,
             categories = userUiState.userData!!.categories,
             searchText = searchText,
             onChangeText = { searchText = it }
         )
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(MaterialTheme.dimens.paddingMedium2),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            text = stringResource(R.string.explore),
+            style = MaterialTheme.typography.titleMedium
+        )
+
         if (uiState.isLoading) {
             LoadingIndicator()
         }

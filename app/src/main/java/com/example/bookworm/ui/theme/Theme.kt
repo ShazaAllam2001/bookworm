@@ -12,6 +12,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 
 val  LocalDimens = staticCompositionLocalOf { Dimensions() }
 
@@ -28,18 +29,18 @@ private val DarkColorScheme = darkColorScheme(
     secondary = PurpleWhite,
     onSecondary = BlueGray,
     tertiary = PinkWhite,
-    onTertiary = darkRed
+    onTertiary = DarkRed
 )
 
 private val LightColorScheme = lightColorScheme(
-    background = yellowWhite,
-    onBackground = lightBlack,
-    primary = lavender,
-    onPrimary = lightGray,
-    secondary = darkLavender,
-    onSecondary = darkGray,
-    tertiary = darkPink,
-    onTertiary = white
+    background = YellowWhite,
+    onBackground = LightBlack,
+    primary = Lavender,
+    onPrimary = LightGray,
+    secondary = DarkLavender,
+    onSecondary = DarkGray,
+    tertiary = DarkPink,
+    onTertiary = White
 )
 
 @Composable

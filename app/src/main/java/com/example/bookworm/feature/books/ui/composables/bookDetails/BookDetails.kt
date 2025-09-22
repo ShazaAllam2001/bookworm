@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -97,24 +96,20 @@ fun BookDetails(
 fun BookTopBar(
     navController: NavHostController
 ) {
-    Surface(
-        modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
-        color = MaterialTheme.colorScheme.onPrimary
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .padding(MaterialTheme.dimens.paddingSmall),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    navController.popBackStack()
-                }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.arrow_back_64dp),
-                    contentDescription = "Back to books list"
-                )
+        IconButton(
+            onClick = {
+                navController.popBackStack()
             }
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.arrow_back_64dp),
+                contentDescription = "Back to books list"
+            )
         }
     }
 }

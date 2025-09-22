@@ -43,6 +43,7 @@ import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun Profile(
+    modifier: Modifier = Modifier,
     notifyViewModel: NotifyViewModel,
     loggedInViewModel: LoggedInViewModel,
     updateForYou: () -> Unit
@@ -78,7 +79,7 @@ fun Profile(
     }
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         CoilImage(

@@ -58,7 +58,7 @@ fun BookInfo(
         )
         Text(
             text = book.volumeInfo.title,
-            style = MaterialTheme.typography.labelLarge
+            style = MaterialTheme.typography.titleMedium
         )
         Text(
             text = stringResource(
@@ -67,7 +67,7 @@ fun BookInfo(
             ),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelLarge
+            style = MaterialTheme.typography.titleSmall
         )
         Column(
             modifier = Modifier.fillMaxWidth()

@@ -69,7 +69,7 @@ fun ForYou(
                     append(" $name")
                 }
             },
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleMedium
         )
         if (uiState.isLoading) {
             LoadingIndicator()
