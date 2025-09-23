@@ -3,12 +3,7 @@ package com.example.bookworm.feature.books.ui.composables.bookDetails
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -28,7 +22,6 @@ import com.example.bookworm.R
 import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
 import com.example.bookworm.feature.books.ui.viewModel.BookViewModel
 import com.example.bookworm.feature.libraries.ui.viewModel.LibraryViewModel
-import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
@@ -88,28 +81,6 @@ fun BookDetails(
         }
         else {
             Text(uiState.errorMessage ?: "")
-        }
-    }
-}
-
-@Composable
-fun BookTopBar(
-    navController: NavHostController
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth()
-            .padding(MaterialTheme.dimens.paddingSmall),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        IconButton(
-            onClick = {
-                navController.popBackStack()
-            }
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.arrow_back_64dp),
-                contentDescription = "Back to books list"
-            )
         }
     }
 }

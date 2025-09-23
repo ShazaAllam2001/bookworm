@@ -1,6 +1,7 @@
 package com.example.bookworm.feature.books.ui.composables.bookDetails
 
 import android.widget.TextView
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import androidx.core.text.HtmlCompat
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
 import com.example.bookworm.feature.books.data.model.BookItem
+import com.example.bookworm.feature.books.ui.composables.bookCover.BookCover
 import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
@@ -40,7 +42,8 @@ fun BookInfo(
     val bodyColor = MaterialTheme.colorScheme.primary
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(MaterialTheme.dimens.paddingMedium)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -56,21 +59,28 @@ fun BookInfo(
                 alignment = Alignment.Center
             )
         )
-        Text(
-            text = book.volumeInfo.title,
-            style = MaterialTheme.typography.titleMedium
-        )
-        Text(
-            text = stringResource(
-                R.string.by,
-                if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
-            ),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.titleSmall
-        )
         Column(
             modifier = Modifier.fillMaxWidth()
+                .padding(MaterialTheme.dimens.paddingSmall),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                text = book.volumeInfo.title,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = stringResource(
+                    R.string.by,
+                    if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
+                ),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.titleSmall
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(4f)
                 .padding(MaterialTheme.dimens.paddingSmall)
                 .verticalScroll(rememberScrollState()),

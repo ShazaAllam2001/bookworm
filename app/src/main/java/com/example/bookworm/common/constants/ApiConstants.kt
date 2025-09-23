@@ -6,11 +6,10 @@ object ApiPaths {
     const val VOLUMES = "volumes"
     const val VOLUME_BY_ID = "volumes/{id}"
     const val BOOKSHELVES = "mylibrary/bookshelves"
-    const val SHELF_PARAM = "shelf"
-    const val SHELF_BOOKS = "$BOOKSHELVES/{$SHELF_PARAM}/volumes"
-    const val ADD_VOLUME = "$BOOKSHELVES/{$SHELF_PARAM}/addVolume"
-    const val REMOVE_VOLUME = "$BOOKSHELVES/{$SHELF_PARAM}/removeVolume"
-    const val CLEAR_VOLUMES = "$BOOKSHELVES/{$SHELF_PARAM}/clearVolumes"
+    const val SHELF_BOOKS = "$BOOKSHELVES/{${ApiParams.SHELF}}/volumes"
+    const val ADD_VOLUME = "$BOOKSHELVES/{${ApiParams.SHELF}}/addVolume"
+    const val REMOVE_VOLUME = "$BOOKSHELVES/{${ApiParams.SHELF}}/removeVolume"
+    const val CLEAR_VOLUMES = "$BOOKSHELVES/{${ApiParams.SHELF}}/clearVolumes"
 }
 
 object ApiParams {

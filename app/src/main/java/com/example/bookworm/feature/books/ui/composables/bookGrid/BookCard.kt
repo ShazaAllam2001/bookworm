@@ -1,30 +1,22 @@
 package com.example.bookworm.feature.books.ui.composables.bookGrid
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import com.example.bookworm.R
 import com.example.bookworm.feature.books.data.model.BookItem
-import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
+import com.example.bookworm.feature.books.ui.composables.bookCover.BookCover
 import com.example.bookworm.ui.theme.dimens
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil.CoilImage
 
 @Composable
 fun BookCard(
@@ -41,36 +33,11 @@ fun BookCard(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .background(Color.LightGray),
-                contentAlignment = Alignment.Center
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize(0.85f)
-                        .shadow(
-                            elevation = MaterialTheme.dimens.shadowElevation,
-                            shape = RoundedCornerShape(MaterialTheme.dimens.shadowElevation),
-                            clip = false
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CoilImage(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        imageModel = { book.volumeInfo.imageLinks?.smallThumbnail },
-                        loading = { LoadingIndicator() },
-                        failure = { Text("Failed to load image") },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Fit,
-                            alignment = Alignment.Center
-                        )
-                    )
-                }
-            }
+            BookCover(
+                modifier = Modifier.weight(1f)
+                    .fillMaxSize(),
+                book = book
+            )
             Column(
                 modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
                 horizontalAlignment = Alignment.CenterHorizontally
