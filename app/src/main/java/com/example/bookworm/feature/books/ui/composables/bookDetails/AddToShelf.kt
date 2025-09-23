@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +21,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookworm.R
@@ -40,7 +42,8 @@ fun AddToShelf(
     val uiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
 
     BasicAlertDialog(
-        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        modifier = Modifier.clip(RoundedCornerShape(MaterialTheme.dimens.roundCorner))
+            .background(MaterialTheme.colorScheme.background),
         onDismissRequest = { onDismiss() }
     ) {
         Column {

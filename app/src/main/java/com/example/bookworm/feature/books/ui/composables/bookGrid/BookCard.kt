@@ -59,6 +59,8 @@ fun BookCard(
                     contentAlignment = Alignment.Center
                 ) {
                     CoilImage(
+                        modifier = Modifier
+                            .fillMaxSize(),
                         imageModel = { book.volumeInfo.imageLinks?.smallThumbnail },
                         loading = { LoadingIndicator() },
                         failure = { Text("Failed to load image") },
