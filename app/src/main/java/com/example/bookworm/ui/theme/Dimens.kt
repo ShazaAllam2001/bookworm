@@ -18,5 +18,5 @@ data class Dimensions(
     val imageSizeMedium: Dp = 150.dp,
 
     /* Shadow */
-    val shadowElevation: Dp = 10.dp
+    val shadowElevation: Dp = 14.dp
 )

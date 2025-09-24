@@ -46,11 +46,17 @@ fun BookInfo(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        BookCover(
+        Box(
             modifier = Modifier.weight(3f)
-                .fillMaxWidth(0.5f),
-            book = book
-        )
+                .fillMaxWidth()
+                .background(Color.LightGray),
+            contentAlignment = Alignment.Center
+        ) {
+            BookCover(
+                modifier = Modifier.fillMaxWidth(0.5f),
+                book = book
+            )
+        }
         Column(
             modifier = Modifier.fillMaxWidth()
                 .padding(MaterialTheme.dimens.paddingSmall),
@@ -72,8 +78,8 @@ fun BookInfo(
         }
         Column(
             modifier = Modifier
-                .fillMaxWidth()
                 .weight(4f)
+                .fillMaxWidth()
                 .padding(MaterialTheme.dimens.paddingSmall)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
