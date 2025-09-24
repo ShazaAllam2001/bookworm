@@ -26,11 +26,10 @@ fun MyLibraryRow(
     numberOfBooks: Int
 ) {
     Row(
-        modifier = Modifier.background(MaterialTheme.colorScheme.onSecondary),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.background(MaterialTheme.colorScheme.onPrimary)
+            modifier = Modifier.background(MaterialTheme.colorScheme.onSecondary)
                 .padding(MaterialTheme.dimens.paddingMedium),
             painter = painterResource(icon),
             contentDescription = "$name icon"

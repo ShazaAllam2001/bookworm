@@ -32,7 +32,7 @@ fun BookCover(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize(0.85f)
+                .fillMaxSize(0.8f)
                 .shadow(
                     elevation = MaterialTheme.dimens.shadowElevation,
                     shape = RoundedCornerShape(MaterialTheme.dimens.shadowElevation),

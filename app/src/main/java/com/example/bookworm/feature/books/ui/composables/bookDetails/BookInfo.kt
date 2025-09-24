@@ -1,6 +1,7 @@
 package com.example.bookworm.feature.books.ui.composables.bookDetails
 
 import android.widget.TextView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,19 +19,16 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.text.HtmlCompat
 import com.example.bookworm.R
-import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
 import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.feature.books.ui.composables.bookCover.BookCover
 import com.example.bookworm.ui.theme.dimens
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil.CoilImage
 
 
 @Composable
@@ -48,16 +46,10 @@ fun BookInfo(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CoilImage(
+        BookCover(
             modifier = Modifier.weight(3f)
-                .padding(MaterialTheme.dimens.paddingSmall),
-            imageModel = { book.volumeInfo.imageLinks?.thumbnail },
-            loading = { LoadingIndicator() },
-            failure = { Text("Failed to load image") },
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Fit,
-                alignment = Alignment.Center
-            )
+                .fillMaxWidth(0.5f),
+            book = book
         )
         Column(
             modifier = Modifier.fillMaxWidth()
