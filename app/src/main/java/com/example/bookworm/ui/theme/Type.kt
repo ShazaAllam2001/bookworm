@@ -46,12 +46,14 @@ val Typography = Typography(
     labelLarge = TextStyle(
         fontFamily = PublicSans,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
     ),
     labelMedium = TextStyle(
         fontFamily = PublicSans,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp
+        fontWeight = FontWeight.W400,
+        fontSize = 14.sp,
+        lineHeight = 21.sp
     ),
     labelSmall = TextStyle(
         fontFamily = PublicSans,

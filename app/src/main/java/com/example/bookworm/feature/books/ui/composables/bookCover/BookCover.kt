@@ -3,7 +3,6 @@ package com.example.bookworm.feature.books.ui.composables.bookCover
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,17 +21,18 @@ import com.skydoves.landscapist.coil.CoilImage
 @Composable
 fun BookCover(
     modifier: Modifier = Modifier,
+    bookRatio: Float = 0.8f,
     book: BookItem
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color.LightGray),
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize(0.8f)
+                .fillMaxSize(bookRatio)
                 .shadow(
                     elevation = MaterialTheme.dimens.shadowElevation,
                     shape = RoundedCornerShape(MaterialTheme.dimens.shadowElevation),

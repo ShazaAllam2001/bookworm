@@ -13,6 +13,7 @@ data class Dimensions(
     val paddingExtraLarge: Dp = 32.dp,
     /* ---------------------------------- */
     val roundCorner: Dp = 16.dp,
+    val roundCornerSmall: Dp = 8.dp,
     val thicknessExtraSmall: Dp = 1.dp,
     val thicknessSmall: Dp = 2.dp,
     val imageSizeMedium: Dp = 150.dp,

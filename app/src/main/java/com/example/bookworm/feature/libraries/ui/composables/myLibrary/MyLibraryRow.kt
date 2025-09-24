@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.bookworm.R
@@ -21,15 +23,18 @@ import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun MyLibraryRow(
+    modifier: Modifier = Modifier,
     icon: Int,
     name: String,
     numberOfBooks: Int
 ) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.background(MaterialTheme.colorScheme.onSecondary)
+            modifier = Modifier.clip(RoundedCornerShape(MaterialTheme.dimens.roundCorner))
+                .background(MaterialTheme.colorScheme.onSecondary)
                 .padding(MaterialTheme.dimens.paddingMedium),
             painter = painterResource(icon),
             contentDescription = "$name icon"
