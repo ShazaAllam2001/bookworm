@@ -6,27 +6,32 @@ import com.example.bookworm.R
 
 enum class BottomBarTabs(
     @StringRes val title: Int,
-    @DrawableRes val icon: Int,
+    @DrawableRes val selectedIcon: Int,
+    @DrawableRes val unselectedIcon: Int,
     val route: String
 ) {
     ForYou(
         title = R.string.for_you,
-        icon = R.drawable.home_24,
+        selectedIcon = R.drawable.home_24,
+        unselectedIcon = R.drawable.home_24_outlined,
         route = "forYou"
     ),
     Explore(
         title = R.string.explore,
-        icon = R.drawable.search_24,
+        selectedIcon = R.drawable.search_check_24,
+        unselectedIcon = R.drawable.search_24,
         route = "explore"
     ),
     MyLibrary(
         title = R.string.my_library,
-        icon = R.drawable.bookmark_24,
+        selectedIcon = R.drawable.bookmark_24,
+        unselectedIcon = R.drawable.bookmark_24_outlined,
         route = "myLibrary"
     ),
     Settings(
         title = R.string.settings,
-        icon = R.drawable.settings_24,
+        selectedIcon = R.drawable.settings_24,
+        unselectedIcon = R.drawable.settings_24_outlineed,
         route = "settings"
     )
 }

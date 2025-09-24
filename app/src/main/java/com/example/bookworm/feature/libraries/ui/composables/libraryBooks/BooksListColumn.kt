@@ -90,7 +90,7 @@ fun BooksListColumn(
                     Text(
                         text = stringResource(R.string.clear_all_volumes),
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.secondary
                     )
                 }
             }

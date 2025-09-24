@@ -43,7 +43,7 @@ fun AddToShelf(
 
     BasicAlertDialog(
         modifier = Modifier.clip(RoundedCornerShape(MaterialTheme.dimens.roundCorner))
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.surfaceContainer),
         onDismissRequest = { onDismiss() }
     ) {
         Column {

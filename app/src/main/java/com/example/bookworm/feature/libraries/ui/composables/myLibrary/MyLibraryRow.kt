@@ -34,7 +34,7 @@ fun MyLibraryRow(
     ) {
         Icon(
             modifier = Modifier.clip(RoundedCornerShape(MaterialTheme.dimens.roundCorner))
-                .background(MaterialTheme.colorScheme.onSecondary)
+                .background(MaterialTheme.colorScheme.surfaceVariant)
                 .padding(MaterialTheme.dimens.paddingMedium),
             painter = painterResource(icon),
             contentDescription = "$name icon"

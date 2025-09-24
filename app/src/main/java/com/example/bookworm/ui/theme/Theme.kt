@@ -23,30 +23,40 @@ val MaterialTheme.dimens: Dimensions
 private val DarkColorScheme = darkColorScheme(
     background = Black,
     onBackground = BrightWhite,
-    primary = BlueWhite,
-    onPrimary = Blue,
-    secondary = PurpleWhite,
-    onSecondary = BlueGray,
-    tertiary = PinkWhite,
-    onTertiary = DarkRed
+    primary = YellowWhite,
+    onPrimary = BlueWhiteDark,
+    secondary = LightGray,
+    onSecondary = White,
+    tertiary = DarkGray,
+    onTertiary = BlueWhiteDark,
+    surface = DarkBlue,
+    onSurface = White,
+    surfaceVariant = LightGray,
+    onSurfaceVariant = White,
+    surfaceContainer = DarkGray
 )
 
 private val LightColorScheme = lightColorScheme(
-    background = YellowWhite,
+    background = White,
     onBackground = LightBlack,
-    primary = Lavender,
-    onPrimary = LightGray,
-    secondary = DarkLavender,
-    onSecondary = DarkGray,
-    tertiary = DarkPink,
-    onTertiary = White
+    primary = BlueBlack,
+    onPrimary = BrightWhite,
+    secondary = BlueLightGray,
+    onSecondary = White,
+    tertiary = BlueWhiteLight,
+    onTertiary = BlueGray,
+    surface = LightBlue,
+    onSurface = White,
+    surfaceVariant = LightGray,
+    onSurfaceVariant = Black,
+    surfaceContainer = White
 )
 
 @Composable
 fun BookWormTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {

@@ -1,15 +1,16 @@
 package com.example.bookworm.feature.books.ui.composables.bookGrid
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
@@ -24,41 +25,37 @@ fun BookCard(
     navController: NavHostController,
     book: BookItem
 ) {
-    Card(
-        modifier = modifier.padding(MaterialTheme.dimens.paddingSmall),
-        onClick = {
-            navController.navigate("books/${book.id}")
-        }
+    Column(
+        modifier = modifier.padding(MaterialTheme.dimens.paddingSmall)
+            .clickable {
+                navController.navigate("books/${book.id}")
+            },
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        BookCover(
+            modifier = Modifier.weight(1f)
+                .fillMaxSize()
+                .clip(RoundedCornerShape(MaterialTheme.dimens.roundCornerSmall)),
+            book = book
+        )
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            BookCover(
-                modifier = Modifier.weight(1f)
-                    .fillMaxSize(),
-                book = book
-            )
-            Column(
                 modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
                 horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    book.volumeInfo.title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                Text(
-                    stringResource(R.string.by,
-                        if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
-                    ),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
+        ) {
+            Text(
+                text = book.volumeInfo.title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0],
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.secondary
+            )
         }
     }
 }

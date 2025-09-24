@@ -42,7 +42,6 @@ fun BookInfo(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(MaterialTheme.dimens.paddingMedium)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -59,7 +58,7 @@ fun BookInfo(
         }
         Column(
             modifier = Modifier.fillMaxWidth()
-                .padding(MaterialTheme.dimens.paddingSmall),
+                .padding(MaterialTheme.dimens.paddingMedium2),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
@@ -80,7 +79,7 @@ fun BookInfo(
             modifier = Modifier
                 .weight(4f)
                 .fillMaxWidth()
-                .padding(MaterialTheme.dimens.paddingSmall)
+                .padding(MaterialTheme.dimens.paddingMedium2)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -100,13 +99,14 @@ fun BookInfo(
         }
         Spacer(modifier = Modifier.height(MaterialTheme.dimens.paddingMedium))
         TextButton(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(MaterialTheme.dimens.paddingMedium),
             shape = RoundedCornerShape(MaterialTheme.dimens.roundCorner),
             colors = ButtonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary,
-                disabledContainerColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f),
-                disabledContentColor = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.5f),
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                disabledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
             ),
             onClick = {
                 onShowDialogChange(true)

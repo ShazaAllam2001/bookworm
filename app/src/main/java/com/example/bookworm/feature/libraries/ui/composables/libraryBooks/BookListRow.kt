@@ -97,22 +97,19 @@ fun BookListRow(
             Text(
                 modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),
                 text = if (book.volumeInfo.categories.isNullOrEmpty()) "" else book.volumeInfo.categories[0],
-                color = MaterialTheme.colorScheme.tertiary,
+                color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.labelMedium
             )
             Text(
                 modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),
                 text = book.volumeInfo.title,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.labelLarge
             )
             Text(
                 modifier = Modifier.padding(vertical = MaterialTheme.dimens.paddingExtraSmall),
-                text = stringResource(
-                    R.string.by,
-                    if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0]
-                ),
-                color = MaterialTheme.colorScheme.tertiary,
+                text = if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0],
+                color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.labelMedium
             )
         }

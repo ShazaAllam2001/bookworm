@@ -29,7 +29,7 @@ fun BookTopBar(
             }
         ) {
             Icon(
-                painter = painterResource(R.drawable.arrow_back_64dp),
+                painter = painterResource(R.drawable.arrow_back_64),
                 contentDescription = "Back to books list"
             )
         }

@@ -109,7 +109,10 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ElevatedButton(
-            border = BorderStroke(MaterialTheme.dimens.thicknessSmall, MaterialTheme.colorScheme.onBackground),
+            border = BorderStroke(
+                MaterialTheme.dimens.thicknessExtraSmall,
+                MaterialTheme.colorScheme.onBackground
+            ),
             onClick = { onNavigateToLogin() }
         ) {
             Text(

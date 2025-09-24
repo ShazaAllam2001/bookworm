@@ -112,27 +112,37 @@ fun Profile(
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                focusedContainerColor = MaterialTheme.colorScheme.onPrimary
+                focusedContainerColor = MaterialTheme.colorScheme.onBackground
             ),
             shape = RoundedCornerShape(50)
         )
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text(stringResource(R.string.email)) },
+            label =  {
+                Text(
+                    text = stringResource(R.string.email),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            },
             readOnly = true,
             singleLine = true,
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                focusedIndicatorColor = MaterialTheme.colorScheme.secondary,
-                unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
-                focusedContainerColor = MaterialTheme.colorScheme.onSecondary
+                focusedIndicatorColor = MaterialTheme.colorScheme.onPrimary,
+                unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                focusedTextColor = MaterialTheme.colorScheme.primary
             )
         )
         OutlinedTextField(
             value = category,
             onValueChange = { category = it },
-            label = { Text(stringResource(R.string.preference)) },
+            label = {
+                Text(
+                    text = stringResource(R.string.preference),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            },
             trailingIcon = {
                 Icon(
                     modifier = Modifier.clickable{
@@ -147,9 +157,7 @@ fun Profile(
             },
             colors = TextFieldDefaults.colors(
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-                focusedIndicatorColor = MaterialTheme.colorScheme.secondary,
-                unfocusedContainerColor = MaterialTheme.colorScheme.onPrimary,
-                focusedContainerColor = MaterialTheme.colorScheme.onSecondary
+                focusedIndicatorColor = MaterialTheme.colorScheme.onPrimary
             )
         )
         PreferencesColumn(

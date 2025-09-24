@@ -26,9 +26,9 @@ import kotlin.random.Random
 
 fun Context.getDotBackgroundColor(): Long {
     return when(resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-        Configuration.UI_MODE_NIGHT_YES -> 0xFF165B91
-        Configuration.UI_MODE_NIGHT_NO -> 0xFF3E8BDC
-        else -> 0xFF165B91
+        Configuration.UI_MODE_NIGHT_YES -> 0xFF165B91 // Dark Blue
+        Configuration.UI_MODE_NIGHT_NO -> 0xFF3E8BDC // Light Blue
+        else -> 0xFF165B91 // Dark Blue
     }
 }
 

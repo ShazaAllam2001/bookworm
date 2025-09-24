@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -37,8 +38,14 @@ fun LoginScreen(
             thickness = MaterialTheme.dimens.thicknessSmall,
             color = MaterialTheme.colorScheme.primary
         )
-        Button(
-            onClick = { onNavigateToBrowser() }
+        ElevatedButton(
+            onClick = { onNavigateToBrowser() },
+            colors = ButtonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                disabledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            )
         ) {
             Row(
                 modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
