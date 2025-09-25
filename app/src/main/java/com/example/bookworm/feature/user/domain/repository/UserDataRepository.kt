@@ -1,0 +1,19 @@
+package com.example.bookworm.feature.user.domain.repository
+
+import com.example.bookworm.feature.user.domain.model.userData.UserData
+import com.google.firebase.firestore.DocumentSnapshot
+
+interface UserDataRepository {
+    companion object {
+        const val COLLECTION = "user"
+        const val NAME = "name"
+        const val CATEGORIES = "categories"
+        const val NOTIFY = "notify"
+    }
+
+    suspend fun saveUser(userId: String, userData: UserData)
+    suspend fun readUser(userId: String): DocumentSnapshot
+    suspend fun saveName(userId: String, name: String)
+    suspend fun saveCategories(userId: String, categories: List<String>)
+    suspend fun saveNotify(userId: String, notify: Boolean)
+}

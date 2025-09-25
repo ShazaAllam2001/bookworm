@@ -1,0 +1,66 @@
+package com.example.bookworm.feature.auth.ui.composables
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import com.example.bookworm.R
+import com.example.bookworm.common.ui.composables.animation.AnimatedText
+import com.example.bookworm.ui.theme.dimens
+
+@Composable
+fun LoginScreen(
+    onNavigateToBrowser: () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        AnimatedText(
+            text = stringResource(R.string.book_worm_title),
+            style = MaterialTheme.typography.headlineLarge
+        )
+        HorizontalDivider(
+            modifier = Modifier.padding(MaterialTheme.dimens.paddingLarge),
+            thickness = MaterialTheme.dimens.thicknessSmall,
+            color = MaterialTheme.colorScheme.primary
+        )
+        ElevatedButton(
+            onClick = { onNavigateToBrowser() },
+            colors = ButtonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                disabledContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f),
+                disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            )
+        ) {
+            Row(
+                modifier = Modifier.padding(MaterialTheme.dimens.paddingSmall),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.padding(end = MaterialTheme.dimens.paddingSmall),
+                    painter = painterResource(R.drawable.icons8_google),
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.login_with_google),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+        }
+    }
+}

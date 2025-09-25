@@ -1,8 +1,25 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.kapt)
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val apiKey: String = localProperties.getProperty("BOOKS_API_KEY")?:""
+val firebaseClientId: String = localProperties.getProperty("FIREBASE_CLIENT_ID")?:""
+val firebaseClientSecret: String = localProperties.getProperty("FIREBASE_CLIENT_SECRET")?:""
+val firebaseClientUriRedirect: String = localProperties.getProperty("FIREBASE_CLIENT_URI_REDIRECT")?:""
 
 android {
     namespace = "com.example.bookworm"
@@ -16,9 +33,29 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["appAuthRedirectScheme"] = "com.example.bookworm"
+
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "FIREBASE_CLIENT_ID", "\"$firebaseClientId\"")
+        buildConfigField("String", "FIREBASE_CLIENT_SECRET", "\"$firebaseClientSecret\"")
+        buildConfigField("String", "FIREBASE_CLIENT_URI_REDIRECT", "\"$firebaseClientUriRedirect\"")
+    }
+
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("../debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -36,11 +73,11 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -50,6 +87,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.espresso.core)
+    implementation(libs.firebase.auth)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.googleid)
+    implementation(libs.androidx.credentials)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,4 +105,25 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.landscapist.coil)
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.play.services.auth)
+    implementation(libs.androidx.datastore)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.javapoet)
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+hilt {
+    enableAggregatingTask = false
 }
