@@ -4,7 +4,6 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.bookworm.R
@@ -21,8 +20,12 @@ val Typography = Typography(
     headlineMedium = TextStyle(
         fontFamily = PublicSans,
         fontWeight = FontWeight.SemiBold,
-        fontStyle = FontStyle.Italic,
-        fontSize = 20.sp
+        fontSize = 22.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = PublicSans,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 14.sp
     ),
     titleLarge = TextStyle(
         fontFamily = PublicSans,

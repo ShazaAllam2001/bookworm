@@ -14,10 +14,12 @@ data class Dimensions(
     /* ---------------------------------- */
     val roundCorner: Dp = 16.dp,
     val roundCornerSmall: Dp = 8.dp,
+
     val thicknessExtraSmall: Dp = 1.dp,
     val thicknessSmall: Dp = 2.dp,
-    val imageSizeMedium: Dp = 150.dp,
 
-    /* Shadow */
-    val shadowElevation: Dp = 14.dp
+    val imageSizeMedium: Dp = 150.dp,
+    val iconSize: Dp = 48.dp,
+
+    val shadowElevation: Dp = 14.dp,
 )

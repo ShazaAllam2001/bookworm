@@ -31,7 +31,7 @@ fun LibrariesList(
                     .clickable {
                         navController.navigate("librarys/${library.id}")
                     },
-                icon = LibrariesMap[library.id]?.first ?: R.drawable.book_2_64,
+                icon = LibrariesMap[library.id]?.first ?: R.drawable.book_2_24,
                 name = library.title,
                 numberOfBooks = library.volumeCount,
             )

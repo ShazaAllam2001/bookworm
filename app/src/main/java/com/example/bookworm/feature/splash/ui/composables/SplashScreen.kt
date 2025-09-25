@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.composables.animation.AnimatedText
 import com.example.bookworm.ui.theme.dimens
@@ -97,7 +98,8 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
             modifier = Modifier.fillMaxWidth()
                 .padding(MaterialTheme.dimens.paddingMedium),
             text = stringResource(R.string.a_library_in_your_pocket),
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.titleMedium,
+            fontStyle = FontStyle.Italic,
         )
     }
 

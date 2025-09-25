@@ -11,10 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
-import com.example.bookworm.R
 import com.example.bookworm.feature.books.data.model.BookItem
 import com.example.bookworm.feature.books.ui.composables.bookCover.BookCover
 import com.example.bookworm.ui.theme.dimens
@@ -46,14 +44,14 @@ fun BookCard(
                 text = book.volumeInfo.title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(
                 text = if (book.volumeInfo.authors.isNullOrEmpty()) "" else book.volumeInfo.authors[0],
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.secondary
             )
         }

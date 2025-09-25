@@ -63,7 +63,7 @@ fun BookInfo(
         ) {
             Text(
                 text = book.volumeInfo.title,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.headlineMedium
             )
             Text(
                 text = stringResource(
@@ -72,7 +72,7 @@ fun BookInfo(
                 ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.headlineSmall
             )
         }
         Column(

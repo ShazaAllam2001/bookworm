@@ -18,8 +18,8 @@ enum class BottomBarTabs(
     ),
     Explore(
         title = R.string.explore,
-        selectedIcon = R.drawable.search_check_24,
-        unselectedIcon = R.drawable.search_24,
+        selectedIcon = R.drawable.search_24_filled,
+        unselectedIcon = R.drawable.search_24_outlined,
         route = "explore"
     ),
     MyLibrary(

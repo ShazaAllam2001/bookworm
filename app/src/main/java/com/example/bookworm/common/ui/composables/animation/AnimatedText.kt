@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import kotlinx.coroutines.delay
 import java.text.BreakIterator
 import kotlin.random.Random
@@ -37,7 +38,8 @@ fun String.toGraphemes(): List<String> {
 fun AnimatedText(
     modifier: Modifier = Modifier,
     text: String,
-    style: TextStyle
+    style: TextStyle,
+    fontStyle: FontStyle = FontStyle.Normal
 ) {
     Row(
         modifier = modifier,
@@ -70,7 +72,8 @@ fun AnimatedText(
                     alpha = animAlpha
                 },
                 text = char,
-                style = style
+                style = style,
+                fontStyle = fontStyle
             )
         }
     }

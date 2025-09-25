@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -33,7 +34,8 @@ fun MyLibraryRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            modifier = Modifier.clip(RoundedCornerShape(MaterialTheme.dimens.roundCorner))
+            modifier = Modifier.size(MaterialTheme.dimens.iconSize)
+                .clip(RoundedCornerShape(MaterialTheme.dimens.roundCorner))
                 .background(MaterialTheme.colorScheme.surfaceVariant)
                 .padding(MaterialTheme.dimens.paddingMedium),
             painter = painterResource(icon),
