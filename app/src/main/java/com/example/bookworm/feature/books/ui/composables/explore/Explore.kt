@@ -29,6 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookworm.R
 import com.example.bookworm.feature.books.ui.composables.bookGrid.BookGrid
@@ -40,8 +41,8 @@ import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun Explore(
-    bookViewModel: BookViewModel,
-    loggedInViewModel: LoggedInViewModel,
+    bookViewModel: BookViewModel = hiltViewModel(),
+    loggedInViewModel: LoggedInViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
@@ -65,7 +66,7 @@ fun Explore(
     ) {
         SearchField(
             bookViewModel = bookViewModel,
-            categories = userUiState.userData!!.categories,
+            categories = if (userUiState.userData != null) userUiState.userData!!.categories else emptyList(),
             searchText = searchText,
             onChangeText = { searchText = it }
         )

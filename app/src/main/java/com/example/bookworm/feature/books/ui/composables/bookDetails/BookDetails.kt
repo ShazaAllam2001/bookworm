@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -26,8 +27,9 @@ import com.example.bookworm.feature.libraries.ui.viewModel.LibraryViewModel
 
 @Composable
 fun BookDetails(
-    bookViewModel: BookViewModel,
-    libraryViewModel: LibraryViewModel,
+    bookViewModel: BookViewModel = hiltViewModel(),
+    libraryViewModel: LibraryViewModel = hiltViewModel(),
+    bookId: String,
     updateLibrary: () -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
@@ -35,6 +37,10 @@ fun BookDetails(
     val libraryUiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
     var showDialog by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        bookViewModel.searchBookById(bookId)
+    }
 
     LaunchedEffect(libraryUiState) {
         if (libraryUiState.modified) {

@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -34,8 +35,8 @@ import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun ForYou(
-    bookViewModel: BookViewModel,
-    loggedInViewModel: LoggedInViewModel,
+    bookViewModel: BookViewModel = hiltViewModel(),
+    loggedInViewModel: LoggedInViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     var name by rememberSaveable { mutableStateOf("") }

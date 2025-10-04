@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -23,10 +25,19 @@ import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun MyLibrary(
-    viewModel: LibraryViewModel,
+    libraryViewModel: LibraryViewModel = hiltViewModel(),
+    updateLibrary: Boolean,
+    onChangeUpdateLibrary: (Boolean) -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        if (updateLibrary) {
+            libraryViewModel.fetchLibraries()
+            onChangeUpdateLibrary(false)
+        }
+    }
 
     Column(
         modifier = Modifier

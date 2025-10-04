@@ -4,7 +4,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,9 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +34,11 @@ import kotlin.random.Random
 
 @Composable
 fun SplashScreen(onNavigateToLogin: () -> Unit) {
+    LaunchedEffect(Unit) {
+        delay(5000)
+        onNavigateToLogin()
+    }
+
     BubblesBackground()
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -101,26 +103,5 @@ fun SplashScreen(onNavigateToLogin: () -> Unit) {
             style = MaterialTheme.typography.titleMedium,
             fontStyle = FontStyle.Italic,
         )
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(MaterialTheme.dimens.paddingLarge),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        ElevatedButton(
-            border = BorderStroke(
-                MaterialTheme.dimens.thicknessExtraSmall,
-                MaterialTheme.colorScheme.onBackground
-            ),
-            onClick = { onNavigateToLogin() }
-        ) {
-            Text(
-                text = stringResource(R.string.get_started),
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
     }
 }

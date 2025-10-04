@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -23,11 +24,17 @@ import com.example.bookworm.feature.libraries.ui.viewModel.LibraryViewModel
 
 @Composable
 fun BookList(
-    libraryViewModel: LibraryViewModel,
+    libraryViewModel: LibraryViewModel = hiltViewModel(),
+    libraryId: Int,
     navController: NavHostController = rememberNavController()
 ) {
     val context = LocalContext.current
     val uiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        libraryViewModel.fetchLibraries(libraryId)
+        libraryViewModel.getLibraryBooks(libraryId)
+    }
 
     LaunchedEffect(uiState) {
         if (uiState.modified) {

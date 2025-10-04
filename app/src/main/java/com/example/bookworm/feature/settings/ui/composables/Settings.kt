@@ -12,11 +12,13 @@ import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookworm.R
 import com.example.bookworm.feature.user.ui.viewModel.LoggedInViewModel
 import com.example.bookworm.feature.notifications.ui.viewModel.NotifyViewModel
@@ -25,13 +27,19 @@ import com.example.bookworm.ui.theme.dimens
 
 @Composable
 fun Settings(
-    notifyViewModel: NotifyViewModel,
-    loggedInViewModel: LoggedInViewModel,
+    notifyViewModel: NotifyViewModel = hiltViewModel(),
+    loggedInViewModel: LoggedInViewModel = hiltViewModel(),
     onNavigateToLogin: () -> Unit,
     updateForYou: () -> Unit
 ) {
-    val uiState by loggedInViewModel.uiState.collectAsState()
-    if (!uiState.isSignedIn) {
+    val userUiState by loggedInViewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(userUiState) {
+        if (userUiState.userData == null) {
+            loggedInViewModel.getUserData()
+        }
+    }
+
+    if (userUiState.userData != null && !userUiState.isSignedIn) {
         onNavigateToLogin()
     }
     else {
