@@ -45,8 +45,7 @@ import com.skydoves.landscapist.coil.CoilImage
 fun Profile(
     modifier: Modifier = Modifier,
     notifyViewModel: NotifyViewModel,
-    loggedInViewModel: LoggedInViewModel,
-    updateForYou: () -> Unit
+    loggedInViewModel: LoggedInViewModel
 ) {
     var photo by rememberSaveable { mutableStateOf("") }
     var name by rememberSaveable { mutableStateOf("") }
@@ -149,7 +148,6 @@ fun Profile(
                         categories.add(category)
                         category = ""
                         loggedInViewModel.saveCategories(categories)
-                        updateForYou()
                     },
                     imageVector = Icons.Filled.Done,
                     contentDescription = "Add Category"
@@ -165,7 +163,6 @@ fun Profile(
             onItemDismissed = { category ->
                 categories.remove(category)
                 loggedInViewModel.saveCategories(categories)
-                updateForYou()
             }
         )
         Row(

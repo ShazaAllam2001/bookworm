@@ -30,7 +30,6 @@ fun BookDetails(
     bookViewModel: BookViewModel = hiltViewModel(),
     libraryViewModel: LibraryViewModel = hiltViewModel(),
     bookId: String,
-    updateLibrary: () -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by bookViewModel.uiState.collectAsStateWithLifecycle()
@@ -79,7 +78,7 @@ fun BookDetails(
                                 libraryViewModel.addBookToShelf(shelfId = id, volumeId = uiState.book!!.id)
                             }
                         }
-                        updateLibrary()
+                        libraryViewModel.fetchLibraries()
                     },
                     libraryViewModel = libraryViewModel
                 )

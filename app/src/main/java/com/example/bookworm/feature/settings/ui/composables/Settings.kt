@@ -29,8 +29,7 @@ import com.example.bookworm.ui.theme.dimens
 fun Settings(
     notifyViewModel: NotifyViewModel = hiltViewModel(),
     loggedInViewModel: LoggedInViewModel = hiltViewModel(),
-    onNavigateToLogin: () -> Unit,
-    updateForYou: () -> Unit
+    onNavigateToLogin: () -> Unit
 ) {
     val userUiState by loggedInViewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(userUiState) {
@@ -60,8 +59,7 @@ fun Settings(
             Profile(
                 modifier = Modifier.weight(0.8f),
                 notifyViewModel = notifyViewModel,
-                loggedInViewModel = loggedInViewModel,
-                updateForYou = updateForYou
+                loggedInViewModel = loggedInViewModel
             )
             Row(
                 modifier = Modifier.weight(0.1f)

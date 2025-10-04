@@ -1,4 +1,4 @@
-package com.example.bookworm.common.core.app
+package com.example.bookworm
 
 import android.util.Log
 import android.app.Application

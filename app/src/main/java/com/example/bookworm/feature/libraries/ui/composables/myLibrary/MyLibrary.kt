@@ -26,17 +26,12 @@ import com.example.bookworm.ui.theme.dimens
 @Composable
 fun MyLibrary(
     libraryViewModel: LibraryViewModel = hiltViewModel(),
-    updateLibrary: Boolean,
-    onChangeUpdateLibrary: (Boolean) -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     val uiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        if (updateLibrary) {
-            libraryViewModel.fetchLibraries()
-            onChangeUpdateLibrary(false)
-        }
+        libraryViewModel.fetchLibraries()
     }
 
     Column(
