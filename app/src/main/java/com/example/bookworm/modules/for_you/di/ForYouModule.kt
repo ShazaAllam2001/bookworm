@@ -4,7 +4,7 @@ import com.example.bookworm.common.constants.BASE_URL
 import com.example.bookworm.modules.for_you.data.remote.service.ForYouApiService
 import com.example.bookworm.modules.for_you.data.repository.ForYouRepositoryImpl
 import com.example.bookworm.modules.for_you.data.source.ForYouDataSource
-import com.example.bookworm.modules.for_you.data.source.ForYouDataSourceImpl
+import com.example.bookworm.modules.for_you.data.source.ForYouBooksRemoteDataSourceImpl
 import com.example.bookworm.modules.for_you.domain.repository.ForYouRepository
 import com.example.bookworm.modules.for_you.presentation.state.ForYouStateHolder
 import com.example.bookworm.modules.for_you.presentation.ui.ForYouStateHolderImpl
@@ -23,7 +23,7 @@ abstract class ForYouModule {
 
     @ViewModelScoped
     @Binds
-    abstract fun bindForYouDataSource(forYouDataSourceImpl: ForYouDataSourceImpl): ForYouDataSource
+    abstract fun bindForYouDataSource(forYouRemoteDataSourceImpl: ForYouBooksRemoteDataSourceImpl): ForYouDataSource
 
 
     @ViewModelScoped

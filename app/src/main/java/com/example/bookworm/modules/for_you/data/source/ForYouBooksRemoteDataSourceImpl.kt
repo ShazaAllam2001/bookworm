@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 private const val KEY = BuildConfig.API_KEY
 
-class ForYouDataSourceImpl @Inject constructor(
+class ForYouBooksRemoteDataSourceImpl @Inject constructor(
     private val forYouApiService: ForYouApiService
 ): ForYouDataSource {
 
