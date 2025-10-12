@@ -6,7 +6,7 @@ import com.example.bookworm.modules.for_you.data.remote.response.ForYouResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ForYouApiService {
+interface BooksApiService {
     @GET(ApiPaths.VOLUMES)
     suspend fun getBooks(
         @Query(ApiParams.QUERY) searchTerms: String,

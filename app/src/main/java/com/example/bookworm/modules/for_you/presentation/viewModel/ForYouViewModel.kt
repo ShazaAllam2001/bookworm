@@ -9,6 +9,8 @@ import com.example.bookworm.modules.for_you.presentation.model.ForYouUiModel
 import com.example.bookworm.modules.for_you.presentation.state.ForYouStateHolder
 import com.example.bookworm.modules.for_you.presentation.state.events.ForYouStateHolderEvents
 import com.example.bookworm.modules.for_you.presentation.viewModel.events.ForYouViewModelEvents
+import com.example.bookworm.modules.user.domain.model.toUi
+import com.example.bookworm.modules.user.domain.usecase.GetUserDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForYouViewModel @Inject constructor(
+    private val getUserDataUseCase: GetUserDataUseCase,
     private val fetchBooksForYouUseCase: FetchBooksForYouUseCase,
     private val stateHolder: ForYouStateHolder
 ): ViewModel() {
@@ -30,13 +33,24 @@ class ForYouViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            fetchUserData()
             fetchBooksForYou()
             observeStateHolderEvents()
         }
     }
 
+    private suspend fun fetchUserData() {
+        val result = getUserDataUseCase()
+        val resultContent = result.getOrNull()
+        if (result.isSuccess && resultContent != null) {
+            stateHolder.updateUserState(
+                userData = resultContent.toUi()
+            )
+        }
+    }
+
     private suspend fun fetchBooksForYou() {
-        val request = ForYouRequest.BooksWithCategories(listOf("Cooking", "Playing"))
+        val request = ForYouRequest.BooksWithCategories(state.value.categories)
         val result = fetchBooksForYouUseCase(request)
         val resultContent = result.getOrNull()
         if (result.isSuccess && resultContent != null) {

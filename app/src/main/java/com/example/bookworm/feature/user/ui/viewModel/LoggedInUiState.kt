@@ -1,7 +1,7 @@
 package com.example.bookworm.feature.user.ui.viewModel
 
-import com.example.bookworm.feature.user.domain.model.userData.UserData
-import com.example.bookworm.feature.user.domain.model.preferences.UserPreferences
+import com.example.bookworm.modules.user.data.model.UserData
+import com.example.bookworm.modules.user.data.model.UserPreferences
 
 data class LoggedInUiState(
     val isLoading: Boolean = false,

@@ -1,7 +1,6 @@
-package com.example.bookworm.feature.user.domain.repository
+package com.example.bookworm.modules.user.domain.repository
 
-import com.example.bookworm.feature.user.domain.model.userData.UserData
-import com.google.firebase.firestore.DocumentSnapshot
+import com.example.bookworm.modules.user.data.model.UserData
 
 interface UserDataRepository {
     companion object {
@@ -12,7 +11,7 @@ interface UserDataRepository {
     }
 
     suspend fun saveUser(userId: String, userData: UserData)
-    suspend fun readUser(userId: String): DocumentSnapshot
+    suspend fun readUser(userId: String): Result<UserData>
     suspend fun saveName(userId: String, name: String)
     suspend fun saveCategories(userId: String, categories: List<String>)
     suspend fun saveNotify(userId: String, notify: Boolean)

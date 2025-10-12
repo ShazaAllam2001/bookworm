@@ -1,7 +1,6 @@
-package com.example.bookworm.feature.user.domain.model.preferences
+package com.example.bookworm.modules.user.ui.model
 
-
-data class UserPreferences(
+data class UserPreferencesUiModel(
     val uid: String = "",
     val displayName: String = "",
     val email: String = "",

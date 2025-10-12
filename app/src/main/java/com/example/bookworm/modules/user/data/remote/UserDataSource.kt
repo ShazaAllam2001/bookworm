@@ -1,10 +1,10 @@
-package com.example.bookworm.feature.user.data.remote
+package com.example.bookworm.modules.user.data.remote
 
-import com.example.bookworm.feature.user.domain.model.userData.UserData
-import com.example.bookworm.feature.user.domain.repository.UserDataRepository.Companion.CATEGORIES
-import com.example.bookworm.feature.user.domain.repository.UserDataRepository.Companion.COLLECTION
-import com.example.bookworm.feature.user.domain.repository.UserDataRepository.Companion.NAME
-import com.example.bookworm.feature.user.domain.repository.UserDataRepository.Companion.NOTIFY
+import com.example.bookworm.modules.user.domain.repository.UserDataRepository.Companion.CATEGORIES
+import com.example.bookworm.modules.user.domain.repository.UserDataRepository.Companion.COLLECTION
+import com.example.bookworm.modules.user.domain.repository.UserDataRepository.Companion.NAME
+import com.example.bookworm.modules.user.domain.repository.UserDataRepository.Companion.NOTIFY
+import com.example.bookworm.modules.user.data.model.UserData
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.firestore

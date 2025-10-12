@@ -4,6 +4,7 @@ import com.example.bookworm.modules.for_you.presentation.model.ForYouUiModel
 import com.example.bookworm.modules.for_you.presentation.model.ForYouUiState
 import com.example.bookworm.modules.for_you.presentation.state.ForYouStateHolder
 import com.example.bookworm.modules.for_you.presentation.state.events.ForYouStateHolderEvents
+import com.example.bookworm.modules.user.ui.model.UserDataUiModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,14 @@ class ForYouStateHolderImpl @Inject constructor(): ForYouStateHolder {
     override val state: StateFlow<ForYouUiState>
         get() = _state.asStateFlow()
 
+    override fun updateUserState(userData: UserDataUiModel) {
+        _state.update {
+            it.copy(
+                name = userData.displayName,
+                categories = userData.categories
+            )
+        }
+    }
 
     override fun updateBooksState(books: ForYouUiModel?) {
         _state.update {
@@ -40,6 +49,7 @@ class ForYouStateHolderImpl @Inject constructor(): ForYouStateHolder {
         return ForYouUiState(
             isLoading = true,
             name = "",
+            categories = emptyList(),
             onRefresh = ::onRefresh
         )
     }

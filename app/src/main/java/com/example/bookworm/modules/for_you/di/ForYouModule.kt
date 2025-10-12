@@ -1,11 +1,11 @@
 package com.example.bookworm.modules.for_you.di
 
 import com.example.bookworm.common.constants.BASE_URL
-import com.example.bookworm.modules.for_you.data.remote.service.ForYouApiService
-import com.example.bookworm.modules.for_you.data.repository.ForYouRepositoryImpl
-import com.example.bookworm.modules.for_you.data.source.ForYouDataSource
-import com.example.bookworm.modules.for_you.data.source.ForYouBooksRemoteDataSourceImpl
-import com.example.bookworm.modules.for_you.domain.repository.ForYouRepository
+import com.example.bookworm.feature.books.data.remote.BooksDataSource
+import com.example.bookworm.modules.for_you.data.remote.service.BooksApiService
+import com.example.bookworm.modules.for_you.data.repository.BooksRepositoryImpl
+import com.example.bookworm.modules.for_you.data.source.BooksRemoteDataSource
+import com.example.bookworm.modules.for_you.domain.repository.BooksRepository
 import com.example.bookworm.modules.for_you.presentation.state.ForYouStateHolder
 import com.example.bookworm.modules.for_you.presentation.ui.ForYouStateHolderImpl
 import dagger.Binds
@@ -23,12 +23,7 @@ abstract class ForYouModule {
 
     @ViewModelScoped
     @Binds
-    abstract fun bindForYouDataSource(forYouRemoteDataSourceImpl: ForYouBooksRemoteDataSourceImpl): ForYouDataSource
-
-
-    @ViewModelScoped
-    @Binds
-    abstract fun bindForYouRepository(forYouRepositoryImpl: ForYouRepositoryImpl): ForYouRepository
+    abstract fun bindForYouRepository(forYouRepositoryImpl: BooksRepositoryImpl): BooksRepository
 
 
     @ViewModelScoped
@@ -39,12 +34,20 @@ abstract class ForYouModule {
 
         @ViewModelScoped
         @Provides
-        fun provideForYouAPI(): ForYouApiService {
+        fun provideForYouAPI(): BooksApiService {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(ForYouApiService::class.java)
+                .create(BooksApiService::class.java)
+        }
+
+        @ViewModelScoped
+        @Provides
+        fun provideBooksDataSource(api: BooksApiService): BooksRemoteDataSource {
+            return BooksRemoteDataSource(
+                booksApiService = api
+            )
         }
     }
 }

@@ -1,9 +1,9 @@
-package com.example.bookworm.feature.user.data.repository
+package com.example.bookworm.modules.user.data.repository
 
-import com.example.bookworm.feature.user.domain.model.userData.UserData
-import com.example.bookworm.feature.user.data.remote.UserDataSource
-import com.example.bookworm.feature.user.domain.repository.UserDataRepository
-import com.google.firebase.firestore.DocumentSnapshot
+import com.example.bookworm.modules.user.data.remote.UserDataSource
+import com.example.bookworm.modules.user.data.model.UserData
+import com.example.bookworm.modules.user.data.model.toUserData
+import com.example.bookworm.modules.user.domain.repository.UserDataRepository
 import javax.inject.Inject
 
 class UserDataRepositoryImpl @Inject constructor(
@@ -11,11 +11,14 @@ class UserDataRepositoryImpl @Inject constructor(
 ): UserDataRepository {
 
     override suspend fun saveUser(userId: String, userData: UserData) {
-        userDataSource.saveUser(userId, userData)
+        if (userId != "")
+            userDataSource.saveUser(userId, userData)
     }
 
-    override suspend fun readUser(userId: String): DocumentSnapshot {
-        return userDataSource.readUser(userId)
+    override suspend fun readUser(userId: String): Result<UserData> {
+        return runCatching {
+            userDataSource.readUser(userId).toUserData()
+        }
     }
 
     override suspend fun saveName(userId: String, name: String) {

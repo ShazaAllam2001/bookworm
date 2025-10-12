@@ -1,8 +1,8 @@
-package com.example.bookworm.feature.user.data.local
+package com.example.bookworm.modules.user.data.local
 
 import androidx.datastore.core.IOException
 import androidx.datastore.core.Serializer
-import com.example.bookworm.feature.user.domain.model.preferences.UserPreferences
+import com.example.bookworm.modules.user.data.model.UserPreferences
 import java.io.OutputStream
 import java.io.InputStream
 import com.google.gson.Gson

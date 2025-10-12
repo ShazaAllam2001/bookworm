@@ -1,10 +1,10 @@
-package com.example.bookworm.feature.user.data.local
+package com.example.bookworm.modules.user.data.local
 
 import android.util.Log
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.example.bookworm.feature.user.domain.model.preferences.UserPreferences
+import com.example.bookworm.modules.user.data.model.UserPreferences
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 

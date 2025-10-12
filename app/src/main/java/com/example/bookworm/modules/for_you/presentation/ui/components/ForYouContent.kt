@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import com.example.bookworm.R
 import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
+import com.example.bookworm.common.ui.composables.refresh_box.RefreshBox
 import com.example.bookworm.modules.book_grid.presentation.ui.BookGrid
 import com.example.bookworm.modules.for_you.presentation.model.ForYouUiState
 import com.example.bookworm.ui.theme.dimens
@@ -58,9 +59,13 @@ fun ForYouContent(state: ForYouUiState) {
                 )
             }
             else {
-                BookGrid(
-                    bookList = state.books.items
-                )
+                RefreshBox(
+                    onRefresh = state.onRefresh
+                ) {
+                    BookGrid(
+                        bookList = state.books.items
+                    )
+                }
             }
         }
         else {

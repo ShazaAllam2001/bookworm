@@ -2,8 +2,8 @@ package com.example.bookworm.feature.user.data.mapper
 
 import android.util.Log
 import com.example.bookworm.feature.auth.domain.model.User
-import com.example.bookworm.feature.user.domain.model.userData.UserData
-import com.example.bookworm.feature.user.domain.repository.UserDataRepository
+import com.example.bookworm.modules.user.data.model.UserData
+import com.example.bookworm.modules.user.domain.repository.UserDataRepository
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.auth.OAuthCredential
