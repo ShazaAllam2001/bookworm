@@ -1,0 +1,86 @@
+package com.example.bookworm.feature.books.ui.composables.bookDetails
+
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.bookworm.R
+import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
+import com.example.bookworm.feature.books.ui.viewModel.BookViewModel
+import com.example.bookworm.feature.libraries.ui.viewModel.LibraryViewModel
+
+
+@Composable
+fun BookDetails(
+    bookViewModel: BookViewModel,
+    libraryViewModel: LibraryViewModel,
+    updateLibrary: () -> Unit,
+    navController: NavHostController = rememberNavController()
+) {
+    val uiState by bookViewModel.uiState.collectAsStateWithLifecycle()
+    val libraryUiState by libraryViewModel.uiState.collectAsStateWithLifecycle()
+    var showDialog by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    LaunchedEffect(libraryUiState) {
+        if (libraryUiState.modified) {
+            Toast.makeText(context,
+                context.getString(R.string.book_added_successfully), Toast.LENGTH_SHORT).show()
+            libraryViewModel.resetModifyState()
+        }
+        else if (uiState.errorMessage != null) {
+            Toast.makeText(context, uiState.errorMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (uiState.isLoading) {
+            LoadingIndicator()
+        }
+        else if (uiState.book != null) {
+            BookTopBar(
+                navController = navController
+            )
+            BookInfo(
+                book = uiState.book!!,
+                onShowDialogChange = { showDialog = it }
+            )
+
+            if (showDialog) {
+                AddToShelf(
+                    onDismiss = { showDialog = false },
+                    onAdd = { checkedShelves ->
+                        checkedShelves.forEach { (id, checked) ->
+                            if (checked) {
+                                libraryViewModel.addBookToShelf(shelfId = id, volumeId = uiState.book!!.id)
+                            }
+                        }
+                        updateLibrary()
+                    },
+                    libraryViewModel = libraryViewModel
+                )
+            }
+        }
+        else {
+            Text(uiState.errorMessage ?: "")
+        }
+    }
+}

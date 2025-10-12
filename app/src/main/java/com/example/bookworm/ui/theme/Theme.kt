@@ -8,36 +8,55 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.CompositionLocalProvider
 
+val  LocalDimens = staticCompositionLocalOf { Dimensions() }
+
+val MaterialTheme.dimens: Dimensions
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalDimens.current
 
 private val DarkColorScheme = darkColorScheme(
     background = Black,
     onBackground = BrightWhite,
-    primary = BlueWhite,
-    onPrimary = Blue,
-    secondary = PurpleWhite,
-    onSecondary = BlueGray,
-    tertiary = PinkWhite,
-    onTertiary = darkRed
+    primary = YellowWhite,
+    onPrimary = BlueWhiteDark,
+    secondary = LightGray,
+    onSecondary = White,
+    tertiary = DarkGray,
+    onTertiary = BlueWhiteDark,
+    surface = DarkBlue,
+    onSurface = White,
+    surfaceVariant = LightGray,
+    onSurfaceVariant = White,
+    surfaceContainer = DarkGray
 )
 
 private val LightColorScheme = lightColorScheme(
-    background = yellowWhite,
-    onBackground = lightBlack,
-    primary = lavender,
-    onPrimary = white,
-    secondary = darkLavender,
-    onSecondary = white,
-    tertiary = darkPink,
-    onTertiary = white
+    background = White,
+    onBackground = LightBlack,
+    primary = BlueBlack,
+    onPrimary = BrightWhite,
+    secondary = BlueLightGray,
+    onSecondary = White,
+    tertiary = BlueWhiteLight,
+    onTertiary = BlueGray,
+    surface = LightBlue,
+    onSurface = White,
+    surfaceVariant = LightGray,
+    onSurfaceVariant = Black,
+    surfaceContainer = White
 )
 
 @Composable
 fun BookWormTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -50,9 +69,13 @@ fun BookWormTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalDimens provides Dimensions()
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }
