@@ -1,4 +1,4 @@
-package com.example.bookworm.feature.books.ui.composables.explore
+package com.example.bookworm.modules.explore.presentation.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -15,11 +15,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,35 +26,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.bookworm.R
-import com.example.bookworm.feature.books.ui.composables.bookGrid.BookGrid
 import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
-import com.example.bookworm.feature.user.ui.viewModel.LoggedInViewModel
-import com.example.bookworm.feature.books.ui.viewModel.BookViewModel
+import com.example.bookworm.modules.book_grid.presentation.ui.BookGrid
+import com.example.bookworm.modules.explore.presentation.model.ExploreUiState
 import com.example.bookworm.ui.theme.dimens
 
 
 @Composable
-fun Explore(
-    bookViewModel: BookViewModel = hiltViewModel(),
-    loggedInViewModel: LoggedInViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController()
-) {
+fun ExploreContent(state: ExploreUiState) {
     var searchText by rememberSaveable { mutableStateOf("") }
-
-    val uiState by bookViewModel.uiState.collectAsStateWithLifecycle()
-    val userUiState by loggedInViewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(userUiState) {
-        if (userUiState.userData == null) {
-            loggedInViewModel.getUserData()
-        }
-        else {
-            bookViewModel.fetchBooksForYou(userUiState.userData!!.categories)
-        }
-    }
 
     Column(
         modifier = Modifier
@@ -65,8 +43,7 @@ fun Explore(
             .background(MaterialTheme.colorScheme.background)
     ) {
         SearchField(
-            bookViewModel = bookViewModel,
-            categories = if (userUiState.userData != null) userUiState.userData!!.categories else emptyList(),
+            state = state,
             searchText = searchText,
             onChangeText = { searchText = it }
         )
@@ -80,28 +57,26 @@ fun Explore(
             style = MaterialTheme.typography.titleMedium
         )
 
-        if (uiState.isLoading) {
+        if (state.isLoading) {
             LoadingIndicator()
         }
-        else if (uiState.books != null) {
-            val books = uiState.books
-            if (books!!.isNotEmpty()) {
+        else if (state.books != null) {
+            val books = state.books.items
+            if (books.isNotEmpty()) {
                 BookGrid(
-                    navController = navController,
                     bookList = books
                 )
             }
         }
         else {
-            Text(uiState.errorMessage ?: "")
+            Text(state.errorMessage ?: "")
         }
     }
 }
 
 @Composable
 fun SearchField(
-    bookViewModel: BookViewModel,
-    categories: List<String>,
+    state: ExploreUiState,
     searchText: String,
     onChangeText: (String) -> Unit
 ) {
@@ -136,15 +111,8 @@ fun SearchField(
                 imeAction = ImeAction.Search
             ),
             keyboardActions = KeyboardActions(
-                onSearch =  {
-                    if (searchText != "") {
-                        bookViewModel.searchBooks(searchText)
-                    }
-                    else {
-                        if (categories.isNotEmpty()) {
-                            bookViewModel.fetchBooksForYou(categories)
-                        }
-                    }
+                onSearch = {
+                    state.onSearchClicked(searchText)
                     focusManager.clearFocus()
                 }
             )

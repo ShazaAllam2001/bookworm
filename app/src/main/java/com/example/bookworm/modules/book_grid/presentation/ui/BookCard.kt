@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
-import com.example.bookworm.modules.for_you.presentation.model.BookUiModel
+import com.example.bookworm.common.ui.model.BookUiModel
 import com.example.bookworm.ui.theme.dimens
 
 @Composable

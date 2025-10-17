@@ -4,7 +4,7 @@ import com.example.bookworm.modules.for_you.presentation.model.ForYouUiModel
 import com.example.bookworm.modules.for_you.presentation.model.ForYouUiState
 import com.example.bookworm.modules.for_you.presentation.state.ForYouStateHolder
 import com.example.bookworm.modules.for_you.presentation.state.events.ForYouStateHolderEvents
-import com.example.bookworm.modules.user.ui.model.UserDataUiModel
+import com.example.bookworm.modules.user.presentation.model.UserDataUiModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

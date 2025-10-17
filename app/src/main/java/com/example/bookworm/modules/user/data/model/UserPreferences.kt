@@ -1,6 +1,6 @@
 package com.example.bookworm.modules.user.data.model
 
-import com.example.bookworm.modules.user.ui.model.UserPreferencesUiModel
+import com.example.bookworm.modules.user.presentation.model.UserPreferencesUiModel
 
 data class UserPreferences(
     val uid: String = "",

@@ -1,4 +1,4 @@
-package com.example.bookworm.modules.user.ui.model
+package com.example.bookworm.modules.user.presentation.model
 
 data class UserDataUiModel(
     val displayName: String = "",

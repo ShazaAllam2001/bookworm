@@ -1,20 +1,19 @@
 package com.example.bookworm.modules.for_you.data.source
 
 import com.example.bookworm.BuildConfig
-import com.example.bookworm.feature.books.data.remote.BooksDataSource
-import com.example.bookworm.modules.for_you.data.remote.response.ForYouResponse
-import com.example.bookworm.modules.for_you.data.remote.response.BookItem
-import com.example.bookworm.modules.for_you.data.remote.service.BooksApiService
+import com.example.bookworm.common.api.response.BookItem
+import com.example.bookworm.common.api.response.BooksResponse
+import com.example.bookworm.modules.explore.data.remote.service.ForYouBooksApiService
 import com.example.bookworm.modules.for_you.domain.request.ForYouRequest
 import javax.inject.Inject
 
 private const val KEY = BuildConfig.API_KEY
 
-class BooksRemoteDataSource @Inject constructor(
-    private val booksApiService: BooksApiService
+class ForYouBooksRemoteDataSource @Inject constructor(
+    private val booksApiService: ForYouBooksApiService
 ) {
 
-    suspend fun fetchBooksForYou(request: ForYouRequest): Result<ForYouResponse> {
+    suspend fun fetchBooksForYou(request: ForYouRequest): Result<BooksResponse> {
         return runCatching {
             when (request) {
                 is ForYouRequest.BooksWithCategories -> {
@@ -26,7 +25,7 @@ class BooksRemoteDataSource @Inject constructor(
                         )
                         listResult.addAll(result.items)
                     }
-                    ForYouResponse(items = listResult.shuffled())
+                    BooksResponse(items = listResult.shuffled())
                 }
             }
         }

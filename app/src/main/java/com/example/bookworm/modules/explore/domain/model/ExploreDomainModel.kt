@@ -1,9 +1,9 @@
-package com.example.bookworm.modules.for_you.domain.model
+package com.example.bookworm.modules.explore.domain.model
 
 import com.example.bookworm.common.ui.model.BookUiModel
 
 
-data class ForYouDomainModel(
+data class ExploreDomainModel(
     val items: List<BookDomainModel>
 )
 

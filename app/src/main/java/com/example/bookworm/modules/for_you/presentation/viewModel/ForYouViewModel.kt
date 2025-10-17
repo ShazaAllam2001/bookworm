@@ -9,7 +9,7 @@ import com.example.bookworm.modules.for_you.presentation.model.ForYouUiModel
 import com.example.bookworm.modules.for_you.presentation.state.ForYouStateHolder
 import com.example.bookworm.modules.for_you.presentation.state.events.ForYouStateHolderEvents
 import com.example.bookworm.modules.for_you.presentation.viewModel.events.ForYouViewModelEvents
-import com.example.bookworm.modules.user.domain.model.toUi
+import com.example.bookworm.modules.user.domain.model.toUI
 import com.example.bookworm.modules.user.domain.usecase.GetUserDataUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -44,7 +44,7 @@ class ForYouViewModel @Inject constructor(
         val resultContent = result.getOrNull()
         if (result.isSuccess && resultContent != null) {
             stateHolder.updateUserState(
-                userData = resultContent.toUi()
+                userData = resultContent.toUI()
             )
         }
     }

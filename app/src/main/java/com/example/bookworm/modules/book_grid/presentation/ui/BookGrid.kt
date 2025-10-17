@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.bookworm.modules.for_you.presentation.model.BookUiModel
+import com.example.bookworm.common.ui.model.BookUiModel
 import com.example.bookworm.ui.theme.dimens
 
 @Composable

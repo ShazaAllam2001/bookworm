@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.bookworm.feature.books.ui.composables.bookDetails.BookDetails
 import com.example.bookworm.feature.libraries.ui.composables.libraryBooks.BookList
-import com.example.bookworm.feature.books.ui.composables.explore.Explore
+import com.example.bookworm.modules.explore.presentation.ui.Explore
 import com.example.bookworm.modules.for_you.presentation.ui.ForYou
 import com.example.bookworm.feature.libraries.ui.composables.myLibrary.MyLibrary
 import com.example.bookworm.feature.settings.ui.composables.Settings

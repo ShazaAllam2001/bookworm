@@ -13,7 +13,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import com.example.bookworm.common.ui.composables.loading.LoadingIndicator
-import com.example.bookworm.modules.for_you.presentation.model.BookUiModel
+import com.example.bookworm.common.ui.model.BookUiModel
 import com.example.bookworm.ui.theme.dimens
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage

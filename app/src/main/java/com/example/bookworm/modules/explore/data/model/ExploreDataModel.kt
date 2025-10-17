@@ -1,13 +1,13 @@
-package com.example.bookworm.modules.for_you.data.model
+package com.example.bookworm.modules.explore.data.model
 
-import com.example.bookworm.modules.for_you.domain.model.BookDomainModel
-import com.example.bookworm.modules.for_you.domain.model.ForYouDomainModel
+import com.example.bookworm.modules.explore.domain.model.ExploreDomainModel
+import com.example.bookworm.modules.explore.domain.model.BookDomainModel
 
-data class ForYouDataModel(
-    val items: List<ForYouBookDataModel>
+data class ExploreDataModel(
+    val items: List<ExploreBookDataModel>
 )
 
-data class ForYouBookDataModel(
+data class ExploreBookDataModel(
     val id: String,
     val title: String,
     val subtitle: String? = null,
@@ -21,8 +21,8 @@ data class ForYouBookDataModel(
     val thumbnail: String
 )
 
-fun ForYouDataModel.toDomain(): ForYouDomainModel {
-    return ForYouDomainModel(
+fun ExploreDataModel.toDomain(): ExploreDomainModel {
+    return ExploreDomainModel(
         items.map {
             BookDomainModel(
                 id = it.id,
